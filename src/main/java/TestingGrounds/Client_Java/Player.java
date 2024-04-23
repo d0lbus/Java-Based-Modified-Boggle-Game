@@ -2,6 +2,7 @@ package TestingGrounds.Client_Java;
 
 import TestingGrounds.GameSystem.GameServer;
 import TestingGrounds.GameSystem.GameServerHelper;
+import View.ClientGUIFrame;
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.StringHolder;
 import org.omg.CosNaming.NamingContextExt;
@@ -9,6 +10,8 @@ import org.omg.CosNaming.NamingContextExtHelper;
 
 public class Player {
     static GameServer gameServerImp;
+
+    static ClientGUIFrame clientGUIFrame = new ClientGUIFrame();
     public static void main(String args[]) {
         try {
             ORB orb = ORB.init(args, null);
@@ -22,7 +25,12 @@ public class Player {
             String password = "password";
             StringHolder sessionToken = new StringHolder();
 
-            gameServerImp.login(username, password, sessionToken);
+            boolean isLoggedIn = gameServerImp.login(username, password, sessionToken);
+
+            if (isLoggedIn){
+                clientGUIFrame.setVisible(true);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
