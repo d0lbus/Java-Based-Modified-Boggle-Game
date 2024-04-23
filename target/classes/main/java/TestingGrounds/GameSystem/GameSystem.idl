@@ -1,0 +1,12 @@
+module GameSystem {
+    interface GameServer {
+        boolean login(in string username, in string password, out string sessionToken);
+        boolean logout(in string sessionToken);
+        string hostGame(in string sessionToken);
+        boolean joinRandomGame(in string sessionToken);
+        boolean joinGame(in string sessionToken, in string gameId);
+        boolean startGame(in string sessionToken, in string gameId);
+        void submitWord(in string sessionToken, in string gameId, in string word);
+        string getLetters(in string sessionToken, in string gameId);
+    };
+};

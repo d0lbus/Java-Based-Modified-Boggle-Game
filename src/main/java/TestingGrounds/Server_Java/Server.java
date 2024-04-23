@@ -4,7 +4,6 @@ import TestingGrounds.GameSystem.GameServer;
 import TestingGrounds.GameSystem.GameServerHelper;
 import TestingGrounds.ImplementationClass.GameServerImpl;
 import org.omg.CosNaming.*;
-import org.omg.CosNaming.NamingContextPackage.*;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.POAHelper;
