@@ -1,0 +1,442 @@
+package View;
+
+import View.Design.GradientSliderUI;
+import View.Design.RoundedPanel;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
+
+import java.awt.*;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+public class ClientGUIFrame extends JFrame {
+
+    private JPanel contentPane;
+    private JTextField inputTextField;
+    private JPanel homePanel;
+    private JPanel lobbyPanel;
+    private JPanel gamePanel;
+    private JPanel settingsPanel;
+    private Clip clip;
+    private JSlider volumeSlider;
+
+    /**
+     * Launch the application.
+     */
+    public static void main(String[] args) {
+
+        try {
+            UIManager.setLookAndFeel(new FlatMacLightLaf());
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    ClientGUIFrame frame = new ClientGUIFrame();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
+     * Create the frame.
+     */
+    public ClientGUIFrame() {
+        setTitle("Boggled");
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 1280, 720);
+
+        Image icon = Toolkit.getDefaultToolkit().getImage("src/Icons/logo.png");
+        setIconImage(icon);
+
+        playMusic("music.wav");
+
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+
+        JLayeredPane layeredPane = new JLayeredPane();
+        layeredPane.setBounds(0, 0, 1264, 681);
+        contentPane.add(layeredPane);
+        layeredPane.setLayout(new CardLayout(0, 0));
+
+        homePanel = new JPanel();
+        homePanel.setBackground(new Color(255, 204, 213));
+        layeredPane.add(homePanel);
+        homePanel.setLayout(null);
+
+        JButton randomButton = new JButton("Random");
+        randomButton.setBackground(new Color(189, 224, 254));
+        randomButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
+        randomButton.setBounds(354, 359, 125, 38);
+        homePanel.add(randomButton);
+
+        JButton createLobbyButton = new JButton("Create Lobby");
+        createLobbyButton.setBackground(new Color(189, 224, 254));
+        createLobbyButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                createLobbyButton.setBackground(new Color(162,210,255));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                createLobbyButton.setBackground(new Color(189, 224, 254));
+
+            }
+        });
+        createLobbyButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                layeredPane.removeAll();
+                layeredPane.add(lobbyPanel);
+                layeredPane.repaint();
+                layeredPane.revalidate();
+            }
+        });
+        createLobbyButton.setBounds(547, 359, 125, 38);
+        homePanel.add(createLobbyButton);
+
+        JButton joinButton = new JButton("Join");
+        joinButton.setBackground(new Color(189, 224, 254));
+        joinButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
+        joinButton.setBounds(746, 359, 125, 38);
+        homePanel.add(joinButton);
+
+        JLabel lblNewLabel = new JLabel("BOGGLED");
+        lblNewLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 99));
+        lblNewLabel.setBounds(400, 191, 451, 129);
+        homePanel.add(lblNewLabel);
+
+        JLabel settingsIcon = new JLabel("");
+        settingsIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                layeredPane.removeAll();
+                layeredPane.add(settingsPanel);
+                layeredPane.repaint();
+                layeredPane.revalidate();
+            }
+        });
+        settingsIcon.setIcon(new ImageIcon("src/Icons/Settings.png"));
+        settingsIcon.setBounds(10, 24, 37, 38);
+        homePanel.add(settingsIcon);
+
+        lobbyPanel = new JPanel();
+        lobbyPanel.setBackground(new Color(255, 204, 213));
+        layeredPane.add(lobbyPanel);
+        lobbyPanel.setLayout(null);
+
+        JPanel player1pic = new JPanel();
+        player1pic.setBackground(Color.GRAY);
+        player1pic.setBounds(59, 233, 240, 230);
+        lobbyPanel.add(player1pic);
+        player1pic.setLayout(null);
+
+        JPanel player2pic = new JPanel();
+        player2pic.setBackground(Color.PINK);
+        player2pic.setLayout(null);
+        player2pic.setBounds(358, 233, 240, 230);
+        lobbyPanel.add(player2pic);
+
+        JPanel player3pic = new JPanel();
+        player3pic.setBackground(Color.YELLOW);
+        player3pic.setLayout(null);
+        player3pic.setBounds(657, 233, 240, 230);
+        lobbyPanel.add(player3pic);
+
+        JPanel player4pic = new JPanel();
+        player4pic.setBackground(Color.MAGENTA);
+        player4pic.setLayout(null);
+        player4pic.setBounds(963, 233, 240, 230);
+        lobbyPanel.add(player4pic);
+
+        JButton startButton = new JButton("Start");
+        startButton.setBackground(new Color(189, 224, 254));
+        startButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                startButton.setBackground(new Color(162,210,255));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                startButton.setBackground(new Color(189, 224, 254));
+            }
+        });
+        startButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                layeredPane.removeAll();
+                layeredPane.add(gamePanel);
+                layeredPane.repaint();
+                layeredPane.revalidate();
+            }
+        });
+        startButton.setBounds(585, 567, 105, 38);
+        lobbyPanel.add(startButton);
+
+        JPanel usernamePanel = new JPanel();
+        usernamePanel.setBackground(new Color(255, 238, 153));
+        usernamePanel.setBounds(482, 22, 315, 68);
+        lobbyPanel.add(usernamePanel);
+        usernamePanel.setLayout(null);
+
+        JLabel usernameLabel = new JLabel("\"Username\" Lobby");
+        usernameLabel.setBounds(0, 0, 315, 68);
+        usernamePanel.add(usernameLabel);
+        usernameLabel.setBackground(Color.YELLOW);
+        usernameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        usernameLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 30));
+
+        JLabel cLabel = new JLabel("Code:");
+        cLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 20));
+        cLabel.setBounds(541, 114, 58, 45);
+        lobbyPanel.add(cLabel);
+
+        JLabel codeLabel = new JLabel("JLabel");
+        codeLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 20));
+        codeLabel.setBounds(600, 114, 141, 45);
+        lobbyPanel.add(codeLabel);
+
+        JLabel settingsIcon1 = new JLabel("");
+        settingsIcon1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                layeredPane.removeAll();
+                layeredPane.add(settingsPanel);
+                layeredPane.repaint();
+                layeredPane.revalidate();
+            }
+        });
+        settingsIcon1.setIcon(new ImageIcon("src/Icons/Settings.png"));
+        settingsIcon1.setBounds(10, 22, 37, 38);
+        lobbyPanel.add(settingsIcon1);
+
+        JLabel player1username = new JLabel("JLabel");
+        player1username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
+        player1username.setHorizontalAlignment(SwingConstants.CENTER);
+        player1username.setBounds(59, 485, 240, 32);
+        lobbyPanel.add(player1username);
+
+        JLabel player2username = new JLabel("JLabel1");
+        player2username.setHorizontalAlignment(SwingConstants.CENTER);
+        player2username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
+        player2username.setBounds(358, 485, 240, 32);
+        lobbyPanel.add(player2username);
+
+        JLabel player3username = new JLabel("JLabel2");
+        player3username.setHorizontalAlignment(SwingConstants.CENTER);
+        player3username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
+        player3username.setBounds(657, 485, 240, 32);
+        lobbyPanel.add(player3username);
+
+        JLabel player4username = new JLabel("JLabel3");
+        player4username.setHorizontalAlignment(SwingConstants.CENTER);
+        player4username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
+        player4username.setBounds(963, 485, 240, 32);
+        lobbyPanel.add(player4username);
+
+        gamePanel = new JPanel();
+        gamePanel.setBackground(new Color(255, 204, 213));
+        layeredPane.add(gamePanel);
+        gamePanel.setLayout(null);
+
+        JPanel player1gamePic = new JPanel();
+        player1gamePic.setBackground(Color.GRAY);
+        player1gamePic.setBounds(24, 30, 150, 140);
+        gamePanel.add(player1gamePic);
+        player1gamePic.setLayout(null);
+
+        JPanel player2gamePic = new JPanel();
+        player2gamePic.setBackground(Color.GRAY);
+        player2gamePic.setLayout(null);
+        player2gamePic.setBounds(24, 188, 150, 140);
+        gamePanel.add(player2gamePic);
+
+        JPanel player3gamePic = new JPanel();
+        player3gamePic.setBackground(Color.GRAY);
+        player3gamePic.setLayout(null);
+        player3gamePic.setBounds(24, 347, 150, 140);
+        gamePanel.add(player3gamePic);
+
+        JPanel player4gamePic = new JPanel();
+        player4gamePic.setBackground(Color.GRAY);
+        player4gamePic.setLayout(null);
+        player4gamePic.setBounds(24, 509, 150, 140);
+        gamePanel.add(player4gamePic);
+
+        JLabel player1gameUsername = new JLabel("JLabel");
+        player1gameUsername.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 20));
+        player1gameUsername.setBounds(184, 43, 123, 30);
+        gamePanel.add(player1gameUsername);
+
+        JLabel player2gameUsername = new JLabel("JLabel1");
+        player2gameUsername.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 20));
+        player2gameUsername.setBounds(184, 206, 123, 30);
+        gamePanel.add(player2gameUsername);
+
+        JLabel player3gameUsername = new JLabel("JLabel2");
+        player3gameUsername.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 20));
+        player3gameUsername.setBounds(184, 366, 123, 30);
+        gamePanel.add(player3gameUsername);
+
+        JLabel player4gameUsername = new JLabel("JLabel3");
+        player4gameUsername.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 20));
+        player4gameUsername.setBounds(184, 532, 123, 30);
+        gamePanel.add(player4gameUsername);
+
+        JLabel player1gamePoints = new JLabel("JLabel");
+        player1gamePoints.setFont(new Font("Franklin Gothic Book", Font.PLAIN, 20));
+        player1gamePoints.setBounds(184, 84, 123, 30);
+        gamePanel.add(player1gamePoints);
+
+        JLabel player2gamePoints = new JLabel("JLabel1");
+        player2gamePoints.setFont(new Font("Franklin Gothic Book", Font.PLAIN, 20));
+        player2gamePoints.setBounds(184, 247, 123, 30);
+        gamePanel.add(player2gamePoints);
+
+        JLabel player3gamePoints = new JLabel("JLabel2");
+        player3gamePoints.setFont(new Font("Franklin Gothic Book", Font.PLAIN, 20));
+        player3gamePoints.setBounds(184, 407, 123, 30);
+        gamePanel.add(player3gamePoints);
+
+        JLabel player4gamePoints = new JLabel("JLabel3");
+        player4gamePoints.setFont(new Font("Franklin Gothic Book", Font.PLAIN, 20));
+        player4gamePoints.setBounds(184, 573, 123, 30);
+        gamePanel.add(player4gamePoints);
+
+        inputTextField = new JTextField();
+        inputTextField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+            }
+        });
+        inputTextField.setBounds(472, 106, 254, 30);
+        gamePanel.add(inputTextField);
+        inputTextField.setColumns(10);
+
+        JButton quitButton = new JButton("Quit");
+        quitButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                quitButton.setBackground(new Color(255, 104, 107));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                quitButton.setBackground(new Color(240, 128, 128));
+            }
+        });
+        quitButton.setBackground(new Color(240, 128, 128));
+        quitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
+        quitButton.setBounds(1062, 626, 89, 30);
+        gamePanel.add(quitButton);
+
+        RoundedPanel aPanel = new RoundedPanel(30);
+        aPanel.setBackground(new Color(255, 238, 153));
+        aPanel.setBounds(947, 43, 286, 548);
+        gamePanel.add(aPanel);
+        aPanel.setLayout(null);
+
+        JTextPane announcementTextpane = new JTextPane();
+        announcementTextpane.setEditable(false);
+        announcementTextpane.setBounds(10, 28, 266, 486);
+        aPanel.add(announcementTextpane);
+        announcementTextpane.setBackground(new Color(255, 238, 153));
+        announcementTextpane.setFont(new Font("Tahoma", Font.PLAIN, 15));
+
+        settingsPanel = new JPanel();
+        layeredPane.add(settingsPanel);
+        settingsPanel.setBackground(new Color(255, 204, 213));
+        settingsPanel.setLayout(null);
+
+        JLabel musicLabel = new JLabel("Music");
+        musicLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 25));
+        musicLabel.setBounds(471, 143, 80, 38);
+        settingsPanel.add(musicLabel);
+
+        JLabel settingsLabel = new JLabel("Settings");
+        settingsLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 30));
+        settingsLabel.setBounds(582, 30, 122, 53);
+        settingsPanel.add(settingsLabel);
+
+        JButton backButton = new JButton("Back");
+        backButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                layeredPane.removeAll();
+                layeredPane.add(homePanel);
+                layeredPane.repaint();
+                layeredPane.revalidate();
+            }
+        });
+        backButton.setBounds(25, 626, 89, 30);
+        settingsPanel.add(backButton);
+
+        volumeSlider = new JSlider(0, 100);
+        volumeSlider.setValue(100);
+        volumeSlider.setUI(new GradientSliderUI(volumeSlider)); //ito para sa design comment out if gusto nyo walang kulay
+        volumeSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                float volume = volumeSlider.getValue() / 100f;
+                setVolume(volume);
+            }
+        });
+        volumeSlider.setBounds(561, 143, 200, 38);
+        settingsPanel.add(volumeSlider);
+    }
+
+    private void setVolume(float volume) {
+        if (clip != null) {
+            FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            float dB = (float) (Math.log(volume) / Math.log(10.0) * 20.0);
+            gainControl.setValue(dB);
+        }
+    }
+
+    private void playMusic(String filePath) {
+        try {
+            File musicFile = new File(filePath);
+            AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicFile);
+            clip = AudioSystem.getClip();
+            clip.open(audioInput);
+            clip.start();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+}
+
+
