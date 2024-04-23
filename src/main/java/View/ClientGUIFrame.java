@@ -64,7 +64,7 @@ public class ClientGUIFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1280, 720);
 
-        Image icon = Toolkit.getDefaultToolkit().getImage("src/Icons/logo.png");
+        Image icon = Toolkit.getDefaultToolkit().getImage("src/main/java/Icons/logo.png");
         setIconImage(icon);
 
         playMusic("music.wav");
@@ -141,7 +141,7 @@ public class ClientGUIFrame extends JFrame {
                 layeredPane.revalidate();
             }
         });
-        settingsIcon.setIcon(new ImageIcon("src/Icons/Settings.png"));
+        settingsIcon.setIcon(new ImageIcon("src/main/java/Icons/Settings.png"));
         settingsIcon.setBounds(10, 24, 37, 38);
         homePanel.add(settingsIcon);
 
@@ -368,6 +368,352 @@ public class ClientGUIFrame extends JFrame {
         aPanel.add(announcementTextpane);
         announcementTextpane.setBackground(new Color(255, 238, 153));
         announcementTextpane.setFont(new Font("Tahoma", Font.PLAIN, 15));
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(new Color(244, 204, 213));
+        buttonPanel.setBounds(341, 167, 537, 411);
+        gamePanel.add(buttonPanel);
+        buttonPanel.setLayout(new GridLayout(0, 5, 0, 0));
+
+        JButton button1 = new JButton("New button");
+        button1.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button1.setBackground(new Color(144,224,239));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button1.setBackground(new Color(202,240,248));
+            }
+        });
+        button1.setBackground(new Color(202,240,248));
+        buttonPanel.add(button1);
+
+        JButton button2 = new JButton("New button");
+        button2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button2.setBackground(new Color(144,224,239));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button2.setBackground(new Color(202,240,248));
+            }
+        });
+        button2.setBackground(new Color(202,240,248));
+        buttonPanel.add(button2);
+
+        JButton button3 = new JButton("New button");
+        button3.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button3.setBackground(new Color(144,224,239));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button3.setBackground(new Color(202,240,248));
+            }
+        });
+        button3.setBackground(new Color(202,240,248));
+        buttonPanel.add(button3);
+
+        JButton button4 = new JButton("New button");
+        button4.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button4.setBackground(new Color(144,224,239));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button4.setBackground(new Color(202,240,248));
+            }
+        });
+        button4.setBackground(new Color(202,240,248));
+        buttonPanel.add(button4);
+
+        JButton button5 = new JButton("New button");
+        button5.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button5.setBackground(new Color(144,224,239));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button5.setBackground(new Color(202,240,248));
+            }
+        });
+        button5.setBackground(new Color(202,240,248));
+        buttonPanel.add(button5);
+
+        JButton button6 = new JButton("New button");
+        button6.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button6.setBackground(new Color(144,224,239));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button6.setBackground(new Color(202,240,248));
+            }
+        });
+        button6.setBackground(new Color(202,240,248));
+        buttonPanel.add(button6);
+
+        JButton button7 = new JButton("New button");
+        button7.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button7.setBackground(new Color(144,224,239));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button7.setBackground(new Color(202,240,248));
+            }
+        });
+        button7.setBackground(new Color(202,240,248));
+        buttonPanel.add(button7);
+
+        JButton button8 = new JButton("New button");
+        button8.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button8.setBackground(new Color(144,224,239));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button8.setBackground(new Color(202,240,248));
+            }
+        });
+        button8.setBackground(new Color(202,240,248));
+        buttonPanel.add(button8);
+
+        JButton button9 = new JButton("New button");
+        button9.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button9.setBackground(new Color(144,224,239));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button9.setBackground(new Color(202,240,248));
+            }
+        });
+        button9.setBackground(new Color(202,240,248));
+        buttonPanel.add(button9);
+
+        JButton button10 = new JButton("New button");
+        button10.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button10.setBackground(new Color(144,224,239));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button10.setBackground(new Color(202,240,248));
+            }
+        });
+        button10.setBackground(new Color(202,240,248));
+        buttonPanel.add(button10);
+
+        JButton button11 = new JButton("New button");
+        button11.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button11.setBackground(new Color(144,224,239));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button11.setBackground(new Color(202,240,248));
+            }
+        });
+        button11.setBackground(new Color(202,240,248));
+        buttonPanel.add(button11);
+
+        JButton button12 = new JButton("New button");
+        button12.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button12.setBackground(new Color(144,224,239));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button12.setBackground(new Color(202,240,248));
+            }
+        });
+        button12.setBackground(new Color(202,240,248));
+        buttonPanel.add(button12);
+
+        JButton button13 = new JButton("New button");
+        button13.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button13.setBackground(new Color(144,224,239));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button13.setBackground(new Color(202,240,248));
+            }
+        });
+        button13.setBackground(new Color(202,240,248));
+        buttonPanel.add(button13);
+
+        JButton button14 = new JButton("New button");
+        button14.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button14.setBackground(new Color(144,224,239));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button14.setBackground(new Color(202,240,248));
+            }
+        });
+        button14.setBackground(new Color(202,240,248));
+        buttonPanel.add(button14);
+
+        JButton button15 = new JButton("New button");
+        button15.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button15.setBackground(new Color(144,224,239));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button15.setBackground(new Color(202,240,248));
+            }
+        });
+        button15.setBackground(new Color(202,240,248));
+        buttonPanel.add(button15);
+
+        JButton button16 = new JButton("New button");
+        button16.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button16.setBackground(new Color(144,224,239));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button16.setBackground(new Color(202,240,248));
+            }
+        });
+        button16.setBackground(new Color(202,240,248));
+        buttonPanel.add(button16);
+
+        JButton button17 = new JButton("New button");
+        button17.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button17.setBackground(new Color(144,224,239));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button17.setBackground(new Color(202,240,248));
+            }
+        });
+        button17.setBackground(new Color(202,240,248));
+        buttonPanel.add(button17);
+
+        JButton button18 = new JButton("New button");
+        button18.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button18.setBackground(new Color(144,224,239));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button18.setBackground(new Color(202,240,248));
+            }
+        });
+        button18.setBackground(new Color(202,240,248));
+        buttonPanel.add(button18);
+
+        JButton button19 = new JButton("New button");
+        button19.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button19.setBackground(new Color(144,224,239));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button19.setBackground(new Color(202,240,248));
+            }
+        });
+        button19.setBackground(new Color(202,240,248));
+        buttonPanel.add(button19);
+
+        JButton button20 = new JButton("New button");
+        button20.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                button20.setBackground(new Color(144,224,239));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                button20.setBackground(new Color(202,240,248));
+            }
+        });
+        button20.setBackground(new Color(202,240,248));
+        buttonPanel.add(button20);
 
         settingsPanel = new JPanel();
         layeredPane.add(settingsPanel);

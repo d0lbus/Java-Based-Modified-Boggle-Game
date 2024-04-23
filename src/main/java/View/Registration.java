@@ -47,7 +47,7 @@ public class Registration extends JFrame {
         setBounds(100, 100, 850, 583);
         setLocationRelativeTo(null);
 
-        Image icon = Toolkit.getDefaultToolkit().getImage("src/Icons/logo.png");
+        Image icon = Toolkit.getDefaultToolkit().getImage("src/main/java/Icons/logo.png");
         setIconImage(icon);
 
         contentPane = new JPanel();
@@ -244,7 +244,7 @@ public class Registration extends JFrame {
         signupPanel.add(backToLoginLabel);
 
         JLabel lblNewLabel = new JLabel("New label");
-        lblNewLabel.setIcon(new ImageIcon("src/Icons/logoRegistration.png"));
+        lblNewLabel.setIcon(new ImageIcon("src/main/java/Icons/logoRegistration.png"));
         lblNewLabel.setBounds(0, 199, 401, 102);
         contentPane.add(lblNewLabel);
 
