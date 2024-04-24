@@ -1,14 +1,29 @@
 package TestingGrounds.ImplementationClass;
 
+import TestingGrounds.Client_Java.GameSession;
+import TestingGrounds.Client_Java.User;
 import TestingGrounds.GameSystem.GameServerPOA;
 import org.omg.CORBA.*;
 import org.omg.CORBA.Object;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+
 public class GameServerImpl extends GameServerPOA implements Object {
+
+    Map<String, String> sessionTokens = new HashMap<>();
+    Map<String, GameSession> activeGameLobbies = new HashMap<>();
 
     @Override
     public boolean login(String username, String password, org.omg.CORBA.StringHolder sessionToken) {
-        return true;
+        if (username != null && password != null){
+            String token = generateSecureToken();
+            sessionToken.value = token;
+            sessionTokens.put(token, username);
+            return true;
+        } else
+            return false;
     }
 
     @Override
@@ -17,8 +32,14 @@ public class GameServerImpl extends GameServerPOA implements Object {
     }
 
     @Override
-    public String hostGame(String sessionToken) {
-        return null;
+    public String hostGame(String sessionToken){
+        if (!validateSessionToken(sessionToken)) {
+            // ADD USER DEFINED EXCEPTION
+        }
+        GameSession newGameSession = new GameSession();
+        activeGameLobbies.put(newGameSession.getSessionId(), newGameSession);
+        System.out.println("Game session created with ID: " + newGameSession.getSessionId());
+        return newGameSession.getSessionId();
     }
 
     @Override
@@ -28,7 +49,14 @@ public class GameServerImpl extends GameServerPOA implements Object {
 
     @Override
     public boolean joinGame(String sessionToken, String gameId) {
-        return false;
+        System.out.println("Player with session token " + sessionToken + " attempting to join game " + gameId);
+
+
+        GameSession session = activeGameLobbies.get(gameId);
+
+        //TO DO: ADD PLAYER TO THE SESSION
+
+        return true;
     }
 
     @Override
@@ -96,5 +124,16 @@ public class GameServerImpl extends GameServerPOA implements Object {
         return null;
     }
 
-    // Implement other methods similarly
+    private String generateSecureToken() {
+        // Example: Generate a UUID as a secure token
+        return UUID.randomUUID().toString();
+    }
+
+    private boolean validateSessionToken(String sessionToken) {
+        return sessionTokens.containsKey(sessionToken);
+    }
+
+    public String retrievePlayerFromSessionToken(String sessionToken) {
+        return sessionTokens.get(sessionToken);
+    }
 }

@@ -32,9 +32,20 @@ public class ClientGUIFrame extends JFrame {
     private Clip clip;
     private JSlider volumeSlider;
 
+    private JButton createLobbyButton = new JButton("Create Lobby");
+    private JButton joinButton = new JButton("Join");
+
     private int minutes = 0;
     private int seconds= 0;
     private Timer timer;
+
+    public JButton getCreateLobbyButton() {
+        return createLobbyButton;
+    }
+
+    public JButton getJoinButton() {
+        return joinButton;
+    }
 
     /**
      * Launch the application.
@@ -97,7 +108,7 @@ public class ClientGUIFrame extends JFrame {
         randomButton.setBounds(354, 359, 125, 38);
         homePanel.add(randomButton);
 
-        JButton createLobbyButton = new JButton("Create Lobby");
+        createLobbyButton = new JButton("Create Lobby");
         createLobbyButton.setBackground(new Color(189, 224, 254));
         createLobbyButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -121,7 +132,7 @@ public class ClientGUIFrame extends JFrame {
         createLobbyButton.setBounds(547, 359, 125, 38);
         homePanel.add(createLobbyButton);
 
-        JButton joinButton = new JButton("Join");
+        joinButton = new JButton("Join");
         joinButton.setBackground(new Color(189, 224, 254));
         joinButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {

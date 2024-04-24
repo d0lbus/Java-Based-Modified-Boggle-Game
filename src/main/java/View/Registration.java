@@ -11,6 +11,15 @@ public class Registration extends JFrame {
 
     private JPanel contentPane;
     private JTextField usernameLoginTextfield;
+
+    public JTextField getUsernameLoginTextfield() {
+        return usernameLoginTextfield;
+    }
+
+    public JPasswordField getLoginPasswordField() {
+        return loginPasswordField;
+    }
+
     private JPasswordField loginPasswordField;
     private JTextField firstNameTextfield;
     private JTextField lastNameTextfield;
@@ -18,6 +27,15 @@ public class Registration extends JFrame {
     private JPasswordField confirmPasswordField;
     private JPasswordField signUpPasswordField;
     private JButton doneButton;
+
+    public JButton getDoneButton() {
+        return doneButton;
+    }
+
+    public JButton getSignInButton() {
+        return signInButton;
+    }
+
     private JButton signInButton;
 
     public static void main(String[] args) throws Exception {
