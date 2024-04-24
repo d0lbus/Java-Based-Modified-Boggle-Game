@@ -32,6 +32,10 @@ public class ClientGUIFrame extends JFrame {
     private Clip clip;
     private JSlider volumeSlider;
 
+    private int minutes = 0;
+    private int seconds= 0;
+    private Timer timer;
+
     /**
      * Launch the application.
      */
@@ -197,6 +201,30 @@ public class ClientGUIFrame extends JFrame {
         startButton.setBounds(585, 567, 105, 38);
         lobbyPanel.add(startButton);
 
+        JButton exitLobbyButton = new JButton("Exit Lobby");
+        exitLobbyButton.setBackground(new Color(189, 224, 254));
+        exitLobbyButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                exitLobbyButton.setBackground(new Color(162, 210, 255));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                exitLobbyButton.setBackground(new Color(189, 224, 254));
+            }
+        });
+        exitLobbyButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                layeredPane.removeAll();
+                layeredPane.add(homePanel);
+                layeredPane.repaint();
+                layeredPane.revalidate();
+            }
+        });
+        exitLobbyButton.setBounds(585, 615, 105, 38);
+        lobbyPanel.add(exitLobbyButton);
+
         JPanel usernamePanel = new JPanel();
         usernamePanel.setBackground(new Color(255, 238, 153));
         usernamePanel.setBounds(482, 22, 315, 68);
@@ -262,6 +290,19 @@ public class ClientGUIFrame extends JFrame {
         gamePanel.setBackground(new Color(255, 204, 213));
         layeredPane.add(gamePanel);
         gamePanel.setLayout(null);
+
+        JLabel timerLabel = new JLabel("00:30");
+        timerLabel.setFont(new Font("Arial", Font.BOLD, 36));
+        timerLabel.setBounds(525, 10, 150, 50);
+        timerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        gamePanel.add(timerLabel);
+
+        JPanel timerBackground = new JPanel();
+        timerBackground.setBackground(new Color(144, 224, 239));
+        timerBackground.setBounds(500, 5, 200, 60);
+        gamePanel.add(timerBackground);
+        gamePanel.setComponentZOrder(timerLabel, 0);
+
 
         JPanel player1gamePic = new JPanel();
         player1gamePic.setBackground(Color.GRAY);
@@ -762,6 +803,37 @@ public class ClientGUIFrame extends JFrame {
         });
         volumeSlider.setBounds(561, 143, 200, 38);
         settingsPanel.add(volumeSlider);
+        startTimer(timerLabel);
+    }
+
+    private void startTimer(JLabel timerLabel) {
+        class Time {
+            int minutes = 0;
+            int seconds = 30;
+        }
+
+        Time time = new Time();
+
+        timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                time.seconds--;
+
+                if (time.seconds < 0) {
+                    if (time.minutes > 0) {
+                        time.seconds = 59;
+                        time.minutes--;
+                    } else {
+                        timer.stop();
+                     }
+                }
+
+                String formattedTime = String.format("%02d:%02d", time.minutes, time.seconds);
+
+                timerLabel.setText(formattedTime);
+            }
+        });
+        timer.start();
     }
 
     private void setVolume(float volume) {
