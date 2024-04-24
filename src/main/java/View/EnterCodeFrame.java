@@ -1,6 +1,5 @@
 package View;
 
-import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.Font;
 import javax.swing.*;
@@ -14,11 +13,9 @@ public class EnterCodeFrame extends javax.swing.JFrame {
         setUIFont(new javax.swing.plaf.FontUIResource("Franklin Gothic Demi", Font.PLAIN, 14)); // Set font
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton joinButton;
     private javax.swing.JLabel enterCodeLabel;
     private javax.swing.JTextField codeTextField;
-    // End of variables declaration//GEN-END:variables
 
     public JButton getJoinButton() {
         return joinButton;
@@ -37,9 +34,7 @@ public class EnterCodeFrame extends javax.swing.JFrame {
         });
     }
 
-    // Generated code for components
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         enterCodeLabel = new javax.swing.JLabel();
@@ -81,7 +76,7 @@ public class EnterCodeFrame extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
     public static void setUIFont(javax.swing.plaf.FontUIResource f) {
         java.util.Enumeration keys = UIManager.getDefaults().keys();
