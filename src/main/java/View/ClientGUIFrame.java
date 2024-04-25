@@ -171,7 +171,7 @@ public class ClientGUIFrame extends JFrame {
 
         JLabel joinGameLabel = new JLabel("JOIN GAME");
         joinGameLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 50));
-        joinGameLabel.setBounds(500, 65, 451, 129);
+        joinGameLabel.setBounds(535, 65, 451, 129);
         joinPanel.add(joinGameLabel);
 
         JButton backButton = new JButton("Back");
@@ -193,6 +193,36 @@ public class ClientGUIFrame extends JFrame {
         });
         backButton.setBounds(25, 15, 89, 30);
         joinPanel.add(backButton);
+
+        RoundedPanel game1 = new RoundedPanel(30);
+        game1.setBounds(400, 200, 500, 60);
+        game1.setBackground(new Color(226, 114, 139));
+        game1.setLayout(null);
+        joinPanel.add(game1);
+
+        RoundedPanel game2 = new RoundedPanel(30);
+        game2.setBounds(400, 260, 500, 60);
+        game2.setBackground(new Color(226, 114, 139));
+        game2.setLayout(null);
+        joinPanel.add(game2);
+
+        RoundedPanel game3 = new RoundedPanel(30);
+        game3.setBounds(400, 320, 500, 60);
+        game3.setBackground(new Color(226, 114, 139));
+        game3.setLayout(null);
+        joinPanel.add(game3);
+
+        RoundedPanel game4 = new RoundedPanel(30);
+        game4.setBounds(400, 380, 500, 60);
+        game4.setBackground(new Color(226, 114, 139));
+        game4.setLayout(null);
+        joinPanel.add(game4);
+
+        RoundedPanel game5 = new RoundedPanel(30);
+        game5.setBounds(400, 440, 500, 60);
+        game5.setBackground(new Color(226, 114, 139));
+        game5.setLayout(null);
+        joinPanel.add(game5);
 
 
 
