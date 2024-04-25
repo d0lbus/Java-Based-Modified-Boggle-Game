@@ -29,6 +29,7 @@ public class ClientGUIFrame extends JFrame {
     private JPanel lobbyPanel;
     private JPanel gamePanel;
     private JPanel settingsPanel;
+    private JPanel joinPanel;
     private Clip clip;
     private JSlider volumeSlider;
 
@@ -132,14 +133,68 @@ public class ClientGUIFrame extends JFrame {
         createLobbyButton.setBounds(547, 359, 125, 38);
         homePanel.add(createLobbyButton);
 
-        joinButton = new JButton("Join");
+        joinButton = new JButton("Join Game");
         joinButton.setBackground(new Color(189, 224, 254));
+
+        joinButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                joinButton.setBackground(new Color(162,210,255));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                joinButton.setBackground(new Color(189, 224, 254));
+
+            }
+        });
+
+
         joinButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                layeredPane.removeAll();
+                layeredPane.add(joinPanel);
+                layeredPane.repaint();
+                layeredPane.revalidate();
             }
         });
         joinButton.setBounds(746, 359, 125, 38);
         homePanel.add(joinButton);
+
+        joinPanel = new JPanel();
+        joinPanel.setBackground(new Color(255, 204, 213));
+        layeredPane.add(joinPanel);
+        joinPanel.setLayout(null);
+
+        JPanel joinGamePanel = new JPanel();
+        joinPanel.add(joinGamePanel);
+        joinGamePanel.setLayout(null);
+
+        JLabel joinGameLabel = new JLabel("JOIN GAME");
+        joinGameLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 50));
+        joinGameLabel.setBounds(500, 65, 451, 129);
+        joinPanel.add(joinGameLabel);
+
+        JButton backButton = new JButton("Back");
+        backButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
+        backButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                layeredPane.removeAll();
+                layeredPane.add(homePanel);
+                layeredPane.repaint();
+                layeredPane.revalidate();
+            }
+        });
+        backButton.setBounds(25, 15, 89, 30);
+        joinPanel.add(backButton);
+
+
 
         JLabel lblNewLabel = new JLabel("BOGGLED");
         lblNewLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 99));
@@ -157,7 +212,7 @@ public class ClientGUIFrame extends JFrame {
             }
         });
         settingsIcon.setIcon(new ImageIcon("src/main/java/Icons/Settings.png"));
-        settingsIcon.setBounds(10, 24, 37, 38);
+        settingsIcon.setBounds(1200, 15, 37, 38);
         homePanel.add(settingsIcon);
 
         lobbyPanel = new JPanel();
@@ -782,7 +837,7 @@ public class ClientGUIFrame extends JFrame {
         settingsLabel.setBounds(582, 30, 122, 53);
         settingsPanel.add(settingsLabel);
 
-        JButton backButton = new JButton("Back");
+        backButton = new JButton("Back");
         backButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
