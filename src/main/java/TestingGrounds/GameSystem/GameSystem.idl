@@ -1,5 +1,5 @@
-module GameSystem {
-    interface GameServer {
+module BoggledGame {
+    interface GameInterface {
         boolean login(in string username, in string password, out string sessionToken);
         boolean logout(in string sessionToken);
         string hostGame(in string sessionToken);
@@ -8,5 +8,20 @@ module GameSystem {
         boolean startGame(in string sessionToken, in string gameId);
         void submitWord(in string sessionToken, in string gameId, in string word);
         string getLetters(in string sessionToken, in string gameId);
+
     };
+
+    interface CallbackInterface {
+    void CreateLobGUI( in string username, in string gameId);
+    void UpdateLobGUI( in string username);
+    void informUser(in long userPosition, in string word, in long score);
+
+    };
+
+    exception InvalidCredentials{};
+
+    exception AlreadyLoggedIn{};
+
+    exception InvalidWord{};
+
 };

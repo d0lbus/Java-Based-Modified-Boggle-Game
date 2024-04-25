@@ -11,8 +11,9 @@ import java.util.UUID;
 
 public class GameSession {
     private String sessionId;
-    private List<User> players;
+    private HashMap<User,Integer> players;
     private GameStatus status;
+    private int position;
 
     public enum GameStatus {
         WAITING, ACTIVE, COMPLETED
@@ -20,13 +21,15 @@ public class GameSession {
 
     public GameSession() {
         this.sessionId = UUID.randomUUID().toString(); // Unique identifier for the session
-        this.players = new ArrayList<>();
+        this.players = new HashMap<>();
         this.status = GameStatus.WAITING; // Initial status
+        this.position = 1;
     }
 
     public void addPlayer(User user) {
-        if (!players.contains(user) && status == GameStatus.WAITING) {
-            players.add(user);
+        if (!players.containsKey(user) && status == GameStatus.WAITING) {
+            position++;
+            players.put(user,position);
             if (players.size() >= 2) { // Example: minimum two players to start
                 startGame();
             }
