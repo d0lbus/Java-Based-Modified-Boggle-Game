@@ -149,17 +149,15 @@ public class ClientGUIFrame extends JFrame {
         });
 
 
+
         joinButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                layeredPane.removeAll();
-                layeredPane.add(joinPanel);
-                layeredPane.repaint();
-                layeredPane.revalidate();
             }
         });
         joinButton.setBounds(746, 359, 125, 38);
         homePanel.add(joinButton);
 
+        /**
         joinPanel = new JPanel();
         joinPanel.setBackground(new Color(255, 204, 213));
         layeredPane.add(joinPanel);
@@ -194,6 +192,7 @@ public class ClientGUIFrame extends JFrame {
         backButton.setBounds(25, 15, 89, 30);
         joinPanel.add(backButton);
 
+
         RoundedPanel game1 = new RoundedPanel(30);
         game1.setBounds(400, 200, 500, 60);
         game1.setBackground(new Color(226, 114, 139));
@@ -223,6 +222,7 @@ public class ClientGUIFrame extends JFrame {
         game5.setBackground(new Color(226, 114, 139));
         game5.setLayout(null);
         joinPanel.add(game5);
+        */
 
 
 
@@ -867,7 +867,7 @@ public class ClientGUIFrame extends JFrame {
         settingsLabel.setBounds(582, 30, 122, 53);
         settingsPanel.add(settingsLabel);
 
-        backButton = new JButton("Back");
+        JButton backButton = new JButton("Back");
         backButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -884,7 +884,7 @@ public class ClientGUIFrame extends JFrame {
                 layeredPane.revalidate();
             }
         });
-        backButton.setBounds(25, 626, 89, 30);
+        backButton.setBounds(25, 15, 89, 30);
         settingsPanel.add(backButton);
 
         volumeSlider = new JSlider(0, 100);
