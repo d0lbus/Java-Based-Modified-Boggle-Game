@@ -1,25 +1,21 @@
 package View;
 
 import View.Design.GradientSliderUI;
+import View.Design.RandomGameFrame;
 import View.Design.RoundedPanel;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
-import java.awt.*;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.io.File;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.File;
 
 public class ClientGUIFrame extends JFrame {
 
@@ -103,6 +99,8 @@ public class ClientGUIFrame extends JFrame {
         randomButton.setBackground(new Color(189, 224, 254));
         randomButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                RandomGameFrame randomGameFrame = new RandomGameFrame();
+                randomGameFrame.setVisible(true);
             }
         });
         randomButton.setBounds(354, 359, 125, 38);
