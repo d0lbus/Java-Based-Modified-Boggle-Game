@@ -11,6 +11,7 @@ public class EnterCodeFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         getContentPane().setBackground(new java.awt.Color(255, 240, 233)); // Set background color
         setUIFont(new javax.swing.plaf.FontUIResource("Franklin Gothic Demi", Font.PLAIN, 14)); // Set font
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
     private javax.swing.JButton joinButton;
