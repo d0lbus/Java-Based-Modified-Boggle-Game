@@ -29,7 +29,6 @@ public class ClientGUIFrame extends JFrame {
     private JPanel lobbyPanel;
     private JPanel gamePanel;
     private JPanel settingsPanel;
-    private JPanel joinPanel;
     private Clip clip;
     private JSlider volumeSlider;
 
@@ -152,6 +151,8 @@ public class ClientGUIFrame extends JFrame {
 
         joinButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                EnterCodeFrame enterCodeFrame = new EnterCodeFrame();
+                enterCodeFrame.setVisible(true);
             }
         });
         joinButton.setBounds(746, 359, 125, 38);
@@ -488,6 +489,10 @@ public class ClientGUIFrame extends JFrame {
         quitButton.setBackground(new Color(240, 128, 128));
         quitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                layeredPane.removeAll();
+                layeredPane.add(homePanel);
+                layeredPane.repaint();
+                layeredPane.revalidate();
             }
         });
         quitButton.setBounds(1062, 626, 89, 30);
