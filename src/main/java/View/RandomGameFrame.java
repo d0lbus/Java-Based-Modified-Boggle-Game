@@ -1,4 +1,4 @@
-package View.Design;
+package View;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 

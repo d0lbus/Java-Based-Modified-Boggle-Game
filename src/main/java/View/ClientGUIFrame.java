@@ -1,7 +1,6 @@
 package View;
 
 import View.Design.GradientSliderUI;
-import View.Design.RandomGameFrame;
 import View.Design.RoundedPanel;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
