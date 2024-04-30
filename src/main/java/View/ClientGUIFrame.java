@@ -1,5 +1,6 @@
 package View;
 
+import View.Design.FallingLettersPanel;
 import View.Design.GradientSliderUI;
 import View.Design.RoundedPanel;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
@@ -30,8 +31,6 @@ public class ClientGUIFrame extends JFrame {
     private JButton createLobbyButton = new JButton("Create Lobby");
     private JButton joinButton = new JButton("Join");
 
-    private int minutes = 0;
-    private int seconds= 0;
     private Timer timer;
 
     public JButton getCreateLobbyButton() {
@@ -86,13 +85,22 @@ public class ClientGUIFrame extends JFrame {
 
         JLayeredPane layeredPane = new JLayeredPane();
         layeredPane.setBounds(0, 0, 1264, 681);
-        contentPane.add(layeredPane);
-        layeredPane.setLayout(new CardLayout(0, 0));
+        setContentPane(layeredPane);
 
         homePanel = new JPanel();
         homePanel.setBackground(new Color(255, 204, 213));
-        layeredPane.add(homePanel);
         homePanel.setLayout(null);
+        homePanel.setBounds(0, 0, 1280, 720);
+        layeredPane.add(homePanel);
+
+        FallingLettersPanel fallingLettersPanel = new FallingLettersPanel();
+        fallingLettersPanel.setOpaque(false);
+        fallingLettersPanel.setBounds(0, 0, 1280, 720);
+
+        JPanel homePanel = new JPanel();
+        homePanel.setBackground(new Color(255, 204, 213));
+        homePanel.setLayout(null);
+        homePanel.setBounds(0, 0, 1280, 720);
 
         JButton randomButton = new JButton("Random");
         randomButton.setBackground(new Color(189, 224, 254));
@@ -144,8 +152,6 @@ public class ClientGUIFrame extends JFrame {
             }
         });
 
-
-
         joinButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 EnterCodeFrame enterCodeFrame = new EnterCodeFrame();
@@ -156,73 +162,71 @@ public class ClientGUIFrame extends JFrame {
         homePanel.add(joinButton);
 
         /**
-        joinPanel = new JPanel();
-        joinPanel.setBackground(new Color(255, 204, 213));
-        layeredPane.add(joinPanel);
-        joinPanel.setLayout(null);
+         joinPanel = new JPanel();
+         joinPanel.setBackground(new Color(255, 204, 213));
+         layeredPane.add(joinPanel);
+         joinPanel.setLayout(null);
 
-        JPanel joinGamePanel = new JPanel();
-        joinPanel.add(joinGamePanel);
-        joinGamePanel.setLayout(null);
+         JPanel joinGamePanel = new JPanel();
+         joinPanel.add(joinGamePanel);
+         joinGamePanel.setLayout(null);
 
-        JLabel joinGameLabel = new JLabel("JOIN GAME");
-        joinGameLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 50));
-        joinGameLabel.setBounds(535, 65, 451, 129);
-        joinPanel.add(joinGameLabel);
+         JLabel joinGameLabel = new JLabel("JOIN GAME");
+         joinGameLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 50));
+         joinGameLabel.setBounds(535, 65, 451, 129);
+         joinPanel.add(joinGameLabel);
 
-        JButton backButton = new JButton("Back");
-        backButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
+         JButton backButton = new JButton("Back");
+         backButton.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseEntered(MouseEvent e) {
+        }
+        @Override
+        public void mouseExited(MouseEvent e) {
+        }
         });
-        backButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                layeredPane.removeAll();
-                layeredPane.add(homePanel);
-                layeredPane.repaint();
-                layeredPane.revalidate();
-            }
-        });
-        backButton.setBounds(25, 15, 89, 30);
-        joinPanel.add(backButton);
+         backButton.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent e) {
+         layeredPane.removeAll();
+         layeredPane.add(homePanel);
+         layeredPane.repaint();
+         layeredPane.revalidate();
+         }
+         });
+         backButton.setBounds(25, 15, 89, 30);
+         joinPanel.add(backButton);
 
 
-        RoundedPanel game1 = new RoundedPanel(30);
-        game1.setBounds(400, 200, 500, 60);
-        game1.setBackground(new Color(226, 114, 139));
-        game1.setLayout(null);
-        joinPanel.add(game1);
+         RoundedPanel game1 = new RoundedPanel(30);
+         game1.setBounds(400, 200, 500, 60);
+         game1.setBackground(new Color(226, 114, 139));
+         game1.setLayout(null);
+         joinPanel.add(game1);
 
-        RoundedPanel game2 = new RoundedPanel(30);
-        game2.setBounds(400, 260, 500, 60);
-        game2.setBackground(new Color(226, 114, 139));
-        game2.setLayout(null);
-        joinPanel.add(game2);
+         RoundedPanel game2 = new RoundedPanel(30);
+         game2.setBounds(400, 260, 500, 60);
+         game2.setBackground(new Color(226, 114, 139));
+         game2.setLayout(null);
+         joinPanel.add(game2);
 
-        RoundedPanel game3 = new RoundedPanel(30);
-        game3.setBounds(400, 320, 500, 60);
-        game3.setBackground(new Color(226, 114, 139));
-        game3.setLayout(null);
-        joinPanel.add(game3);
+         RoundedPanel game3 = new RoundedPanel(30);
+         game3.setBounds(400, 320, 500, 60);
+         game3.setBackground(new Color(226, 114, 139));
+         game3.setLayout(null);
+         joinPanel.add(game3);
 
-        RoundedPanel game4 = new RoundedPanel(30);
-        game4.setBounds(400, 380, 500, 60);
-        game4.setBackground(new Color(226, 114, 139));
-        game4.setLayout(null);
-        joinPanel.add(game4);
+         RoundedPanel game4 = new RoundedPanel(30);
+         game4.setBounds(400, 380, 500, 60);
+         game4.setBackground(new Color(226, 114, 139));
+         game4.setLayout(null);
+         joinPanel.add(game4);
 
-        RoundedPanel game5 = new RoundedPanel(30);
-        game5.setBounds(400, 440, 500, 60);
-        game5.setBackground(new Color(226, 114, 139));
-        game5.setLayout(null);
-        joinPanel.add(game5);
-        */
-
-
+         RoundedPanel game5 = new RoundedPanel(30);
+         game5.setBounds(400, 440, 500, 60);
+         game5.setBackground(new Color(226, 114, 139));
+         game5.setLayout(null);
+         joinPanel.add(game5);
+         */
 
         JLabel lblNewLabel = new JLabel("BOGGLED");
         lblNewLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 99));
@@ -243,10 +247,14 @@ public class ClientGUIFrame extends JFrame {
         settingsIcon.setBounds(1200, 15, 37, 38);
         homePanel.add(settingsIcon);
 
+        layeredPane.add(homePanel, JLayeredPane.DEFAULT_LAYER);
+        homePanel.add(fallingLettersPanel);
+
         lobbyPanel = new JPanel();
         lobbyPanel.setBackground(new Color(255, 204, 213));
-        layeredPane.add(lobbyPanel);
         lobbyPanel.setLayout(null);
+        lobbyPanel.setBounds(0, 0, 1280, 720);
+        layeredPane.add(lobbyPanel, JLayeredPane.DEFAULT_LAYER);
 
         JPanel player1pic = new JPanel();
         player1pic.setBackground(Color.GRAY);
@@ -382,8 +390,8 @@ public class ClientGUIFrame extends JFrame {
 
         gamePanel = new JPanel();
         gamePanel.setBackground(new Color(255, 204, 213));
-        layeredPane.add(gamePanel);
         gamePanel.setLayout(null);
+        gamePanel.setBounds(0, 0, 1280, 720);
 
         JLabel timerLabel = new JLabel("00:30");
         timerLabel.setFont(new Font("Arial", Font.BOLD, 36));
@@ -855,9 +863,9 @@ public class ClientGUIFrame extends JFrame {
         buttonPanel.add(button20);
 
         settingsPanel = new JPanel();
-        layeredPane.add(settingsPanel);
         settingsPanel.setBackground(new Color(255, 204, 213));
         settingsPanel.setLayout(null);
+        settingsPanel.setBounds(0, 0, 1280, 720);
 
         JLabel musicLabel = new JLabel("Music");
         musicLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 25));
