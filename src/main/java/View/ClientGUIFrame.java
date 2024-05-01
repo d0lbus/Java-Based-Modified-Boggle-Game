@@ -304,16 +304,16 @@ public class ClientGUIFrame extends JFrame {
         lobbyPanel.add(startButton);
 
         JButton exitLobbyButton = new JButton("Exit Lobby");
-        exitLobbyButton.setBackground(new Color(189, 224, 254));
+        exitLobbyButton.setBackground(new Color(206,212,218));
         exitLobbyButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                exitLobbyButton.setBackground(new Color(162, 210, 255));
+                exitLobbyButton.setBackground(new Color(222,226,230));
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                exitLobbyButton.setBackground(new Color(189, 224, 254));
+                exitLobbyButton.setBackground(new Color(206,212,218));
             }
         });
         exitLobbyButton.addActionListener(new ActionListener() {
