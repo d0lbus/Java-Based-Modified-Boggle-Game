@@ -111,11 +111,4 @@ public class FallingLettersPanel extends JPanel {
         }
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Falling Letters");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
-        frame.add(new FallingLettersPanel());
-        frame.setVisible(true);
-    }
 }
