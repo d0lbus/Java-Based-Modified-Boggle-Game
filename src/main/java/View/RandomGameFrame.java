@@ -14,7 +14,6 @@ public class RandomGameFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
-
     public static void main(String args[]) {
         FlatMacLightLaf.setup();
         java.awt.EventQueue.invokeLater(new Runnable() {

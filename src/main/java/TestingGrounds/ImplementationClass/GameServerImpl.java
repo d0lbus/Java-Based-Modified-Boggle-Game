@@ -2,18 +2,19 @@ package TestingGrounds.ImplementationClass;
 
 import TestingGrounds.Client_Java.GameSession;
 import TestingGrounds.Client_Java.User;
+import TestingGrounds.GameSystem.CallbackInterface;
 import TestingGrounds.GameSystem.GameServerPOA;
 import org.omg.CORBA.*;
 import org.omg.CORBA.Object;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class GameServerImpl extends GameServerPOA implements Object {
 
     Map<String, String> sessionTokens = new HashMap<>();
     Map<String, GameSession> activeGameLobbies = new HashMap<>();
+
 
     @Override
     public boolean login(String username, String password, org.omg.CORBA.StringHolder sessionToken) {
@@ -21,6 +22,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
             String token = generateSecureToken();
             sessionToken.value = token;
             sessionTokens.put(token, username);
+            System.out.println(username + " " + token);
             return true;
         } else
             return false;
@@ -32,9 +34,9 @@ public class GameServerImpl extends GameServerPOA implements Object {
     }
 
     @Override
-    public String hostGame(String sessionToken){
+    public String hostGame(String sessionToken, CallbackInterface gci){
         if (!validateSessionToken(sessionToken)) {
-            // ADD USER DEFINED EXCEPTION
+            System.out.println("Invalid session token");
         }
         GameSession newGameSession = new GameSession();
         activeGameLobbies.put(newGameSession.getSessionId(), newGameSession);
@@ -43,19 +45,44 @@ public class GameServerImpl extends GameServerPOA implements Object {
     }
 
     @Override
-    public boolean joinRandomGame(String sessionToken) {
-        return false;
+    public boolean joinRandomGame(String sessionToken, CallbackInterface gci) {
+        if (!validateSessionToken(sessionToken)) {
+            System.out.println("Invalid session token");
+            return false;
+        }
+
+        List<GameSession> availableSessions = activeGameLobbies.values().stream()
+                .filter(GameSession::canJoin) // Assuming GameSession has a canJoin method to check if it is joinable
+                .collect(Collectors.toList());
+
+        if (availableSessions.isEmpty()) {
+            System.out.println("No available game sessions to join");
+            return false;
+        }
+
+        int randomIndex = new Random().nextInt(availableSessions.size());
+        GameSession selectedSession = availableSessions.get(randomIndex);
+
+        String username = sessionTokens.get(sessionToken);
+        if (username == null) {
+            System.out.println("No username found for the given session token");
+            return false;
+        }
+
+        User user = new User("PlayerID", sessionToken);
+
+        selectedSession.addPlayer(user);
+        System.out.println("Player " + username + " added to game " + selectedSession.getSessionId());
+
+       return true;
     }
 
     @Override
     public boolean joinGame(String sessionToken, String gameId) {
         System.out.println("Player with session token " + sessionToken + " attempting to join game " + gameId);
-
-
         GameSession session = activeGameLobbies.get(gameId);
 
         //TO DO: ADD PLAYER TO THE SESSION
-
         return true;
     }
 
@@ -75,7 +102,17 @@ public class GameServerImpl extends GameServerPOA implements Object {
     }
 
     @Override
+    public boolean _is_a(String repositoryIdentifier) {
+        return false;
+    }
+
+    @Override
     public boolean _is_equivalent(Object other) {
+        return false;
+    }
+
+    @Override
+    public boolean _non_existent() {
         return false;
     }
 
@@ -92,6 +129,11 @@ public class GameServerImpl extends GameServerPOA implements Object {
     @Override
     public void _release() {
 
+    }
+
+    @Override
+    public Object _get_interface_def() {
+        return null;
     }
 
     @Override

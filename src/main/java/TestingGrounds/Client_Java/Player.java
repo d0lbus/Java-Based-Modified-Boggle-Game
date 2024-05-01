@@ -1,7 +1,9 @@
 package TestingGrounds.Client_Java;
 
+import TestingGrounds.GameSystem.CallbackInterface;
 import TestingGrounds.GameSystem.GameServer;
 import TestingGrounds.GameSystem.GameServerHelper;
+import TestingGrounds.ImplementationClass.GameClientCallbackImpl;
 import View.ClientGUIFrame;
 import View.Registration;
 import org.omg.CORBA.ORB;
@@ -18,7 +20,7 @@ public class Player {
     private static String password = "";
     private static StringHolder sessionToken = new StringHolder();
     static GameServer gameServerImp;
-
+    static CallbackInterface cbi;
     static ClientGUIFrame clientGUIFrame = new ClientGUIFrame();
     static Registration registration = new Registration();
     public static void main(String args[]) {
@@ -47,6 +49,7 @@ public class Player {
                 if (loginSuccessful) {
                     System.out.println("Login for " +username+ " is successful. Session token: " + sessionToken.value);
                     startGame();
+                    registration.setVisible(false);
                 } else {
                     System.out.println("Login failed.");
                 }
@@ -56,14 +59,25 @@ public class Player {
 
     public static void startGame(){
         clientGUIFrame.setVisible(true);
-
-
         clientGUIFrame.getCreateLobbyButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gameServerImp.hostGame(sessionToken.toString());
+                System.out.println("Session Token: " + sessionToken.value);
+                gameServerImp.hostGame(sessionToken.value, cbi);
             }
         });
 
+        clientGUIFrame.getRandomButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                boolean gameFound = gameServerImp.joinRandomGame(sessionToken.value, cbi);
+                if (gameFound){
+                    clientGUIFrame.getLayeredPane().removeAll();
+                    clientGUIFrame.getLayeredPane().add(clientGUIFrame.getLobbyPanel());
+                    clientGUIFrame.getLayeredPane().repaint();
+                    clientGUIFrame.getLayeredPane().revalidate();
+                }
+            }
+        });
     }
 }

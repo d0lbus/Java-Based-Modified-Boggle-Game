@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class GameSession {
+    private final int MAX_PLAYERS = 4;
     private String sessionId;
     private HashMap<User,Integer> players;
     private GameStatus status;
@@ -30,7 +31,7 @@ public class GameSession {
         if (!players.containsKey(user) && status == GameStatus.WAITING) {
             position++;
             players.put(user,position);
-            if (players.size() >= 2) { // Example: minimum two players to start
+            if (this.players.size() == MAX_PLAYERS) {
                 startGame();
             }
         }
@@ -39,13 +40,12 @@ public class GameSession {
     public void removePlayer(Player player) {
         players.remove(player);
         if (players.size() < 2 && status == GameStatus.ACTIVE) {
-            endGame(); // Not enough players to continue
+            endGame();
         }
     }
 
     private void startGame() {
         status = GameStatus.ACTIVE;
-        // Initialize game settings and notify players
     }
 
     private void endGame() {
@@ -61,6 +61,12 @@ public class GameSession {
         return status;
     }
 
-    // Additional methods as needed for game logic
+    public boolean canJoin() {
+        return this.status == GameStatus.WAITING && this.players.size() < MAX_PLAYERS;
+    }
+
+    public void setStatus(GameStatus status) {
+        this.status = status;
+    }
 }
 

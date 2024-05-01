@@ -28,6 +28,39 @@ public class ClientGUIFrame extends JFrame {
     private Clip clip;
     private JSlider volumeSlider;
 
+    private JPanel player1pic;
+
+    private JPanel player2pic;
+
+    private JPanel player3pic;
+
+    private JPanel player4pic;
+
+    public JLabel getPlayer1username() {
+        return player1username;
+    }
+
+    public JLabel getPlayer2username() {
+        return player2username;
+    }
+
+    public JLabel getPlayer3username() {
+        return player3username;
+    }
+
+    public JLabel getPlayer4username() {
+        return player4username;
+    }
+
+    private JLabel player1username;
+
+    private JLabel player2username;
+
+    private JLabel player3username;
+    private JLabel player4username;
+
+    private JButton randomButton;
+
     private JButton createLobbyButton = new JButton("Create Lobby");
     private JButton joinButton = new JButton("Join");
 
@@ -102,7 +135,7 @@ public class ClientGUIFrame extends JFrame {
         homePanel.setLayout(null);
         homePanel.setBounds(0, 0, 1280, 720);
 
-        JButton randomButton = new JButton("Random");
+        randomButton = new JButton("Random");
         randomButton.setBackground(new Color(189, 224, 254));
         randomButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -256,25 +289,25 @@ public class ClientGUIFrame extends JFrame {
         lobbyPanel.setBounds(0, 0, 1280, 720);
         layeredPane.add(lobbyPanel, JLayeredPane.DEFAULT_LAYER);
 
-        JPanel player1pic = new JPanel();
+        player1pic = new JPanel();
         player1pic.setBackground(Color.GRAY);
         player1pic.setBounds(59, 233, 240, 230);
         lobbyPanel.add(player1pic);
         player1pic.setLayout(null);
 
-        JPanel player2pic = new JPanel();
+        player2pic = new JPanel();
         player2pic.setBackground(Color.PINK);
         player2pic.setLayout(null);
         player2pic.setBounds(358, 233, 240, 230);
         lobbyPanel.add(player2pic);
 
-        JPanel player3pic = new JPanel();
+        player3pic = new JPanel();
         player3pic.setBackground(Color.YELLOW);
         player3pic.setLayout(null);
         player3pic.setBounds(657, 233, 240, 230);
         lobbyPanel.add(player3pic);
 
-        JPanel player4pic = new JPanel();
+        player4pic = new JPanel();
         player4pic.setBackground(Color.MAGENTA);
         player4pic.setLayout(null);
         player4pic.setBounds(963, 233, 240, 230);
@@ -364,25 +397,25 @@ public class ClientGUIFrame extends JFrame {
         settingsIcon1.setBounds(10, 22, 37, 38);
         lobbyPanel.add(settingsIcon1);
 
-        JLabel player1username = new JLabel("JLabel");
+        player1username = new JLabel("JLabel");
         player1username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
         player1username.setHorizontalAlignment(SwingConstants.CENTER);
         player1username.setBounds(59, 485, 240, 32);
         lobbyPanel.add(player1username);
 
-        JLabel player2username = new JLabel("JLabel1");
+        player2username = new JLabel("JLabel1");
         player2username.setHorizontalAlignment(SwingConstants.CENTER);
         player2username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
         player2username.setBounds(358, 485, 240, 32);
         lobbyPanel.add(player2username);
 
-        JLabel player3username = new JLabel("JLabel2");
+        player3username = new JLabel("JLabel2");
         player3username.setHorizontalAlignment(SwingConstants.CENTER);
         player3username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
         player3username.setBounds(657, 485, 240, 32);
         lobbyPanel.add(player3username);
 
-        JLabel player4username = new JLabel("JLabel3");
+        player4username = new JLabel("JLabel3");
         player4username.setHorizontalAlignment(SwingConstants.CENTER);
         player4username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
         player4username.setBounds(963, 485, 240, 32);
@@ -942,6 +975,9 @@ public class ClientGUIFrame extends JFrame {
         timer.start();
     }
 
+
+
+
     private void setVolume(float volume) {
         if (clip != null) {
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -960,6 +996,107 @@ public class ClientGUIFrame extends JFrame {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public JPanel getPlayer1pic() {
+        return player1pic;
+    }
+
+    public JPanel getPlayer2pic() {
+        return player2pic;
+    }
+
+    public JPanel getPlayer3pic() {
+        return player3pic;
+    }
+
+    public JPanel getPlayer4pic() {
+        return player4pic;
+    }
+
+    @Override
+    public JPanel getContentPane() {
+        return contentPane;
+    }
+
+    public void setContentPane(JPanel contentPane) {
+        this.contentPane = contentPane;
+    }
+
+    public JTextField getInputTextField() {
+        return inputTextField;
+    }
+
+    public void setInputTextField(JTextField inputTextField) {
+        this.inputTextField = inputTextField;
+    }
+
+    public JPanel getHomePanel() {
+        return homePanel;
+    }
+
+    public void setHomePanel(JPanel homePanel) {
+        this.homePanel = homePanel;
+    }
+
+    public JPanel getLobbyPanel() {
+        return lobbyPanel;
+    }
+
+    public void setLobbyPanel(JPanel lobbyPanel) {
+        this.lobbyPanel = lobbyPanel;
+    }
+
+    public JPanel getGamePanel() {
+        return gamePanel;
+    }
+
+    public void setGamePanel(JPanel gamePanel) {
+        this.gamePanel = gamePanel;
+    }
+
+    public JPanel getSettingsPanel() {
+        return settingsPanel;
+    }
+
+    public void setSettingsPanel(JPanel settingsPanel) {
+        this.settingsPanel = settingsPanel;
+    }
+
+    public Clip getClip() {
+        return clip;
+    }
+
+    public void setClip(Clip clip) {
+        this.clip = clip;
+    }
+
+    public JSlider getVolumeSlider() {
+        return volumeSlider;
+    }
+
+    public void setVolumeSlider(JSlider volumeSlider) {
+        this.volumeSlider = volumeSlider;
+    }
+
+    public void setCreateLobbyButton(JButton createLobbyButton) {
+        this.createLobbyButton = createLobbyButton;
+    }
+
+    public void setJoinButton(JButton joinButton) {
+        this.joinButton = joinButton;
+    }
+
+    public Timer getTimer() {
+        return timer;
+    }
+
+    public void setTimer(Timer timer) {
+        this.timer = timer;
+    }
+
+    public JButton getRandomButton() {
+        return randomButton;
     }
 }
 
