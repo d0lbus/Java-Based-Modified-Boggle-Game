@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -15,9 +17,18 @@ public class FallingLettersPanel extends JPanel {
     private static final int LETTER_DISTANCE = 80;
     private List<FallingLetter> fallingLetters;
     private Timer timer;
+    private Font customFont;
 
     public FallingLettersPanel() {
         fallingLetters = new ArrayList<>();
+        try {
+            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/View/Design/Fonts/Wedges.ttf")).deriveFont(Font.BOLD, LETTER_SIZE);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(customFont);
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+            customFont = new Font("Arial", Font.BOLD, LETTER_SIZE);
+        }
         timer = new Timer(50, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -30,6 +41,7 @@ public class FallingLettersPanel extends JPanel {
         });
         timer.start();
     }
+
 
     private void addFallingLetter() {
         Random random = new Random();
@@ -58,7 +70,7 @@ public class FallingLettersPanel extends JPanel {
         super.paintComponent(g);
         for (FallingLetter letter : fallingLetters) {
             g.setColor(letter.getColor());
-            g.setFont(new Font("Arial", Font.BOLD, LETTER_SIZE));
+            g.setFont(customFont);
             g.drawString(String.valueOf(letter.getLetter()), letter.getX(), letter.getY());
         }
     }
