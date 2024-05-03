@@ -2,6 +2,7 @@ package View;
 
 import View.Design.FallingLettersPanel;
 import View.Design.GradientSliderUI;
+import View.Design.LetterCube;
 import View.Design.RoundedPanel;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
@@ -159,10 +160,39 @@ public class ClientGUIFrame extends JFrame {
         joinButton.setBounds(746, 359, 125, 38);
         homePanel.add(joinButton);
 
-        JLabel lblNewLabel = new JLabel("BOGGLED");
-        lblNewLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 99));
-        lblNewLabel.setBounds(400, 191, 451, 129);
-        homePanel.add(lblNewLabel);
+        //JLabel lblNewLabel = new JLabel("BOGGLED");
+        //lblNewLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 99));
+        //lblNewLabel.setBounds(400, 191, 451, 129);
+        //homePanel.add(lblNewLabel);
+
+
+        LetterCube cubeB = new LetterCube("B");
+        cubeB.setBounds(200, 100, 150, 150);
+        homePanel.add(cubeB);
+
+        LetterCube cubeO = new LetterCube("O");
+        cubeO.setBounds(320, 150, 150, 150);
+        homePanel.add(cubeO);
+
+        LetterCube cubeG = new LetterCube("G");
+        cubeG.setBounds(440, 100, 150, 150);
+        homePanel.add(cubeG);
+
+        LetterCube cubeG2 = new LetterCube("G");
+        cubeG2.setBounds(560, 150, 150, 150);
+        homePanel.add(cubeG2);
+
+        LetterCube cubeL = new LetterCube("L");
+        cubeL.setBounds(680, 100, 150, 150);
+        homePanel.add(cubeL);
+
+        LetterCube cubeE = new LetterCube("E");
+        cubeE.setBounds(800, 150, 150, 150);
+        homePanel.add(cubeE);
+
+        LetterCube cubeD = new LetterCube("D");
+        cubeD.setBounds(920, 100, 150, 150);
+        homePanel.add(cubeD);
 
         JLabel settingsIcon = new JLabel("");
         settingsIcon.addMouseListener(new MouseAdapter() {
@@ -828,7 +858,7 @@ public class ClientGUIFrame extends JFrame {
         settingsPanel.add(backButton);
 
         volumeSlider = new JSlider(0, 100);
-        volumeSlider.setValue(100);
+        volumeSlider.setValue(50);
         volumeSlider.setUI(new GradientSliderUI(volumeSlider));
         volumeSlider.addChangeListener(new ChangeListener() {
             @Override
