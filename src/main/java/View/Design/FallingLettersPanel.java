@@ -49,7 +49,9 @@ public class FallingLettersPanel extends JPanel {
         int x = random.nextInt(getWidth());
         int y = -LETTER_SIZE - (fallingLetters.size() * LETTER_DISTANCE);
         Color[] colors = {new Color(255, 84, 146),
+                new Color(250, 37, 91),
                 new Color(56, 182, 255),
+                new Color(7, 120, 218),
                 new Color(248, 168, 197)};
         Color color = colors[random.nextInt(colors.length)];
         fallingLetters.add(new FallingLetter(letter, x, y, FALLING_SPEED, color));
