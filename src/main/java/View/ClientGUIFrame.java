@@ -27,52 +27,16 @@ public class ClientGUIFrame extends JFrame {
     private JPanel settingsPanel;
     private Clip clip;
     private JSlider volumeSlider;
-
-    private JPanel player1pic;
-
-    private JPanel player2pic;
-
-    private JPanel player3pic;
-
-    private JPanel player4pic;
-
-    public JLabel getPlayer1username() {
-        return player1username;
-    }
-
-    public JLabel getPlayer2username() {
-        return player2username;
-    }
-
-    public JLabel getPlayer3username() {
-        return player3username;
-    }
-
-    public JLabel getPlayer4username() {
-        return player4username;
-    }
-
-    private JLabel player1username;
-
-    private JLabel player2username;
-
-    private JLabel player3username;
-    private JLabel player4username;
-
-    private JButton randomButton;
-
-    private JButton createLobbyButton = new JButton("Create Lobby");
-    private JButton joinButton = new JButton("Join");
-
+    private JPanel player1pic, player2pic, player3pic, player4pic;
+    private JLabel player1username, player2username, player3username, player4username;
+    private JButton randomButton, quitButton;
+    private JButton createLobbyButton;
+    private JButton joinButton;
+    private JButton button1, button2, button3, button4, button5, button6, button7, button8, button9, button10, button11, button12, button13, button14, button15, button16, button17, button18, button19, button20;
+    private JLabel player1gamePoints, player2gamePoints, player3gamePoints, player4gamePoints;
+    private JLabel player1gameUsername, player2gameUsername, player3gameUsername, player4gameUsername;
     private Timer timer;
-
-    public JButton getCreateLobbyButton() {
-        return createLobbyButton;
-    }
-
-    public JButton getJoinButton() {
-        return joinButton;
-    }
+    private JTextPane announcementTextpane;
 
     /**
      * Launch the application.
@@ -193,73 +157,6 @@ public class ClientGUIFrame extends JFrame {
         });
         joinButton.setBounds(746, 359, 125, 38);
         homePanel.add(joinButton);
-
-        /**
-         joinPanel = new JPanel();
-         joinPanel.setBackground(new Color(255, 204, 213));
-         layeredPane.add(joinPanel);
-         joinPanel.setLayout(null);
-
-         JPanel joinGamePanel = new JPanel();
-         joinPanel.add(joinGamePanel);
-         joinGamePanel.setLayout(null);
-
-         JLabel joinGameLabel = new JLabel("JOIN GAME");
-         joinGameLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 50));
-         joinGameLabel.setBounds(535, 65, 451, 129);
-         joinPanel.add(joinGameLabel);
-
-         JButton backButton = new JButton("Back");
-         backButton.addMouseListener(new MouseAdapter() {
-        @Override
-        public void mouseEntered(MouseEvent e) {
-        }
-        @Override
-        public void mouseExited(MouseEvent e) {
-        }
-        });
-         backButton.addActionListener(new ActionListener() {
-         public void actionPerformed(ActionEvent e) {
-         layeredPane.removeAll();
-         layeredPane.add(homePanel);
-         layeredPane.repaint();
-         layeredPane.revalidate();
-         }
-         });
-         backButton.setBounds(25, 15, 89, 30);
-         joinPanel.add(backButton);
-
-
-         RoundedPanel game1 = new RoundedPanel(30);
-         game1.setBounds(400, 200, 500, 60);
-         game1.setBackground(new Color(226, 114, 139));
-         game1.setLayout(null);
-         joinPanel.add(game1);
-
-         RoundedPanel game2 = new RoundedPanel(30);
-         game2.setBounds(400, 260, 500, 60);
-         game2.setBackground(new Color(226, 114, 139));
-         game2.setLayout(null);
-         joinPanel.add(game2);
-
-         RoundedPanel game3 = new RoundedPanel(30);
-         game3.setBounds(400, 320, 500, 60);
-         game3.setBackground(new Color(226, 114, 139));
-         game3.setLayout(null);
-         joinPanel.add(game3);
-
-         RoundedPanel game4 = new RoundedPanel(30);
-         game4.setBounds(400, 380, 500, 60);
-         game4.setBackground(new Color(226, 114, 139));
-         game4.setLayout(null);
-         joinPanel.add(game4);
-
-         RoundedPanel game5 = new RoundedPanel(30);
-         game5.setBounds(400, 440, 500, 60);
-         game5.setBackground(new Color(226, 114, 139));
-         game5.setLayout(null);
-         joinPanel.add(game5);
-         */
 
         JLabel lblNewLabel = new JLabel("BOGGLED");
         lblNewLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 99));
@@ -438,7 +335,6 @@ public class ClientGUIFrame extends JFrame {
         gamePanel.add(timerBackground);
         gamePanel.setComponentZOrder(timerLabel, 0);
 
-
         JPanel player1gamePic = new JPanel();
         player1gamePic.setBackground(Color.GRAY);
         player1gamePic.setBounds(24, 30, 150, 140);
@@ -463,42 +359,42 @@ public class ClientGUIFrame extends JFrame {
         player4gamePic.setBounds(24, 509, 150, 140);
         gamePanel.add(player4gamePic);
 
-        JLabel player1gameUsername = new JLabel("JLabel");
+        player1gameUsername = new JLabel("JLabel");
         player1gameUsername.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 20));
         player1gameUsername.setBounds(184, 43, 123, 30);
         gamePanel.add(player1gameUsername);
 
-        JLabel player2gameUsername = new JLabel("JLabel1");
+        player2gameUsername = new JLabel("JLabel1");
         player2gameUsername.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 20));
         player2gameUsername.setBounds(184, 206, 123, 30);
         gamePanel.add(player2gameUsername);
 
-        JLabel player3gameUsername = new JLabel("JLabel2");
+        player3gameUsername = new JLabel("JLabel2");
         player3gameUsername.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 20));
         player3gameUsername.setBounds(184, 366, 123, 30);
         gamePanel.add(player3gameUsername);
 
-        JLabel player4gameUsername = new JLabel("JLabel3");
+        player4gameUsername = new JLabel("JLabel3");
         player4gameUsername.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 20));
         player4gameUsername.setBounds(184, 532, 123, 30);
         gamePanel.add(player4gameUsername);
 
-        JLabel player1gamePoints = new JLabel("JLabel");
+        player1gamePoints = new JLabel("JLabel");
         player1gamePoints.setFont(new Font("Franklin Gothic Book", Font.PLAIN, 20));
         player1gamePoints.setBounds(184, 84, 123, 30);
         gamePanel.add(player1gamePoints);
 
-        JLabel player2gamePoints = new JLabel("JLabel1");
+        player2gamePoints = new JLabel("JLabel1");
         player2gamePoints.setFont(new Font("Franklin Gothic Book", Font.PLAIN, 20));
         player2gamePoints.setBounds(184, 247, 123, 30);
         gamePanel.add(player2gamePoints);
 
-        JLabel player3gamePoints = new JLabel("JLabel2");
+        player3gamePoints = new JLabel("JLabel2");
         player3gamePoints.setFont(new Font("Franklin Gothic Book", Font.PLAIN, 20));
         player3gamePoints.setBounds(184, 407, 123, 30);
         gamePanel.add(player3gamePoints);
 
-        JLabel player4gamePoints = new JLabel("JLabel3");
+        player4gamePoints = new JLabel("JLabel3");
         player4gamePoints.setFont(new Font("Franklin Gothic Book", Font.PLAIN, 20));
         player4gamePoints.setBounds(184, 573, 123, 30);
         gamePanel.add(player4gamePoints);
@@ -513,7 +409,7 @@ public class ClientGUIFrame extends JFrame {
         gamePanel.add(inputTextField);
         inputTextField.setColumns(10);
 
-        JButton quitButton = new JButton("Quit");
+        quitButton = new JButton("Quit");
         quitButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -542,7 +438,7 @@ public class ClientGUIFrame extends JFrame {
         gamePanel.add(aPanel);
         aPanel.setLayout(null);
 
-        JTextPane announcementTextpane = new JTextPane();
+        announcementTextpane = new JTextPane();
         announcementTextpane.setEditable(false);
         announcementTextpane.setBounds(10, 28, 266, 486);
         aPanel.add(announcementTextpane);
@@ -555,7 +451,7 @@ public class ClientGUIFrame extends JFrame {
         gamePanel.add(buttonPanel);
         buttonPanel.setLayout(new GridLayout(0, 5, 0, 0));
 
-        JButton button1 = new JButton("New button");
+        button1 = new JButton("New button");
         button1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -572,7 +468,7 @@ public class ClientGUIFrame extends JFrame {
         button1.setBackground(new Color(202,240,248));
         buttonPanel.add(button1);
 
-        JButton button2 = new JButton("New button");
+        button2 = new JButton("New button");
         button2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -589,7 +485,7 @@ public class ClientGUIFrame extends JFrame {
         button2.setBackground(new Color(202,240,248));
         buttonPanel.add(button2);
 
-        JButton button3 = new JButton("New button");
+        button3 = new JButton("New button");
         button3.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -606,7 +502,7 @@ public class ClientGUIFrame extends JFrame {
         button3.setBackground(new Color(202,240,248));
         buttonPanel.add(button3);
 
-        JButton button4 = new JButton("New button");
+        button4 = new JButton("New button");
         button4.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -623,7 +519,7 @@ public class ClientGUIFrame extends JFrame {
         button4.setBackground(new Color(202,240,248));
         buttonPanel.add(button4);
 
-        JButton button5 = new JButton("New button");
+        button5 = new JButton("New button");
         button5.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -640,7 +536,7 @@ public class ClientGUIFrame extends JFrame {
         button5.setBackground(new Color(202,240,248));
         buttonPanel.add(button5);
 
-        JButton button6 = new JButton("New button");
+        button6 = new JButton("New button");
         button6.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -657,7 +553,7 @@ public class ClientGUIFrame extends JFrame {
         button6.setBackground(new Color(202,240,248));
         buttonPanel.add(button6);
 
-        JButton button7 = new JButton("New button");
+        button7 = new JButton("New button");
         button7.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -674,7 +570,7 @@ public class ClientGUIFrame extends JFrame {
         button7.setBackground(new Color(202,240,248));
         buttonPanel.add(button7);
 
-        JButton button8 = new JButton("New button");
+        button8 = new JButton("New button");
         button8.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -691,7 +587,7 @@ public class ClientGUIFrame extends JFrame {
         button8.setBackground(new Color(202,240,248));
         buttonPanel.add(button8);
 
-        JButton button9 = new JButton("New button");
+        button9 = new JButton("New button");
         button9.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -708,7 +604,7 @@ public class ClientGUIFrame extends JFrame {
         button9.setBackground(new Color(202,240,248));
         buttonPanel.add(button9);
 
-        JButton button10 = new JButton("New button");
+        button10 = new JButton("New button");
         button10.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -725,7 +621,7 @@ public class ClientGUIFrame extends JFrame {
         button10.setBackground(new Color(202,240,248));
         buttonPanel.add(button10);
 
-        JButton button11 = new JButton("New button");
+        button11 = new JButton("New button");
         button11.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -742,7 +638,7 @@ public class ClientGUIFrame extends JFrame {
         button11.setBackground(new Color(202,240,248));
         buttonPanel.add(button11);
 
-        JButton button12 = new JButton("New button");
+        button12 = new JButton("New button");
         button12.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -759,7 +655,7 @@ public class ClientGUIFrame extends JFrame {
         button12.setBackground(new Color(202,240,248));
         buttonPanel.add(button12);
 
-        JButton button13 = new JButton("New button");
+        button13 = new JButton("New button");
         button13.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -776,7 +672,7 @@ public class ClientGUIFrame extends JFrame {
         button13.setBackground(new Color(202,240,248));
         buttonPanel.add(button13);
 
-        JButton button14 = new JButton("New button");
+        button14 = new JButton("New button");
         button14.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -793,7 +689,7 @@ public class ClientGUIFrame extends JFrame {
         button14.setBackground(new Color(202,240,248));
         buttonPanel.add(button14);
 
-        JButton button15 = new JButton("New button");
+        button15 = new JButton("New button");
         button15.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -810,7 +706,7 @@ public class ClientGUIFrame extends JFrame {
         button15.setBackground(new Color(202,240,248));
         buttonPanel.add(button15);
 
-        JButton button16 = new JButton("New button");
+        button16 = new JButton("New button");
         button16.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -827,7 +723,7 @@ public class ClientGUIFrame extends JFrame {
         button16.setBackground(new Color(202,240,248));
         buttonPanel.add(button16);
 
-        JButton button17 = new JButton("New button");
+        button17 = new JButton("New button");
         button17.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -844,7 +740,7 @@ public class ClientGUIFrame extends JFrame {
         button17.setBackground(new Color(202,240,248));
         buttonPanel.add(button17);
 
-        JButton button18 = new JButton("New button");
+        button18 = new JButton("New button");
         button18.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -861,7 +757,7 @@ public class ClientGUIFrame extends JFrame {
         button18.setBackground(new Color(202,240,248));
         buttonPanel.add(button18);
 
-        JButton button19 = new JButton("New button");
+        button19 = new JButton("New button");
         button19.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -878,7 +774,7 @@ public class ClientGUIFrame extends JFrame {
         button19.setBackground(new Color(202,240,248));
         buttonPanel.add(button19);
 
-        JButton button20 = new JButton("New button");
+        button20 = new JButton("New button");
         button20.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -932,7 +828,7 @@ public class ClientGUIFrame extends JFrame {
 
         volumeSlider = new JSlider(0, 100);
         volumeSlider.setValue(100);
-        volumeSlider.setUI(new GradientSliderUI(volumeSlider)); //ito para sa design comment out if gusto nyo walang kulay
+        volumeSlider.setUI(new GradientSliderUI(volumeSlider));
         volumeSlider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
@@ -975,9 +871,6 @@ public class ClientGUIFrame extends JFrame {
         timer.start();
     }
 
-
-
-
     private void setVolume(float volume) {
         if (clip != null) {
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -1001,102 +894,75 @@ public class ClientGUIFrame extends JFrame {
     public JPanel getPlayer1pic() {
         return player1pic;
     }
-
     public JPanel getPlayer2pic() {
         return player2pic;
     }
-
     public JPanel getPlayer3pic() {
         return player3pic;
     }
-
     public JPanel getPlayer4pic() {
         return player4pic;
     }
-
     @Override
     public JPanel getContentPane() {
         return contentPane;
     }
-
     public void setContentPane(JPanel contentPane) {
         this.contentPane = contentPane;
     }
-
     public JTextField getInputTextField() {
         return inputTextField;
     }
-
-    public void setInputTextField(JTextField inputTextField) {
-        this.inputTextField = inputTextField;
-    }
-
     public JPanel getHomePanel() {
         return homePanel;
     }
-
     public void setHomePanel(JPanel homePanel) {
         this.homePanel = homePanel;
     }
-
     public JPanel getLobbyPanel() {
         return lobbyPanel;
     }
-
     public void setLobbyPanel(JPanel lobbyPanel) {
         this.lobbyPanel = lobbyPanel;
     }
-
     public JPanel getGamePanel() {
         return gamePanel;
     }
-
     public void setGamePanel(JPanel gamePanel) {
         this.gamePanel = gamePanel;
     }
-
     public JPanel getSettingsPanel() {
         return settingsPanel;
     }
-
-    public void setSettingsPanel(JPanel settingsPanel) {
-        this.settingsPanel = settingsPanel;
-    }
-
     public Clip getClip() {
         return clip;
     }
-
-    public void setClip(Clip clip) {
-        this.clip = clip;
-    }
-
     public JSlider getVolumeSlider() {
         return volumeSlider;
     }
-
-    public void setVolumeSlider(JSlider volumeSlider) {
-        this.volumeSlider = volumeSlider;
-    }
-
-    public void setCreateLobbyButton(JButton createLobbyButton) {
-        this.createLobbyButton = createLobbyButton;
-    }
-
-    public void setJoinButton(JButton joinButton) {
-        this.joinButton = joinButton;
-    }
-
     public Timer getTimer() {
         return timer;
     }
-
-    public void setTimer(Timer timer) {
-        this.timer = timer;
-    }
-
     public JButton getRandomButton() {
         return randomButton;
+    }
+    public JLabel getPlayer1username() {
+        return player1username;
+    }
+    public JLabel getPlayer2username() {
+        return player2username;
+    }
+    public JLabel getPlayer3username() {
+        return player3username;
+    }
+    public JLabel getPlayer4username() {
+        return player4username;
+    }
+    public JButton getCreateLobbyButton() {
+        return createLobbyButton;
+    }
+    public JButton getJoinButton() {
+        return joinButton;
     }
 }
 
