@@ -178,10 +178,8 @@ public class ClientGUIFrame extends JFrame {
         quitButton.setBackground(new Color(240, 128, 128));
         quitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                layeredPane.removeAll();
-                layeredPane.add(homePanel);
-                layeredPane.repaint();
-                layeredPane.revalidate();
+                dispose();
+                System.exit(0);
             }
         });
         quitButton.setBounds(593, 570, 100, 40);
