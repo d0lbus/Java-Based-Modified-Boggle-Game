@@ -69,6 +69,7 @@ public class ClientGUIFrame extends JFrame {
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1280, 720);
+        setLocationRelativeTo(null);
 
         Image icon = Toolkit.getDefaultToolkit().getImage("src/main/java/Icons/logo.png");
         setIconImage(icon);
