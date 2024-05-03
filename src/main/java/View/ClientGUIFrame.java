@@ -498,7 +498,7 @@ public class ClientGUIFrame extends JFrame {
         gamePanel.add(inputTextField);
         inputTextField.setColumns(10);
 
-        quitButton = new JButton("Quit");
+        quitButton = new JButton("Leave Game");
         quitButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -518,7 +518,7 @@ public class ClientGUIFrame extends JFrame {
                 layeredPane.revalidate();
             }
         });
-        quitButton.setBounds(1062, 626, 89, 30);
+        quitButton.setBounds(1062, 626, 100, 30);
         gamePanel.add(quitButton);
 
         RoundedPanel aPanel = new RoundedPanel(30);
