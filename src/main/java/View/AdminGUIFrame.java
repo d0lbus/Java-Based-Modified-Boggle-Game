@@ -54,6 +54,7 @@ public class AdminGUIFrame extends JFrame {
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 1002, 769);
+        
 
         Image icon = Toolkit.getDefaultToolkit().getImage("src/main/java/Icons/logo.png");
         setIconImage(icon);
@@ -211,6 +212,38 @@ public class AdminGUIFrame extends JFrame {
         vPanel = new JPanel();
         vPanel.setBackground(Color.PINK);
         layeredPane.add(vPanel);
+
+        JLabel viewPlayersLabel = new JLabel("PLAYERS");
+        viewPlayersLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
+        viewPlayersLabel.setBounds(305, 84, 200, 20);
+        vPanel.add(viewPlayersLabel);
+        vPanel.setLayout(null);
+
+        table = new JTable();
+        table.setSelectionBackground(new Color(243, 50, 118));
+        table.setBackground(new Color(255, 111, 139));
+        table.setBorder(null);
+        table.setModel(new DefaultTableModel(
+                new Object[][] {
+                        {null, null},
+                        {null, null},
+                        {null, null},
+                        {null, null},
+                        {null, null},
+                        {null, null},
+                        {null, null},
+                        {null, null},
+                        {null, null},
+                },
+                new String[] {
+                        "Player Name", ""
+                }
+
+        ));
+        table.setBounds(41, 125, 668, 548);
+        vPanel.add(table);
+
+
 
         aPanel = new JPanel();
         aPanel.setBackground(Color.WHITE);
