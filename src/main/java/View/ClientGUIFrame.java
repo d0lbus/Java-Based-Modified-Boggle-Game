@@ -101,6 +101,15 @@ public class ClientGUIFrame extends JFrame {
         homePanel.setLayout(null);
         homePanel.setBounds(0, 0, 1280, 720);
 
+        ImageIcon catIcon = new ImageIcon("src/main/java/Icons/cat.gif");
+        Image image = catIcon.getImage();
+        Image scaledImage = image.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
+        catIcon = new ImageIcon(scaledImage);
+
+        JLabel catLabel = new JLabel(catIcon);
+        catLabel.setBounds(390, 385, 70, 70);
+        homePanel.add(catLabel);
+
         randomButton = new JButton("Random");
         randomButton.setBackground(new Color(189, 224, 254));
         randomButton.setFont(new Font("Arial", Font.BOLD, 25));
@@ -110,8 +119,17 @@ public class ClientGUIFrame extends JFrame {
                 randomGameFrame.setVisible(true);
             }
         });
-        randomButton.setBounds(437, 400, 400, 50);
+        randomButton.setBounds(440, 399, 400, 50);
         homePanel.add(randomButton);
+
+        ImageIcon frogIcon = new ImageIcon("src/main/java/Icons/frog.gif");
+        Image image2 = frogIcon.getImage();
+        Image scaledImage2 = image2.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
+        frogIcon = new ImageIcon(scaledImage2);
+
+        JLabel frogLabel = new JLabel(frogIcon);
+        frogLabel.setBounds(390, 435, 70, 70);
+        homePanel.add(frogLabel);
 
         createLobbyButton = new JButton("Create Lobby");
         createLobbyButton.setBackground(new Color(189, 224, 254));
@@ -135,8 +153,17 @@ public class ClientGUIFrame extends JFrame {
                 layeredPane.revalidate();
             }
         });
-        createLobbyButton.setBounds(437, 450, 400, 50);
+        createLobbyButton.setBounds(440, 450, 400, 50);
         homePanel.add(createLobbyButton);
+
+        ImageIcon bearIcon = new ImageIcon("src/main/java/Icons/bear.gif");
+        Image image3 = bearIcon.getImage();
+        Image scaledImage3 = image3.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
+        bearIcon = new ImageIcon(scaledImage3);
+
+        JLabel bearLabel = new JLabel(bearIcon);
+        bearLabel.setBounds(390, 487, 70, 70);
+        homePanel.add(bearLabel);
 
         joinButton = new JButton("Join Game");
         joinButton.setBackground(new Color(189, 224, 254));
@@ -160,7 +187,7 @@ public class ClientGUIFrame extends JFrame {
                 enterCodeFrame.setVisible(true);
             }
         });
-        joinButton.setBounds(437, 500, 400, 50);
+        joinButton.setBounds(440, 500, 400, 50);
         homePanel.add(joinButton);
 
         quitButton = new JButton("Quit Game");
@@ -191,6 +218,8 @@ public class ClientGUIFrame extends JFrame {
         //homePanel.add(lblNewLabel);
 
 
+
+
         LetterCube cubeB = new LetterCube("B");
         cubeB.setBounds(200, 100, 150, 150);
         homePanel.add(cubeB);
@@ -218,6 +247,10 @@ public class ClientGUIFrame extends JFrame {
         LetterCube cubeD = new LetterCube("D");
         cubeD.setBounds(920, 100, 150, 150);
         homePanel.add(cubeD);
+
+
+
+
 
         JLabel settingsIcon = new JLabel("");
         settingsIcon.addMouseListener(new MouseAdapter() {
