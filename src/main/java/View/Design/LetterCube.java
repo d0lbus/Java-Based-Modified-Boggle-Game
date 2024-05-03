@@ -22,7 +22,7 @@ public class LetterCube extends JPanel {
         g2d.setColor(Color.YELLOW);
         g2d.fillRoundRect(0, 0, getWidth(), getHeight(), 40, 40);
         g2d.setColor(Color.BLACK);
-        g2d.setFont(new Font("Tahoma", Font.BOLD, 80));
+        g2d.setFont(new Font("Arial", Font.BOLD, 80));
         FontMetrics fm = g2d.getFontMetrics();
         int x = (getWidth() - fm.stringWidth(letter)) / 2;
         int y = ((getHeight() - fm.getHeight()) / 2) + fm.getAscent();

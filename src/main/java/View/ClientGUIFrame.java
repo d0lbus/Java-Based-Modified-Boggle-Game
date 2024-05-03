@@ -103,17 +103,19 @@ public class ClientGUIFrame extends JFrame {
 
         randomButton = new JButton("Random");
         randomButton.setBackground(new Color(189, 224, 254));
+        randomButton.setFont(new Font("Arial", Font.BOLD, 25));
         randomButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 RandomGameFrame randomGameFrame = new RandomGameFrame();
                 randomGameFrame.setVisible(true);
             }
         });
-        randomButton.setBounds(354, 359, 125, 38);
+        randomButton.setBounds(437, 400, 400, 50);
         homePanel.add(randomButton);
 
         createLobbyButton = new JButton("Create Lobby");
         createLobbyButton.setBackground(new Color(189, 224, 254));
+        createLobbyButton.setFont(new Font("Arial", Font.BOLD, 25));
         createLobbyButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -133,11 +135,12 @@ public class ClientGUIFrame extends JFrame {
                 layeredPane.revalidate();
             }
         });
-        createLobbyButton.setBounds(547, 359, 125, 38);
+        createLobbyButton.setBounds(437, 450, 400, 50);
         homePanel.add(createLobbyButton);
 
         joinButton = new JButton("Join Game");
         joinButton.setBackground(new Color(189, 224, 254));
+        joinButton.setFont(new Font("Arial", Font.BOLD, 25));
 
         joinButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -157,8 +160,32 @@ public class ClientGUIFrame extends JFrame {
                 enterCodeFrame.setVisible(true);
             }
         });
-        joinButton.setBounds(746, 359, 125, 38);
+        joinButton.setBounds(437, 500, 400, 50);
         homePanel.add(joinButton);
+
+        quitButton = new JButton("Quit Game");
+        quitButton.setFont(new Font("Arial", Font.BOLD, 10));
+        quitButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                quitButton.setBackground(new Color(255, 104, 107));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                quitButton.setBackground(new Color(240, 128, 128));
+            }
+        });
+        quitButton.setBackground(new Color(240, 128, 128));
+        quitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                layeredPane.removeAll();
+                layeredPane.add(homePanel);
+                layeredPane.repaint();
+                layeredPane.revalidate();
+            }
+        });
+        quitButton.setBounds(593, 570, 100, 40);
+        homePanel.add(quitButton);
 
         //JLabel lblNewLabel = new JLabel("BOGGLED");
         //lblNewLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 99));
@@ -215,7 +242,7 @@ public class ClientGUIFrame extends JFrame {
         lobbyPanel.setBackground(new Color(255, 204, 213));
         lobbyPanel.setLayout(null);
         lobbyPanel.setBounds(0, 0, 1280, 720);
-        layeredPane.add(lobbyPanel, JLayeredPane.DEFAULT_LAYER);
+
 
         player1pic = new JPanel();
         player1pic.setBackground(Color.GRAY);
