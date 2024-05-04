@@ -20,7 +20,8 @@ import java.io.File;
 public class ClientGUIFrame extends JFrame {
 
     private JPanel contentPane;
-    private JTextField inputTextField;
+    private JTextField inputTextField, cUsernameTextfield;
+    private JPasswordField pwField, confirmpwField;
     private JPanel homePanel, lobbyPanel, gamePanel, settingsPanel;
     private JPanel player1gamePic, player2gamePic, player3gamePic, player4gamePic;
     private Clip clip;
@@ -869,12 +870,12 @@ public class ClientGUIFrame extends JFrame {
 
         JLabel musicLabel = new JLabel("Music");
         musicLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 25));
-        musicLabel.setBounds(471, 143, 80, 38);
+        musicLabel.setBounds(776, 143, 80, 38);
         settingsPanel.add(musicLabel);
 
         JLabel settingsLabel = new JLabel("Settings");
-        settingsLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 30));
-        settingsLabel.setBounds(582, 30, 122, 53);
+        settingsLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 40));
+        settingsLabel.setBounds(921, 40, 190, 53);
         settingsPanel.add(settingsLabel);
 
         JButton backButton = new JButton("Back");
@@ -894,7 +895,7 @@ public class ClientGUIFrame extends JFrame {
                 layeredPane.revalidate();
             }
         });
-        backButton.setBounds(25, 15, 89, 30);
+        backButton.setBounds(25, 626, 89, 30);
         settingsPanel.add(backButton);
 
         volumeSlider = new JSlider(0, 100);
@@ -907,9 +908,74 @@ public class ClientGUIFrame extends JFrame {
                 setVolume(volume);
             }
         });
-        volumeSlider.setBounds(561, 143, 200, 38);
+        volumeSlider.setBounds(877, 143, 318, 38);
         settingsPanel.add(volumeSlider);
         startTimer(timerLabel);
+
+        JPanel htpPanel = new JPanel();
+        htpPanel.setBounds(60, 40, 614, 562);
+        settingsPanel.add(htpPanel);
+        htpPanel.setLayout(null);
+
+        JLabel bogLabel = new JLabel("BOGGLED");
+        bogLabel.setFont(new Font("Tahoma", Font.PLAIN, 35));
+        bogLabel.setBounds(216, 22, 176, 37);
+        htpPanel.add(bogLabel);
+
+        JTextArea howtoplayTextArea = new JTextArea();
+        howtoplayTextArea.setEditable(false);
+        howtoplayTextArea.setFont(new Font("Arial", Font.PLAIN, 14));
+        howtoplayTextArea.setText("1. Begin by starting a game. If another player joins within 10s, the game starts.\r\n\r\n2. Once the game starts, you'll receive 20 random letters\r\n\r\n3. Use the given letters to create words.\r\n    NOTE: Each word must have atleast four letters\r\n\r\n4. Submit as many words as you can before the timer expires\r\n\r\n5. The player with the highest score wins\r\n     NOTE: If there's a tie, no winner is declared");
+        howtoplayTextArea.setBounds(10, 271, 594, 215);
+        htpPanel.add(howtoplayTextArea);
+
+        JTextArea bogTextArea = new JTextArea();
+        bogTextArea.setEditable(false);
+        bogTextArea.setText("\"Boggled\" is a word-forming game where players compete to create unique words \r\nfrom a set of random letters provided by the server. The goal is to accumulate \r\nthe highest score by forming valid words within the given time limit.");
+        bogTextArea.setFont(new Font("Arial", Font.PLAIN, 14));
+        bogTextArea.setBounds(10, 76, 594, 84);
+        htpPanel.add(bogTextArea);
+
+        JLabel lblHowToPlay = new JLabel("HOW TO PLAY");
+        lblHowToPlay.setFont(new Font("Tahoma", Font.PLAIN, 35));
+        lblHowToPlay.setBounds(196, 212, 248, 37);
+        htpPanel.add(lblHowToPlay);
+
+        JLabel changeUsernameLabel = new JLabel("Change Username");
+        changeUsernameLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 24));
+        changeUsernameLabel.setBounds(776, 211, 234, 38);
+        settingsPanel.add(changeUsernameLabel);
+
+        cUsernameTextfield = new JTextField();
+        cUsernameTextfield.setBounds(776, 260, 419, 30);
+        settingsPanel.add(cUsernameTextfield);
+        cUsernameTextfield.setColumns(10);
+
+        JLabel lblChangePassword = new JLabel("Change Password");
+        lblChangePassword.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 24));
+        lblChangePassword.setBounds(776, 317, 234, 38);
+        settingsPanel.add(lblChangePassword);
+
+        pwField = new JPasswordField();
+        pwField.setBounds(776, 366, 419, 30);
+        settingsPanel.add(pwField);
+
+        JLabel lblConfirmPassword = new JLabel("Confirm Password");
+        lblConfirmPassword.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 24));
+        lblConfirmPassword.setBounds(776, 429, 234, 38);
+        settingsPanel.add(lblConfirmPassword);
+
+        confirmpwField = new JPasswordField();
+        confirmpwField.setBounds(776, 478, 419, 30);
+        settingsPanel.add(confirmpwField);
+
+        JButton saveButton = new JButton("Save");
+        saveButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
+        saveButton.setBounds(959, 545, 89, 30);
+        settingsPanel.add(saveButton);
     }
 
     private void startTimer(JLabel timerLabel) {
