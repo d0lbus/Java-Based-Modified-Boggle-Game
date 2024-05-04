@@ -5,7 +5,6 @@ import View.Design.GradientSliderUI;
 import View.Design.LetterCube;
 import View.Design.RoundedPanel;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -22,17 +21,13 @@ public class ClientGUIFrame extends JFrame {
 
     private JPanel contentPane;
     private JTextField inputTextField;
-    private JPanel homePanel;
-    private JPanel lobbyPanel;
-    private JPanel gamePanel;
-    private JPanel settingsPanel;
+    private JPanel homePanel, lobbyPanel, gamePanel, settingsPanel;
+    private JPanel player1gamePic, player2gamePic, player3gamePic, player4gamePic;
     private Clip clip;
     private JSlider volumeSlider;
     private JPanel player1pic, player2pic, player3pic, player4pic;
     private JLabel player1username, player2username, player3username, player4username;
-    private JButton randomButton, quitButton;
-    private JButton createLobbyButton;
-    private JButton joinButton;
+    private JButton randomButton, quitButton, createLobbyButton, joinButton;
     private JButton button1, button2, button3, button4, button5, button6, button7, button8, button9, button10, button11, button12, button13, button14, button15, button16, button17, button18, button19, button20;
     private JLabel player1gamePoints, player2gamePoints, player3gamePoints, player4gamePoints;
     private JLabel player1gameUsername, player2gameUsername, player3gameUsername, player4gameUsername;
@@ -212,14 +207,6 @@ public class ClientGUIFrame extends JFrame {
         quitButton.setBounds(593, 570, 100, 40);
         homePanel.add(quitButton);
 
-        //JLabel lblNewLabel = new JLabel("BOGGLED");
-        //lblNewLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 99));
-        //lblNewLabel.setBounds(400, 191, 451, 129);
-        //homePanel.add(lblNewLabel);
-
-
-
-
         LetterCube cubeB = new LetterCube("B");
         cubeB.setBounds(200, 100, 150, 150);
         homePanel.add(cubeB);
@@ -248,10 +235,6 @@ public class ClientGUIFrame extends JFrame {
         cubeD.setBounds(920, 100, 150, 150);
         homePanel.add(cubeD);
 
-
-
-
-
         JLabel settingsIcon = new JLabel("");
         settingsIcon.addMouseListener(new MouseAdapter() {
             @Override
@@ -273,7 +256,6 @@ public class ClientGUIFrame extends JFrame {
         lobbyPanel.setBackground(new Color(255, 204, 213));
         lobbyPanel.setLayout(null);
         lobbyPanel.setBounds(0, 0, 1280, 720);
-
 
         player1pic = new JPanel();
         player1pic.setBackground(Color.GRAY);
@@ -379,7 +361,7 @@ public class ClientGUIFrame extends JFrame {
                 layeredPane.revalidate();
             }
         });
-        settingsIcon1.setIcon(new ImageIcon("src/Icons/Settings.png"));
+        settingsIcon1.setIcon(new ImageIcon("src/main/java/Icons/Settings.png"));
         settingsIcon1.setBounds(10, 22, 37, 38);
         lobbyPanel.add(settingsIcon1);
 
@@ -424,25 +406,25 @@ public class ClientGUIFrame extends JFrame {
         gamePanel.add(timerBackground);
         gamePanel.setComponentZOrder(timerLabel, 0);
 
-        JPanel player1gamePic = new JPanel();
+         player1gamePic = new JPanel();
         player1gamePic.setBackground(Color.GRAY);
         player1gamePic.setBounds(24, 30, 150, 140);
         gamePanel.add(player1gamePic);
         player1gamePic.setLayout(null);
 
-        JPanel player2gamePic = new JPanel();
+         player2gamePic = new JPanel();
         player2gamePic.setBackground(Color.GRAY);
         player2gamePic.setLayout(null);
         player2gamePic.setBounds(24, 188, 150, 140);
         gamePanel.add(player2gamePic);
 
-        JPanel player3gamePic = new JPanel();
+        player3gamePic = new JPanel();
         player3gamePic.setBackground(Color.GRAY);
         player3gamePic.setLayout(null);
         player3gamePic.setBounds(24, 347, 150, 140);
         gamePanel.add(player3gamePic);
 
-        JPanel player4gamePic = new JPanel();
+        player4gamePic = new JPanel();
         player4gamePic.setBackground(Color.GRAY);
         player4gamePic.setLayout(null);
         player4gamePic.setBounds(24, 509, 150, 140);
@@ -992,13 +974,6 @@ public class ClientGUIFrame extends JFrame {
     public JPanel getPlayer4pic() {
         return player4pic;
     }
-    @Override
-    public JPanel getContentPane() {
-        return contentPane;
-    }
-    public void setContentPane(JPanel contentPane) {
-        this.contentPane = contentPane;
-    }
     public JTextField getInputTextField() {
         return inputTextField;
     }
@@ -1052,6 +1027,108 @@ public class ClientGUIFrame extends JFrame {
     }
     public JButton getJoinButton() {
         return joinButton;
+    }
+    public JPanel getPlayer1gamePic() {
+        return player1gamePic;
+    }
+    public JPanel getPlayer2gamePic() {
+        return player2gamePic;
+    }
+    public JPanel getPlayer3gamePic() {
+        return player3gamePic;
+    }
+    public JPanel getPlayer4gamePic() {
+        return player4gamePic;
+    }
+    public JButton getQuitButton() {
+        return quitButton;
+    }
+    public JButton getButton1() {
+        return button1;
+    }
+    public JButton getButton2() {
+        return button2;
+    }
+    public JButton getButton3() {
+        return button3;
+    }
+    public JButton getButton4() {
+        return button4;
+    }
+    public JButton getButton5() {
+        return button5;
+    }
+    public JButton getButton6() {
+        return button6;
+    }
+    public JButton getButton7() {
+        return button7;
+    }
+    public JButton getButton8() {
+        return button8;
+    }
+    public JButton getButton9() {
+        return button9;
+    }
+    public JButton getButton10() {
+        return button10;
+    }
+    public JButton getButton11() {
+        return button11;
+    }
+    public JButton getButton12() {
+        return button12;
+    }
+    public JButton getButton13() {
+        return button13;
+    }
+    public JButton getButton14() {
+        return button14;
+    }
+    public JButton getButton15() {
+        return button15;
+    }
+    public JButton getButton16() {
+        return button16;
+    }
+    public JButton getButton17() {
+        return button17;
+    }
+    public JButton getButton18() {
+        return button18;
+    }
+    public JButton getButton19() {
+        return button19;
+    }
+    public JButton getButton20() {
+        return button20;
+    }
+    public JLabel getPlayer1gamePoints() {
+        return player1gamePoints;
+    }
+    public JLabel getPlayer2gamePoints() {
+        return player2gamePoints;
+    }
+    public JLabel getPlayer3gamePoints() {
+        return player3gamePoints;
+    }
+    public JLabel getPlayer4gamePoints() {
+        return player4gamePoints;
+    }
+    public JLabel getPlayer1gameUsername() {
+        return player1gameUsername;
+    }
+    public JLabel getPlayer2gameUsername() {
+        return player2gameUsername;
+    }
+    public JLabel getPlayer3gameUsername() {
+        return player3gameUsername;
+    }
+    public JLabel getPlayer4gameUsername() {
+        return player4gameUsername;
+    }
+    public JTextPane getAnnouncementTextpane() {
+        return announcementTextpane;
     }
 }
 
