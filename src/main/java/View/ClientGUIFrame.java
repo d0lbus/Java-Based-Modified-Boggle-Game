@@ -89,7 +89,7 @@ public class ClientGUIFrame extends JFrame {
         layeredPane.add(homePanel);
 
         FallingLettersPanel fallingLettersPanelHome = new FallingLettersPanel();
-        fallingLettersPanelHome.setOpaque(false); // Set it as transparent
+        fallingLettersPanelHome.setOpaque(false);
         fallingLettersPanelHome.setBounds(0, 0, 1280, 720);
 
         JPanel homePanel = new JPanel();
