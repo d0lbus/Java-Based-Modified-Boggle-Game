@@ -22,7 +22,7 @@ public class ClientGUIFrame extends JFrame {
     private JPanel contentPane;
     private JTextField inputTextField, cUsernameTextfield;
     private JPasswordField pwField, confirmpwField;
-    private JPanel homePanel, lobbyPanel, gamePanel, settingsPanel;
+    private JPanel homePanel, lobbyPanel, gamePanel, leaderboardPanel, settingsPanel;
     private JLabel player1gamePic, player2gamePic, player3gamePic, player4gamePic;
     private Clip clip;
     private JSlider volumeSlider;
@@ -879,6 +879,106 @@ public class ClientGUIFrame extends JFrame {
         button20.setBackground(new Color(202,240,248));
         buttonPanel.add(button20);
 
+        leaderboardPanel = new JPanel();
+        leaderboardPanel.setBackground(new Color(255, 204, 213));
+        leaderboardPanel.setLayout(null);
+        leaderboardPanel.setBounds(0, 0, 1280, 720);
+
+        FallingLettersPanel fallingLettersPanelLeaderboard = new FallingLettersPanel();
+        fallingLettersPanelLeaderboard.setOpaque(false);
+        fallingLettersPanelLeaderboard.setBounds(0, 0, 1280, 720);
+
+        JLabel titleLabel = new JLabel("LEADERBOARDS", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 50));
+        titleLabel.setBounds(0, 50, 1280, 100);
+        leaderboardPanel.add(titleLabel);
+
+        int startY = titleLabel.getY() + titleLabel.getHeight() + 20;
+
+        int centerX = 640;
+
+        player1pic = new JLabel();
+        player1pic.setBackground(Color.GRAY);
+        player1pic.setBounds(centerX - 190, startY, 70, 70);
+        leaderboardPanel.add(player1pic);
+        player1pic.setLayout(null);
+        player1pic.add(createBadgeLabel(0, 0, new Color(248, 168, 197), "1st"));  // Add badge label
+
+        player1username = new JLabel("JLabel");
+        player1username.setHorizontalAlignment(SwingConstants.CENTER);
+        player1username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
+        player1username.setBounds(centerX - 110, startY, 300, 70);
+        leaderboardPanel.add(player1username);
+
+        player2pic = new JLabel();
+        player2pic.setBackground(Color.GRAY);
+        player2pic.setBounds(centerX - 190, startY + 85, 70, 70);
+        leaderboardPanel.add(player2pic);
+        player2pic.setLayout(null);
+        player2pic.add(createBadgeLabel(0, 0, new Color(124, 222, 225), "2nd"));
+
+        player2username = new JLabel("JLabel1");
+        player2username.setHorizontalAlignment(SwingConstants.CENTER);
+        player2username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
+        player2username.setBounds(centerX - 110, startY + 85, 300, 70);
+        leaderboardPanel.add(player2username);
+
+        player3pic = new JLabel();
+        player3pic.setBackground(Color.GRAY);
+        player3pic.setBounds(centerX - 190, startY + 170, 70, 70);
+        leaderboardPanel.add(player3pic);
+        player3pic.setLayout(null);
+        player3pic.add(createBadgeLabel(0, 0, new Color(225, 217, 31), "3rd"));
+
+        player3username = new JLabel("JLabel2");
+        player3username.setHorizontalAlignment(SwingConstants.CENTER);
+        player3username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
+        player3username.setBounds(centerX - 110, startY + 170, 300, 70);
+        leaderboardPanel.add(player3username);
+
+        player4pic = new JLabel();
+        player4pic.setBackground(Color.GRAY);
+        player4pic.setBounds(centerX - 190, startY + 255, 70, 70);
+        leaderboardPanel.add(player4pic);
+        player4pic.setLayout(null);
+        player4pic.add(createBadgeLabel(0, 0, new Color(229, 179, 131), "4th"));
+
+        player4username = new JLabel("JLabel3");
+        player4username.setHorizontalAlignment(SwingConstants.CENTER);
+        player4username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
+        player4username.setBounds(centerX - 110, startY + 255, 300, 70);
+        leaderboardPanel.add(player4username);
+
+        int buttonsY = Math.max(player4username.getY() + player4username.getHeight(), player4pic.getY() + player4pic.getHeight()) + 50;
+
+        JButton backToLobbyButton = new JButton("Back to Lobby");
+        backToLobbyButton.setFont(new Font("Arial", Font.PLAIN, 15));
+        backToLobbyButton.setBounds(centerX - 75, buttonsY, 150, 30);
+        backToLobbyButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                layeredPane.removeAll();
+                layeredPane.add(lobbyPanel);
+                layeredPane.repaint();
+                layeredPane.revalidate();
+            }
+        });
+        leaderboardPanel.add(backToLobbyButton);
+
+        JButton backToHomeButton = new JButton("Back to Home");
+        backToHomeButton.setFont(new Font("Arial", Font.PLAIN, 15));
+        backToHomeButton.setBounds(centerX - 75, buttonsY + 40, 150, 30);
+        backToHomeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                layeredPane.removeAll();
+                layeredPane.add(homePanel);
+                layeredPane.repaint();
+                layeredPane.revalidate();
+            }
+        });
+        leaderboardPanel.add(backToHomeButton);
+
+        leaderboardPanel.add(fallingLettersPanelLeaderboard);
+
         settingsPanel = new JPanel();
         settingsPanel.setBackground(new Color(255, 204, 213));
         settingsPanel.setLayout(null);
@@ -1051,6 +1151,17 @@ public class ClientGUIFrame extends JFrame {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    private JLabel createBadgeLabel(int x, int y, Color color, String text) {
+        JLabel label = new JLabel(text);
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setFont(new Font("Arial", Font.BOLD, 12));
+        label.setForeground(Color.WHITE);
+        label.setBackground(color);
+        label.setOpaque(true);
+        label.setBounds(x, y, 30, 20);
+        return label;
     }
 
     public JLabel getPlayer1pic() {
