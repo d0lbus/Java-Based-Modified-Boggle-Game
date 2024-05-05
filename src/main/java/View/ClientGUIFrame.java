@@ -88,9 +88,9 @@ public class ClientGUIFrame extends JFrame {
         homePanel.setBounds(0, 0, 1280, 720);
         layeredPane.add(homePanel);
 
-        FallingLettersPanel fallingLettersPanel = new FallingLettersPanel();
-        fallingLettersPanel.setOpaque(false);
-        fallingLettersPanel.setBounds(0, 0, 1280, 720);
+        FallingLettersPanel fallingLettersPanelHome = new FallingLettersPanel();
+        fallingLettersPanelHome.setOpaque(false); // Set it as transparent
+        fallingLettersPanelHome.setBounds(0, 0, 1280, 720);
 
         JPanel homePanel = new JPanel();
         homePanel.setBackground(new Color(255, 204, 213));
@@ -251,12 +251,16 @@ public class ClientGUIFrame extends JFrame {
         homePanel.add(settingsIcon);
 
         layeredPane.add(homePanel, JLayeredPane.DEFAULT_LAYER);
-        homePanel.add(fallingLettersPanel);
+        homePanel.add(fallingLettersPanelHome);
 
         lobbyPanel = new JPanel();
         lobbyPanel.setBackground(new Color(255, 204, 213));
         lobbyPanel.setLayout(null);
         lobbyPanel.setBounds(0, 0, 1280, 720);
+
+        FallingLettersPanel fallingLettersPanelLobby = new FallingLettersPanel();
+        fallingLettersPanelLobby.setOpaque(false);
+        fallingLettersPanelLobby.setBounds(0, 0, 1280, 720);
 
         player1pic = new JPanel();
         player1pic.setBackground(Color.GRAY);
@@ -389,6 +393,8 @@ public class ClientGUIFrame extends JFrame {
         player4username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
         player4username.setBounds(963, 485, 240, 32);
         lobbyPanel.add(player4username);
+
+        lobbyPanel.add(fallingLettersPanelLobby);
 
         gamePanel = new JPanel();
         gamePanel.setBackground(new Color(255, 204, 213));
@@ -873,6 +879,10 @@ public class ClientGUIFrame extends JFrame {
         musicLabel.setBounds(776, 143, 80, 38);
         settingsPanel.add(musicLabel);
 
+        FallingLettersPanel fallingLettersPanelSettings = new FallingLettersPanel();
+        fallingLettersPanelSettings.setOpaque(false);
+        fallingLettersPanelSettings.setBounds(0, 0, 1280, 720);
+
         JLabel settingsLabel = new JLabel("Settings");
         settingsLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 40));
         settingsLabel.setBounds(921, 40, 190, 53);
@@ -976,6 +986,8 @@ public class ClientGUIFrame extends JFrame {
         });
         saveButton.setBounds(959, 545, 89, 30);
         settingsPanel.add(saveButton);
+
+        settingsPanel.add(fallingLettersPanelSettings);
     }
 
     private void startTimer(JLabel timerLabel) {
