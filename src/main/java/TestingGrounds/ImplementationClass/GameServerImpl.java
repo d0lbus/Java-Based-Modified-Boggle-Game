@@ -4,28 +4,32 @@ import TestingGrounds.Client_Java.GameSession;
 import TestingGrounds.Client_Java.User;
 import TestingGrounds.GameSystem.CallbackInterface;
 import TestingGrounds.GameSystem.GameServerPOA;
+import TestingGrounds.GameSystem.PlayerInfo;
 import org.omg.CORBA.*;
 import org.omg.CORBA.Object;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class GameServerImpl extends GameServerPOA implements Object {
-
-    Map<String, String> sessionTokens = new HashMap<>();
-    Map<String, GameSession> activeGameLobbies = new HashMap<>();
+    private Map<String, String> sessionTokens = new ConcurrentHashMap<>();
+    private Map<String, GameSession> activeGameLobbies = new ConcurrentHashMap<>();
+    private Map<String, CallbackInterface> sessionCallbacks = new ConcurrentHashMap<>();
 
 
     @Override
-    public boolean login(String username, String password, org.omg.CORBA.StringHolder sessionToken) {
-        if (username != null && password != null){
+    public boolean login(String username, String password, org.omg.CORBA.StringHolder sessionToken, CallbackInterface cbi) {
+        if (username != null && password != null) {
             String token = generateSecureToken();
             sessionToken.value = token;
             sessionTokens.put(token, username);
-            System.out.println(username + " " + token);
+            sessionCallbacks.put(token, cbi);
+            System.out.println("Callback registered for " + username + " with token: " + token);
             return true;
-        } else
+        } else {
             return false;
+        }
     }
 
     @Override
@@ -34,13 +38,20 @@ public class GameServerImpl extends GameServerPOA implements Object {
     }
 
     @Override
-    public String hostGame(String sessionToken, CallbackInterface gci){
+    public String hostGame(String sessionToken, CallbackInterface cbi){
+        if (cbi == null) {
+            throw new RuntimeException("Callback interface cannot be null.");
+        }
+
         if (!validateSessionToken(sessionToken)) {
             System.out.println("Invalid session token");
         }
         GameSession newGameSession = new GameSession();
         activeGameLobbies.put(newGameSession.getSessionId(), newGameSession);
         System.out.println("Game session created with ID: " + newGameSession.getSessionId());
+
+        newGameSession.addPlayer(sessionToken);
+        notifyPlayersAboutChanges(newGameSession);
         return newGameSession.getSessionId();
     }
 
@@ -52,7 +63,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
         }
 
         List<GameSession> availableSessions = activeGameLobbies.values().stream()
-                .filter(GameSession::canJoin) // Assuming GameSession has a canJoin method to check if it is joinable
+                .filter(GameSession::canJoin)
                 .collect(Collectors.toList());
 
         if (availableSessions.isEmpty()) {
@@ -62,19 +73,11 @@ public class GameServerImpl extends GameServerPOA implements Object {
 
         int randomIndex = new Random().nextInt(availableSessions.size());
         GameSession selectedSession = availableSessions.get(randomIndex);
+        selectedSession.addPlayer(sessionToken);
+        System.out.println("Player added to game " + selectedSession.getSessionId());
 
-        String username = sessionTokens.get(sessionToken);
-        if (username == null) {
-            System.out.println("No username found for the given session token");
-            return false;
-        }
-
-        User user = new User("PlayerID", sessionToken);
-
-        selectedSession.addPlayer(user);
-        System.out.println("Player " + username + " added to game " + selectedSession.getSessionId());
-
-       return true;
+        notifyPlayersAboutChanges(selectedSession);
+        return true;
     }
 
     @Override
@@ -85,6 +88,35 @@ public class GameServerImpl extends GameServerPOA implements Object {
         //TO DO: ADD PLAYER TO THE SESSION
         return true;
     }
+
+    public void notifyPlayersAboutChanges(GameSession session) {
+        List<PlayerInfo> playerData = collectPlayerData(session);
+        session.getPlayers().forEach((token, position) -> {
+            CallbackInterface callback = sessionCallbacks.get(token);
+            if (callback != null) {
+                try {
+                    callback.UpdateLobGUI(playerData.toArray(new PlayerInfo[0]));
+                } catch (Exception e) {
+                    System.err.println("Error updating GUI for token: " + token);
+                    e.printStackTrace();
+                }
+            } else {
+                System.err.println("No callback registered for token: " + token);
+            }
+        });
+    }
+
+    private List<PlayerInfo> collectPlayerData(GameSession session) {
+        List<PlayerInfo> playerData = new ArrayList<>();
+        session.getPlayers().forEach((token, position) -> {
+            String username = retrievePlayerFromSessionToken(token);
+            playerData.add(new PlayerInfo(token, username, position));
+        });
+        return playerData;
+    }
+
+
+
 
     @Override
     public boolean startGame(String sessionToken, String gameId) {

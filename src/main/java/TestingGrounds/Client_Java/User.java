@@ -3,12 +3,13 @@ package TestingGrounds.Client_Java;
 public class User {
     private String playerId;
     private String username;
+    private String sessionToken;
     private boolean inGame;
     private int score;
 
-    public User(String playerId, String username) {
-        this.playerId = playerId;
+    public User(String username, String sessionToken) {
         this.username = username;
+        this.sessionToken = sessionToken;
         this.inGame = false;
         this.score = 0;
     }
@@ -54,6 +55,10 @@ public class User {
     public void leaveGame() {
         this.inGame = false;
         this.score = 0;  // (RESET TO 0 OR KEEP THE SCORE)
+    }
+
+    public String getSessionToken() {
+        return sessionToken;
     }
 
     @Override
