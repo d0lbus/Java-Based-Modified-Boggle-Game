@@ -200,12 +200,11 @@ public class AdminGUIFrame extends JFrame {
 
         ePanel = new JPanel();
         ePanel.setBackground(Color.WHITE);
-        ePanel.setLayout(new BorderLayout()); // Use BorderLayout for ePanel
+        ePanel.setLayout(new BorderLayout());
         layeredPane.add(ePanel);
 
-// Nested panel for buttons with border
         JPanel buttonWrapperPanel = new JPanel(new BorderLayout());
-        buttonWrapperPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20)); // Add border around the buttons
+        buttonWrapperPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         buttonWrapperPanel.setBackground(Color.WHITE);
         ePanel.add(buttonWrapperPanel, BorderLayout.NORTH);
 
