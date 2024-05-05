@@ -50,7 +50,7 @@ public class AdminGUIFrame extends JFrame {
         setBounds(100, 100, 1002, 769);
         setLocationRelativeTo(null);
 
-        Image icon = Toolkit.getDefaultToolkit().getImage("src/main/java/Icons/logo.png");
+        Image icon = Toolkit.getDefaultToolkit().getImage("src/Icons/logo.png");
         setIconImage(icon);
 
         contentPane = new JPanel();
@@ -97,7 +97,7 @@ public class AdminGUIFrame extends JFrame {
         });
         homeLabel.setHorizontalAlignment(SwingConstants.LEFT);
         homeLabel.setFont(new Font("Tahoma", Font.BOLD, 19));
-        homeLabel.setIcon(new ImageIcon("src/main/java/Icons/Home.png"));
+        homeLabel.setIcon(new ImageIcon("src/Icons/Home.png"));
 
         viewPanel = new JPanel();
         viewPanel.setBackground(new Color(206, 212, 218));
@@ -125,7 +125,7 @@ public class AdminGUIFrame extends JFrame {
                 viewPanel.setBackground(new Color(206, 212, 218));
             }
         });
-        viewLabel.setIcon(new ImageIcon("src/main/java/Icons/Binoculars.png"));
+        viewLabel.setIcon(new ImageIcon("src/Icons/Binoculars.png"));
         viewLabel.setHorizontalAlignment(SwingConstants.LEFT);
         viewLabel.setFont(new Font("Tahoma", Font.BOLD, 19));
 
@@ -155,7 +155,7 @@ public class AdminGUIFrame extends JFrame {
                 editPanel.setBackground(new Color(206, 212, 218));
             }
         });
-        editLabel.setIcon(new ImageIcon("src/main/java/Icons/Edit.png"));
+        editLabel.setIcon(new ImageIcon("src/Icons/Edit.png"));
         editLabel.setHorizontalAlignment(SwingConstants.LEFT);
         editLabel.setFont(new Font("Tahoma", Font.BOLD, 19));
 
@@ -189,7 +189,7 @@ public class AdminGUIFrame extends JFrame {
                 accountPanel.setBackground(new Color(206, 212, 218));
             }
         });
-        accountLabel.setIcon(new ImageIcon("src/main/java/Icons/Contacts.png"));
+        accountLabel.setIcon(new ImageIcon("src/Icons/Contacts.png"));
         accountLabel.setHorizontalAlignment(SwingConstants.LEFT);
         accountLabel.setFont(new Font("Tahoma", Font.BOLD, 19));
 

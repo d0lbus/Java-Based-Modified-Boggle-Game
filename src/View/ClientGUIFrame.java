@@ -68,7 +68,7 @@ public class ClientGUIFrame extends JFrame {
         setBounds(100, 100, 1280, 720);
         setLocationRelativeTo(null);
 
-        Image icon = Toolkit.getDefaultToolkit().getImage("src/main/java/Icons/logo.png");
+        Image icon = Toolkit.getDefaultToolkit().getImage("src/Icons/logo.png");
         setIconImage(icon);
 
         playMusic("music.wav");
@@ -97,7 +97,7 @@ public class ClientGUIFrame extends JFrame {
         homePanel.setLayout(null);
         homePanel.setBounds(0, 0, 1280, 720);
 
-        ImageIcon catIcon = new ImageIcon("src/main/java/Icons/cat.gif");
+        ImageIcon catIcon = new ImageIcon("src/Icons/cat.gif");
         Image image = catIcon.getImage();
         Image scaledImage = image.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
         catIcon = new ImageIcon(scaledImage);
@@ -118,7 +118,7 @@ public class ClientGUIFrame extends JFrame {
         randomButton.setBounds(440, 399, 400, 50);
         homePanel.add(randomButton);
 
-        ImageIcon frogIcon = new ImageIcon("src/main/java/Icons/frog.gif");
+        ImageIcon frogIcon = new ImageIcon("src/Icons/frog.gif");
         Image image2 = frogIcon.getImage();
         Image scaledImage2 = image2.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
         frogIcon = new ImageIcon(scaledImage2);
@@ -152,7 +152,7 @@ public class ClientGUIFrame extends JFrame {
         createLobbyButton.setBounds(440, 450, 400, 50);
         homePanel.add(createLobbyButton);
 
-        ImageIcon bearIcon = new ImageIcon("src/main/java/Icons/bear.gif");
+        ImageIcon bearIcon = new ImageIcon("src/Icons/bear.gif");
         Image image3 = bearIcon.getImage();
         Image scaledImage3 = image3.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
         bearIcon = new ImageIcon(scaledImage3);
@@ -246,7 +246,7 @@ public class ClientGUIFrame extends JFrame {
                 layeredPane.revalidate();
             }
         });
-        settingsIcon.setIcon(new ImageIcon("src/main/java/Icons/Settings.png"));
+        settingsIcon.setIcon(new ImageIcon("src/Icons/Settings.png"));
         settingsIcon.setBounds(1217, 623, 37, 38);
         homePanel.add(settingsIcon);
 
@@ -366,7 +366,7 @@ public class ClientGUIFrame extends JFrame {
                 layeredPane.revalidate();
             }
         });
-        settingsIcon1.setIcon(new ImageIcon("src/main/java/Icons/Settings.png"));
+        settingsIcon1.setIcon(new ImageIcon("src/Icons/Settings.png"));
         settingsIcon1.setBounds(1217, 623, 37, 38);
         lobbyPanel.add(settingsIcon1);
 
@@ -493,7 +493,7 @@ public class ClientGUIFrame extends JFrame {
                 layeredPane.revalidate();
             }
         });
-        settingsIcon2.setIcon(new ImageIcon("src/main/java/Icons/Settings.png"));
+        settingsIcon2.setIcon(new ImageIcon("src/Icons/Settings.png"));
         settingsIcon2.setBounds(1217, 623, 37, 38);
         gamePanel.add(settingsIcon2);
 
@@ -897,7 +897,7 @@ public class ClientGUIFrame extends JFrame {
 
         int centerX = 640;
 
-        player1pic = new JLabel();
+        /*player1pic = new JLabel();
         player1pic.setBackground(Color.GRAY);
         player1pic.setBounds(centerX - 190, startY, 70, 70);
         leaderboardPanel.add(player1pic);
@@ -947,7 +947,7 @@ public class ClientGUIFrame extends JFrame {
         player4username.setHorizontalAlignment(SwingConstants.CENTER);
         player4username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
         player4username.setBounds(centerX - 110, startY + 255, 300, 70);
-        leaderboardPanel.add(player4username);
+        leaderboardPanel.add(player4username);*/
 
         int buttonsY = Math.max(player4username.getY() + player4username.getHeight(), player4pic.getY() + player4pic.getHeight()) + 50;
 
