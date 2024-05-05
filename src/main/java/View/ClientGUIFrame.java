@@ -902,7 +902,7 @@ public class ClientGUIFrame extends JFrame {
         player1pic.setBounds(centerX - 190, startY, 70, 70);
         leaderboardPanel.add(player1pic);
         player1pic.setLayout(null);
-        player1pic.add(createBadgeLabel(0, 0, new Color(248, 168, 197), "1st"));  // Add badge label
+        player1pic.add(createBadgeLabel(0, 0, new Color(248, 168, 197), "1st"));
 
         player1username = new JLabel("JLabel");
         player1username.setHorizontalAlignment(SwingConstants.CENTER);
