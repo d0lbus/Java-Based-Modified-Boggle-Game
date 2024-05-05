@@ -1,8 +1,6 @@
 package View;
 
-//import com.formdev.flatlaf.themes.FlatMacLightLaf;
-
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 
 import java.awt.*;
 import javax.swing.*;
@@ -26,13 +24,9 @@ public class AdminGUIFrame extends JFrame {
     private JTextField textField;
 
 
-    /**
-     * Launch the application.
-     */
     public static void main(String[] args) {
-
         try {
-            UIManager.setLookAndFeel(new FlatMacLightLaf());
+            UIManager.setLookAndFeel(new FlatLightLaf());
         } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
         }
@@ -199,15 +193,48 @@ public class AdminGUIFrame extends JFrame {
         accountLabel.setHorizontalAlignment(SwingConstants.LEFT);
         accountLabel.setFont(new Font("Tahoma", Font.BOLD, 19));
 
-
         hPanel = new JPanel();
         hPanel.setBackground(Color.WHITE);
         layeredPane.add(hPanel);
         hPanel.setLayout(null);
 
         ePanel = new JPanel();
-        ePanel.setBackground(Color.BLACK);
+        ePanel.setBackground(Color.WHITE);
+        ePanel.setLayout(new BorderLayout());
         layeredPane.add(ePanel);
+
+        JPanel buttonWrapperPanel = new JPanel(new BorderLayout());
+        buttonWrapperPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        buttonWrapperPanel.setBackground(Color.WHITE);
+        ePanel.add(buttonWrapperPanel, BorderLayout.NORTH);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.setBackground(Color.WHITE);
+        buttonWrapperPanel.add(buttonPanel, BorderLayout.CENTER);
+
+        JButton editTimerButton = new JButton("Edit Timer");
+        editTimerButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        buttonPanel.add(editTimerButton);
+
+        JButton editRoundsButton = new JButton("Edit Rounds");
+        editRoundsButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        buttonPanel.add(editRoundsButton);
+
+        JButton viewPlayersButton = new JButton("View Players");
+        viewPlayersButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        buttonPanel.add(viewPlayersButton);
+
+        JPanel tablePanel = new JPanel(new BorderLayout());
+        tablePanel.setBackground(Color.WHITE);
+        tablePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+
+        String[] columnNames = {"Lobby No.", "No. of Players", "Timer", "Rounds"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+        table = new JTable(model);
+        JScrollPane scrollPane = new JScrollPane(table);
+        tablePanel.add(scrollPane, BorderLayout.CENTER);
+
+        ePanel.add(tablePanel, BorderLayout.CENTER);
 
         vPanel = new JPanel();
         vPanel.setBackground(Color.PINK);
@@ -242,7 +269,6 @@ public class AdminGUIFrame extends JFrame {
         ));
         table.setBounds(41, 125, 668, 548);
         vPanel.add(table);
-
 
 
         aPanel = new JPanel();
@@ -285,4 +311,3 @@ public class AdminGUIFrame extends JFrame {
         textField.setColumns(10);
     }
 }
-
