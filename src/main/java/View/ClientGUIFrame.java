@@ -23,15 +23,15 @@ public class ClientGUIFrame extends JFrame {
     private JTextField inputTextField, cUsernameTextfield;
     private JPasswordField pwField, confirmpwField;
     private JPanel homePanel, lobbyPanel, gamePanel, settingsPanel;
-    private JPanel player1gamePic, player2gamePic, player3gamePic, player4gamePic;
+    private JLabel player1gamePic, player2gamePic, player3gamePic, player4gamePic;
     private Clip clip;
     private JSlider volumeSlider;
-    private JPanel player1pic, player2pic, player3pic, player4pic;
+    private JLabel player1pic, player2pic, player3pic, player4pic;
     private JLabel player1username, player2username, player3username, player4username;
-    private JButton randomButton, quitButton, createLobbyButton, joinButton;
+    private JButton randomButton, quitButton, createLobbyButton, joinButton, startButton;
     private JButton button1, button2, button3, button4, button5, button6, button7, button8, button9, button10, button11, button12, button13, button14, button15, button16, button17, button18, button19, button20;
     private JLabel player1gamePoints, player2gamePoints, player3gamePoints, player4gamePoints;
-    private JLabel player1gameUsername, player2gameUsername, player3gameUsername, player4gameUsername;
+    private JLabel player1gameUsername, player2gameUsername, player3gameUsername, player4gameUsername, timerLabel;
     private Timer timer;
     private JTextPane announcementTextpane;
 
@@ -247,7 +247,7 @@ public class ClientGUIFrame extends JFrame {
             }
         });
         settingsIcon.setIcon(new ImageIcon("src/main/java/Icons/Settings.png"));
-        settingsIcon.setBounds(1200, 15, 37, 38);
+        settingsIcon.setBounds(1217, 623, 37, 38);
         homePanel.add(settingsIcon);
 
         layeredPane.add(homePanel, JLayeredPane.DEFAULT_LAYER);
@@ -262,31 +262,31 @@ public class ClientGUIFrame extends JFrame {
         fallingLettersPanelLobby.setOpaque(false);
         fallingLettersPanelLobby.setBounds(0, 0, 1280, 720);
 
-        player1pic = new JPanel();
+        player1pic = new JLabel();
         player1pic.setBackground(Color.GRAY);
         player1pic.setBounds(59, 233, 240, 230);
         lobbyPanel.add(player1pic);
         player1pic.setLayout(null);
 
-        player2pic = new JPanel();
+        player2pic = new JLabel();
         player2pic.setBackground(Color.PINK);
         player2pic.setLayout(null);
         player2pic.setBounds(358, 233, 240, 230);
         lobbyPanel.add(player2pic);
 
-        player3pic = new JPanel();
+        player3pic = new JLabel();
         player3pic.setBackground(Color.YELLOW);
         player3pic.setLayout(null);
         player3pic.setBounds(657, 233, 240, 230);
         lobbyPanel.add(player3pic);
 
-        player4pic = new JPanel();
+        player4pic = new JLabel();
         player4pic.setBackground(Color.MAGENTA);
         player4pic.setLayout(null);
         player4pic.setBounds(963, 233, 240, 230);
         lobbyPanel.add(player4pic);
 
-        JButton startButton = new JButton("Start");
+        startButton = new JButton("Start");
         startButton.setBackground(new Color(189, 224, 254));
         startButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -367,7 +367,7 @@ public class ClientGUIFrame extends JFrame {
             }
         });
         settingsIcon1.setIcon(new ImageIcon("src/main/java/Icons/Settings.png"));
-        settingsIcon1.setBounds(10, 22, 37, 38);
+        settingsIcon1.setBounds(1217, 623, 37, 38);
         lobbyPanel.add(settingsIcon1);
 
         player1username = new JLabel("JLabel");
@@ -401,7 +401,7 @@ public class ClientGUIFrame extends JFrame {
         gamePanel.setLayout(null);
         gamePanel.setBounds(0, 0, 1280, 720);
 
-        JLabel timerLabel = new JLabel("00:30");
+        timerLabel = new JLabel("00:30");
         timerLabel.setFont(new Font("Arial", Font.BOLD, 36));
         timerLabel.setBounds(525, 10, 150, 50);
         timerLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -413,26 +413,22 @@ public class ClientGUIFrame extends JFrame {
         gamePanel.add(timerBackground);
         gamePanel.setComponentZOrder(timerLabel, 0);
 
-         player1gamePic = new JPanel();
-        player1gamePic.setBackground(Color.GRAY);
+        player1gamePic = new JLabel("Player 1");
         player1gamePic.setBounds(24, 30, 150, 140);
         gamePanel.add(player1gamePic);
         player1gamePic.setLayout(null);
 
-         player2gamePic = new JPanel();
-        player2gamePic.setBackground(Color.GRAY);
+        player2gamePic = new JLabel("Player 2");
         player2gamePic.setLayout(null);
         player2gamePic.setBounds(24, 188, 150, 140);
         gamePanel.add(player2gamePic);
 
-        player3gamePic = new JPanel();
-        player3gamePic.setBackground(Color.GRAY);
+        player3gamePic = new JLabel("Player 3");
         player3gamePic.setLayout(null);
         player3gamePic.setBounds(24, 347, 150, 140);
         gamePanel.add(player3gamePic);
 
-        player4gamePic = new JPanel();
-        player4gamePic.setBackground(Color.GRAY);
+        player4gamePic = new JLabel("Player 4");
         player4gamePic.setLayout(null);
         player4gamePic.setBounds(24, 509, 150, 140);
         gamePanel.add(player4gamePic);
@@ -486,6 +482,20 @@ public class ClientGUIFrame extends JFrame {
         inputTextField.setBounds(472, 106, 254, 30);
         gamePanel.add(inputTextField);
         inputTextField.setColumns(10);
+
+        JLabel settingsIcon2 = new JLabel("");
+        settingsIcon2.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                layeredPane.removeAll();
+                layeredPane.add(settingsPanel);
+                layeredPane.repaint();
+                layeredPane.revalidate();
+            }
+        });
+        settingsIcon2.setIcon(new ImageIcon("src/main/java/Icons/Settings.png"));
+        settingsIcon2.setBounds(1217, 623, 37, 38);
+        gamePanel.add(settingsIcon2);
 
         quitButton = new JButton("Leave Game");
         quitButton.addMouseListener(new MouseAdapter() {
@@ -922,7 +932,8 @@ public class ClientGUIFrame extends JFrame {
         settingsPanel.add(volumeSlider);
         startTimer(timerLabel);
 
-        JPanel htpPanel = new JPanel();
+        RoundedPanel htpPanel = new RoundedPanel(30);
+        htpPanel.setBackground(new Color(202,233,255));
         htpPanel.setBounds(60, 40, 614, 562);
         settingsPanel.add(htpPanel);
         htpPanel.setLayout(null);
@@ -933,16 +944,18 @@ public class ClientGUIFrame extends JFrame {
         htpPanel.add(bogLabel);
 
         JTextArea howtoplayTextArea = new JTextArea();
+        howtoplayTextArea.setBackground(new Color(202,233,255));
         howtoplayTextArea.setEditable(false);
-        howtoplayTextArea.setFont(new Font("Arial", Font.PLAIN, 14));
+        howtoplayTextArea.setFont(new Font("Arial", Font.PLAIN, 16));
         howtoplayTextArea.setText("1. Begin by starting a game. If another player joins within 10s, the game starts.\r\n\r\n2. Once the game starts, you'll receive 20 random letters\r\n\r\n3. Use the given letters to create words.\r\n    NOTE: Each word must have atleast four letters\r\n\r\n4. Submit as many words as you can before the timer expires\r\n\r\n5. The player with the highest score wins\r\n     NOTE: If there's a tie, no winner is declared");
         howtoplayTextArea.setBounds(10, 271, 594, 215);
         htpPanel.add(howtoplayTextArea);
 
         JTextArea bogTextArea = new JTextArea();
+        bogTextArea.setBackground(new Color(202,233,255));
         bogTextArea.setEditable(false);
         bogTextArea.setText("\"Boggled\" is a word-forming game where players compete to create unique words \r\nfrom a set of random letters provided by the server. The goal is to accumulate \r\nthe highest score by forming valid words within the given time limit.");
-        bogTextArea.setFont(new Font("Arial", Font.PLAIN, 14));
+        bogTextArea.setFont(new Font("Arial", Font.PLAIN, 16));
         bogTextArea.setBounds(10, 76, 594, 84);
         htpPanel.add(bogTextArea);
 
@@ -1040,16 +1053,16 @@ public class ClientGUIFrame extends JFrame {
         }
     }
 
-    public JPanel getPlayer1pic() {
+    public JLabel getPlayer1pic() {
         return player1pic;
     }
-    public JPanel getPlayer2pic() {
+    public JLabel getPlayer2pic() {
         return player2pic;
     }
-    public JPanel getPlayer3pic() {
+    public JLabel getPlayer3pic() {
         return player3pic;
     }
-    public JPanel getPlayer4pic() {
+    public JLabel getPlayer4pic() {
         return player4pic;
     }
     public JTextField getInputTextField() {
@@ -1106,16 +1119,16 @@ public class ClientGUIFrame extends JFrame {
     public JButton getJoinButton() {
         return joinButton;
     }
-    public JPanel getPlayer1gamePic() {
+    public JLabel getPlayer1gamePic() {
         return player1gamePic;
     }
-    public JPanel getPlayer2gamePic() {
+    public JLabel getPlayer2gamePic() {
         return player2gamePic;
     }
-    public JPanel getPlayer3gamePic() {
+    public JLabel getPlayer3gamePic() {
         return player3gamePic;
     }
-    public JPanel getPlayer4gamePic() {
+    public JLabel getPlayer4gamePic() {
         return player4gamePic;
     }
     public JButton getQuitButton() {
