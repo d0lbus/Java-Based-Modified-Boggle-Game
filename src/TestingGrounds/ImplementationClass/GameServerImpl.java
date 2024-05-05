@@ -16,6 +16,12 @@ public class GameServerImpl extends GameServerPOA implements Object {
     private Map<String, String> sessionTokens = new ConcurrentHashMap<>();
     private Map<String, GameSession> activeGameLobbies = new ConcurrentHashMap<>();
     private Map<String, CallbackInterface> sessionCallbacks = new ConcurrentHashMap<>();
+    private static final char[] CONSONANTS = "BCDFGHJKLMNPQRSTVWXYZ".toCharArray();
+    private static final char[] VOWELS = "AEIOU".toCharArray();
+    private static final int NUM_CONSONANTS = 13;
+    private static final int NUM_VOWELS = 7;
+
+    private final Random random = new Random();
 
 
     @Override
@@ -116,11 +122,51 @@ public class GameServerImpl extends GameServerPOA implements Object {
     }
 
 
-
-
     @Override
     public boolean startGame(String sessionToken, String gameId) {
-        return false;
+        GameSession session = activeGameLobbies.get(gameId);
+        List<PlayerInfo> playerData = collectPlayerData(session);
+        char[] charArrayList = generateRandomCharArray();
+        session.getPlayers().forEach((token, position) -> {
+            CallbackInterface callback = sessionCallbacks.get(token);
+            if (callback != null) {
+                try {
+
+                    callback.startGameGUI(playerData.toArray(new PlayerInfo[0]), charArrayList);
+                } catch (Exception e) {
+                    System.err.println("Error updating GUI for token: " + token);
+                    e.printStackTrace();
+                }
+            } else {
+                System.err.println("No callback registered for token: " + token);
+            }
+        });
+
+        return true;
+    }
+
+    private char[] generateRandomCharArray() {
+        List<Character> consonantsList = new ArrayList<>();
+        List<Character> vowelsList = new ArrayList<>();
+
+        for (int i = 0; i < NUM_CONSONANTS; i++) {
+            consonantsList.add(CONSONANTS[random.nextInt(CONSONANTS.length)]);
+        }
+
+        for (int i = 0; i < NUM_VOWELS; i++) {
+            vowelsList.add(VOWELS[random.nextInt(VOWELS.length)]);
+        }
+
+        ArrayList<Character> charList = new ArrayList<>(consonantsList);
+        charList.addAll(vowelsList);
+        Collections.shuffle(charList, random);
+
+        char[] charArray = new char[charList.size()];
+        for (int i = 0; i < charList.size(); i++) {
+            charArray[i] = charList.get(i);
+        }
+
+        return charArray;
     }
 
     @Override

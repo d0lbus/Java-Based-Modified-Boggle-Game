@@ -41,11 +41,12 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
             defaultPositions.put(3, "Empty");
             defaultPositions.put(4, "Empty");
 
+            Map<Integer, String> playerIcons = new HashMap<>();
+
             // Update the map with actual player data
             for (PlayerInfo info : playerData) {
                 defaultPositions.put((int) info.position, info.username);
             }
-
 
             // Set GUI components based on the updated map
             gui.getPlayer1username().setText(defaultPositions.get(1));
@@ -69,6 +70,43 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         });
     }
 
+    public void startGameGUI(PlayerInfo[] playerData, char[] charArrayList) {
+        SwingUtilities.invokeLater(() -> {
+            // Switch to the game panel
+            gui.getLayeredPane().removeAll();
+            gui.getLayeredPane().add(gui.getGamePanel());
+            gui.getLayeredPane().repaint();
+            gui.getLayeredPane().revalidate();
+
+            JButton[] letterButtons = {
+                    gui.getButton1(), gui.getButton2(), gui.getButton3(), gui.getButton4(),
+                    gui.getButton5(), gui.getButton6(), gui.getButton7(), gui.getButton8(),
+                    gui.getButton9(), gui.getButton10(), gui.getButton11(), gui.getButton12(),
+                    gui.getButton13(), gui.getButton14(), gui.getButton15(), gui.getButton16(),
+                    gui.getButton17(), gui.getButton18(), gui.getButton19(), gui.getButton20()
+            };
+
+            for (int i = 0; i < charArrayList.length && i < letterButtons.length; i++) {
+                letterButtons[i].setText(String.valueOf(charArrayList[i]));
+            }
+
+            // Update player labels directly within the function
+            Map<Integer, String> defaultPositions = new HashMap<>();
+            defaultPositions.put(1, "Empty");
+            defaultPositions.put(2, "Empty");
+            defaultPositions.put(3, "Empty");
+            defaultPositions.put(4, "Empty");
+
+            for (PlayerInfo info : playerData) {
+                defaultPositions.put((int) info.position, info.username);
+            }
+
+            gui.getPlayer1gameUsername().setText(defaultPositions.get(1));
+            gui.getPlayer2gameUsername().setText(defaultPositions.get(2));
+            gui.getPlayer3gameUsername().setText(defaultPositions.get(3));
+            gui.getPlayer4gameUsername().setText(defaultPositions.get(4));
+        });
+    }
 
     @Override
     public void informUser(int userPosition, String word, int score) {
@@ -76,7 +114,6 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
 
         });
     }
-
 
     private Icon getRandomIcon() {
         File iconDirectory = new File(ICONS_PATH);

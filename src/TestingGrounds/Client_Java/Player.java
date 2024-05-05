@@ -21,6 +21,7 @@ import java.util.Arrays;
 public class Player {
     private static String username = "";
     private static String password = "";
+    private static String gameId = "";
     private static StringHolder sessionToken = new StringHolder();
     static GameServer gameServerImp;
     static GameClientCallbackImpl cbi;
@@ -78,7 +79,7 @@ public class Player {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Session Token: " + sessionToken.value);
-                gameServerImp.hostGame(sessionToken.value, callbackRef);
+                gameId = gameServerImp.hostGame(sessionToken.value, callbackRef);
             }
         });
 
@@ -94,6 +95,13 @@ public class Player {
                 } else {
                     System.out.println("No game found or unable to join.");
                 }
+            }
+        });
+
+        clientGUIFrame.getStartButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gameServerImp.startGame(sessionToken.value, gameId);
             }
         });
     }
