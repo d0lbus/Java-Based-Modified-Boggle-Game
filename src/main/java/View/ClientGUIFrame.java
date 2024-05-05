@@ -1221,6 +1221,21 @@ public class ClientGUIFrame extends JFrame {
     public JTextPane getAnnouncementTextpane() {
         return announcementTextpane;
     }
+    public JTextField getcUsernameTextfield() {
+        return cUsernameTextfield;
+    }
+    public JPasswordField getPwField() {
+        return pwField;
+    }
+    public JPasswordField getConfirmpwField() {
+        return confirmpwField;
+    }
+    public JButton getStartButton() {
+        return startButton;
+    }
+    public JLabel getTimerLabel() {
+        return timerLabel;
+    }
 }
 
 
