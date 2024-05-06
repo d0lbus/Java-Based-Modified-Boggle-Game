@@ -106,4 +106,26 @@ public class Player {
         });
     }
 
+    public static void changeAccSettings(){
+        String newUsername = clientGUIFrame.getcUsernameTextfield().getText();
+        String newPassword = new String(clientGUIFrame.getPwField().getPassword());
+        String confirmPassword = new String(clientGUIFrame.getConfirmpwField().getPassword());
+
+        if (!newPassword.equals(confirmPassword)) {
+            System.out.println("Passwords do not match!");
+            return;
+        }
+
+        if (newUsername.isEmpty()){
+            System.out.println("Username is empty");
+            return;
+        }
+
+        // Update the database
+//        DatabaseManager dbManager = new DatabaseManager();
+//        dbManager.changeAccSettings(newUsername, newPassword);
+
+        System.out.println("Account settings updated successfully!");
+    }
+
 }

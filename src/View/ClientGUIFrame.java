@@ -1,5 +1,6 @@
 package View;
 
+import TestingGrounds.Client_Java.Player;
 import View.Design.FallingLettersPanel;
 import View.Design.GradientSliderUI;
 import View.Design.LetterCube;
@@ -1126,6 +1127,7 @@ public class ClientGUIFrame extends JFrame {
         JButton saveButton = new JButton("Save");
         saveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                Player.changeAccSettings();
             }
         });
         saveButton.setBounds(959, 545, 89, 30);
