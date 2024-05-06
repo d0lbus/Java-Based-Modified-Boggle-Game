@@ -35,4 +35,16 @@ interface CallbackInterface {
 
     exception InvalidWord{};
 
+    exception GameTimeExpired{};
+
+    exception LobbyTimeExpired{};
+
+    exception GameAlreadyActive{};
+
+    exception NoWaitingGames{};
+
+    exception InvalidGameCode{};
+
+    exception lossConnection{};
+
 };
