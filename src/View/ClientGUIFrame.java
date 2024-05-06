@@ -2,7 +2,7 @@ package View;
 
 import TestingGrounds.Client_Java.Player;
 import View.Design.*;
-//import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -26,11 +26,14 @@ public class ClientGUIFrame extends JFrame {
     private Clip clip;
     private JSlider volumeSlider;
     private JLabel player1pic, player2pic, player3pic, player4pic, player1picRanking, player2picRanking, player3picRanking, player4picRanking;
-    private JLabel player1username, player2username, player3username, player4username, player1usernameRanking, player2usernameRanking, player3usernameRanking, player4usernameRanking;
+    private JLabel player1username, player2username, player3username, player4username, player1usernameRanking,
+            player2usernameRanking, player3usernameRanking, player4usernameRanking;
     private JButton randomButton, quitButton, createLobbyButton, joinButton, startButton;
-    private JButton button1, button2, button3, button4, button5, button6, button7, button8, button9, button10, button11, button12, button13, button14, button15, button16, button17, button18, button19, button20;
+    private JButton button1, button2, button3, button4, button5, button6, button7, button8, button9, button10,
+            button11, button12, button13, button14, button15, button16, button17, button18, button19, button20;
     private JLabel player1gamePoints, player2gamePoints, player3gamePoints, player4gamePoints;
     private JLabel player1gameUsername, player2gameUsername, player3gameUsername, player4gameUsername, timerLabel;
+    private JLabel lfirstUsername, lsecondUsername, lthirdUsername, lfourthUsername, lfifthUsername, lpoint1, lpoint2, lpoint3, lpoint4, lpoint5;
     private Timer timer;
     private JTextPane announcementTextpane;
     private Font rankingFont, leaderboardsFont;
@@ -40,11 +43,11 @@ public class ClientGUIFrame extends JFrame {
      */
     public static void main(String[] args) {
 
-        /*try {
+        try {
             UIManager.setLookAndFeel(new FlatMacLightLaf());
         } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
-        } */
+        }
 
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -1064,43 +1067,43 @@ public class ClientGUIFrame extends JFrame {
         fifthMedal.setBounds(164, 467, 65, 65);
         lPanel.add(fifthMedal);
 
-        JLabel lfirstUsername = new JLabel("top1");
+        lfirstUsername = new JLabel("top1");
         lfirstUsername.setBounds(271, 105, 396, 65);
         lPanel.add(lfirstUsername);
 
-        JLabel lsecondUsername = new JLabel("top2");
+        lsecondUsername = new JLabel("top2");
         lsecondUsername.setBounds(271, 194, 396, 65);
         lPanel.add(lsecondUsername);
 
-        JLabel lthirdUsername = new JLabel("top3");
+        lthirdUsername = new JLabel("top3");
         lthirdUsername.setBounds(271, 280, 396, 65);
         lPanel.add(lthirdUsername);
 
-        JLabel lfourthUsername = new JLabel("top4");
+        lfourthUsername = new JLabel("top4");
         lfourthUsername.setBounds(271, 370, 396, 65);
         lPanel.add(lfourthUsername);
 
-        JLabel lfifthUsername = new JLabel("top5");
+        lfifthUsername = new JLabel("top5");
         lfifthUsername.setBounds(271, 467, 396, 65);
         lPanel.add(lfifthUsername);
 
-        JLabel lpoint1 = new JLabel("1st point");
+        lpoint1 = new JLabel("1st point");
         lpoint1.setBounds(711, 105, 65, 65);
         lPanel.add(lpoint1);
 
-        JLabel lpoint2 = new JLabel("2nd point");
+        lpoint2 = new JLabel("2nd point");
         lpoint2.setBounds(711, 194, 65, 65);
         lPanel.add(lpoint2);
 
-        JLabel lpoint3 = new JLabel("3rd point");
+        lpoint3 = new JLabel("3rd point");
         lpoint3.setBounds(711, 280, 65, 65);
         lPanel.add(lpoint3);
 
-        JLabel lpoint4 = new JLabel("4th point");
+        lpoint4 = new JLabel("4th point");
         lpoint4.setBounds(711, 370, 65, 65);
         lPanel.add(lpoint4);
 
-        JLabel lpoint5 = new JLabel("5th point");
+        lpoint5 = new JLabel("5th point");
         lpoint5.setBounds(711, 467, 65, 65);
         lPanel.add(lpoint5);
 
@@ -1504,6 +1507,42 @@ public class ClientGUIFrame extends JFrame {
     }
     public JLabel getPlayer4usernameRanking() {
         return player4usernameRanking;
+    }
+    public JPanel getRankingPanel() {
+        return rankingPanel;
+    }
+    public JPanel getLeaderboardsPanel() {
+        return leaderboardsPanel;
+    }
+    public JLabel getLfirstUsername() {
+        return lfirstUsername;
+    }
+    public JLabel getLsecondUsername() {
+        return lsecondUsername;
+    }
+    public JLabel getLthirdUsername() {
+        return lthirdUsername;
+    }
+    public JLabel getLfourthUsername() {
+        return lfourthUsername;
+    }
+    public JLabel getLfifthUsername() {
+        return lfifthUsername;
+    }
+    public JLabel getLpoint1() {
+        return lpoint1;
+    }
+    public JLabel getLpoint2() {
+        return lpoint2;
+    }
+    public JLabel getLpoint3() {
+        return lpoint3;
+    }
+    public JLabel getLpoint4() {
+        return lpoint4;
+    }
+    public JLabel getLpoint5() {
+        return lpoint5;
     }
 }
 
