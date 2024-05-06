@@ -12,8 +12,8 @@ interface CallbackInterface {
     void CreateLobGUI( in string username, in string gameId);
     void UpdateLobGUI( in PlayerInfoList playerData);
     void startGameGUI( in PlayerInfoList playerData, in CharList charArrayList);
-    void informUser(in long userPosition, in string word, in long score);
-
+    void scoreUser(in long userPosition, in string word, in long score);
+    void wordGuesses(in long userPosition, in string word, in long score);
     };
 
 
@@ -21,8 +21,8 @@ interface CallbackInterface {
         boolean login(in string username, in string password, out string sessionToken, in CallbackInterface cbi);
         boolean logout(in string sessionToken);
         string hostGame(in string sessionToken, in CallbackInterface cbi);
-        boolean joinRandomGame(in string sessionToken, in CallbackInterface cbi);
-        boolean joinGame(in string sessionToken, in string gameId);
+        string joinRandomGame(in string sessionToken, in CallbackInterface cbi);
+        string joinGame(in string sessionToken, in string gameId);
         boolean startGame(in string sessionToken, in string gameId);
         void submitWord(in string sessionToken, in string gameId, in string word);
         string getLetters(in string sessionToken, in string gameId);

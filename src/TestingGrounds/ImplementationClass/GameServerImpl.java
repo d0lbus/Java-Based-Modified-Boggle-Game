@@ -5,6 +5,7 @@ import TestingGrounds.Client_Java.User;
 import TestingGrounds.GameSystem.CallbackInterface;
 import TestingGrounds.GameSystem.GameServerPOA;
 import TestingGrounds.GameSystem.PlayerInfo;
+import TestingGrounds.Utilities.WordValidator;
 import org.omg.CORBA.*;
 import org.omg.CORBA.Object;
 
@@ -62,10 +63,9 @@ public class GameServerImpl extends GameServerPOA implements Object {
     }
 
     @Override
-    public boolean joinRandomGame(String sessionToken, CallbackInterface gci) {
+    public String joinRandomGame(String sessionToken, CallbackInterface gci) {
         if (!validateSessionToken(sessionToken)) {
             System.out.println("Invalid session token");
-            return false;
         }
 
         List<GameSession> availableSessions = activeGameLobbies.values().stream()
@@ -74,7 +74,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
 
         if (availableSessions.isEmpty()) {
             System.out.println("No available game sessions to join");
-            return false;
         }
 
         int randomIndex = new Random().nextInt(availableSessions.size());
@@ -83,16 +82,16 @@ public class GameServerImpl extends GameServerPOA implements Object {
         System.out.println("Player added to game " + selectedSession.getSessionId());
 
         notifyPlayersAboutChanges(selectedSession);
-        return true;
+        return selectedSession.getSessionId();
     }
 
     @Override
-    public boolean joinGame(String sessionToken, String gameId) {
+    public String joinGame(String sessionToken, String gameId) {
         System.out.println("Player with session token " + sessionToken + " attempting to join game " + gameId);
         GameSession session = activeGameLobbies.get(gameId);
 
         //TO DO: ADD PLAYER TO THE SESSION
-        return true;
+        return session.getSessionId();
     }
 
     public void notifyPlayersAboutChanges(GameSession session) {
@@ -127,6 +126,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
         GameSession session = activeGameLobbies.get(gameId);
         List<PlayerInfo> playerData = collectPlayerData(session);
         char[] charArrayList = generateRandomCharArray();
+        session.setRandomLetters(charArrayList);
         session.getPlayers().forEach((token, position) -> {
             CallbackInterface callback = sessionCallbacks.get(token);
             if (callback != null) {
@@ -170,8 +170,49 @@ public class GameServerImpl extends GameServerPOA implements Object {
     }
 
     @Override
-    public void submitWord(String sessionToken, String gameId, String word) {
+    public void submitWord(String sessionToken, String gameToken, String word) {
+        GameSession session = activeGameLobbies.get(gameToken);
+        if (session == null) {
+            System.out.println("Invalid game session token.");
+            return;
+        }
 
+        WordValidator wordValidator = new WordValidator("src/words.txt");
+
+        char[] randomLetters = session.getRandomLetters();
+        char[] charArray = word.toCharArray();
+
+        // Create frequency maps for both the random letters and the submitted word
+        Map<Character, Integer> randomLetterMap = new HashMap<>();
+        Map<Character, Integer> wordMap = new HashMap<>();
+
+        // Count occurrences in the random letters
+        for (char c : randomLetters) {
+            randomLetterMap.put(c, randomLetterMap.getOrDefault(c, 0) + 1);
+        }
+
+        // Count occurrences in the submitted word
+        for (char c : charArray) {
+            wordMap.put(c, wordMap.getOrDefault(c, 0) + 1);
+        }
+
+        // Validate the submitted word against the random letters
+        boolean isValid = true;
+        for (Map.Entry<Character, Integer> entry : wordMap.entrySet()) {
+            char letter = entry.getKey();
+            int count = entry.getValue();
+            if (randomLetterMap.getOrDefault(letter, 0) < count) {
+                isValid = false;
+                break;
+            }
+        }
+
+        // Check if the word is valid and exists in word.txt
+        if (isValid && wordValidator.isWordValid(word)) {
+            System.out.println("Valid word: " + word);
+        } else {
+            System.out.println("Invalid word: " + word);
+        }
     }
 
     @Override

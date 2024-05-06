@@ -64,7 +64,6 @@ public class Player {
 
     public static void startLogin() {
         registration.setVisible(true);
-
         registration.getSignInButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -124,7 +123,6 @@ public class Player {
                 }
             }
         });
-
         registration.getDoneButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -181,7 +179,6 @@ public class Player {
                 }
             }
         });
-
     }
 
 
@@ -248,8 +245,8 @@ public class Player {
         clientGUIFrame.getRandomButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean gameFound = gameServerImp.joinRandomGame(sessionToken, callbackRef);
-                if (gameFound) {
+                String gameFound = gameServerImp.joinRandomGame(sessionToken, callbackRef);
+                if (gameFound != null) {
                     clientGUIFrame.getLayeredPane().removeAll();
                     clientGUIFrame.getLayeredPane().add(clientGUIFrame.getLobbyPanel());
                     clientGUIFrame.getLayeredPane().repaint();

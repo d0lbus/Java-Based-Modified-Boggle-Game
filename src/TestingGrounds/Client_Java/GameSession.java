@@ -10,6 +10,7 @@ public class GameSession {
     private HashMap<String, Integer> players;
     private GameStatus status;
     private int position;
+    private char[] randomLetters;
 
     public enum GameStatus {
         WAITING, ACTIVE, COMPLETED
@@ -20,6 +21,7 @@ public class GameSession {
         this.players = new HashMap<>();
         this.status = GameStatus.WAITING;
         this.position = 0;
+        this.randomLetters = new char[20];
     }
 
     public void addPlayer(String sessionToken) {
@@ -71,5 +73,13 @@ public class GameSession {
 
     public void setStatus(GameStatus status) {
         this.status = status;
+    }
+
+    public char[] getRandomLetters() {
+        return randomLetters;
+    }
+
+    public void setRandomLetters(char[] randomLetters) {
+        this.randomLetters = randomLetters;
     }
 }
