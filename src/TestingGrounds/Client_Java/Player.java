@@ -219,34 +219,21 @@ public class Player {
     }
 
 
-    public static void startGame(String sessionToken) {
+    public static void startGame() {
         clientGUIFrame.setVisible(true);
-
         clientGUIFrame.getCreateLobbyButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String gameId = String.valueOf(lobbyCounter++); // Increment lobby counter for each new lobby
-                String gameToken = generateGameToken();
-                try {
-                    // Update the game token in the database
-                    DBConnection dbConnection = new DBConnection();
-                    Connection connection = dbConnection.getConnection();
-                    // updateGameTokenInDatabase(connection, gameId, gameToken);
-
-                    // Insert lobby information into the database
-                    insertLobbyIntoDatabase(connection, gameId, sessionToken, gameToken);
-                } catch (SQLException ex) {
-                    System.err.println("Error updating game token in the database: " + ex.getMessage());
-                }
-                System.out.println("Game created with ID: " + gameId + " and token: " + gameToken);
+                System.out.println("Session Token: " + sessionToken.value);
+                gameId = gameServerImp.hostGame(sessionToken.value, callbackRef);
             }
         });
 
         clientGUIFrame.getRandomButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String gameFound = gameServerImp.joinRandomGame(sessionToken, callbackRef);
-                if (gameFound != null) {
+                boolean gameFound = gameServerImp.joinRandomGame(sessionToken.value, callbackRef);
+                if (gameFound) {
                     clientGUIFrame.getLayeredPane().removeAll();
                     clientGUIFrame.getLayeredPane().add(clientGUIFrame.getLobbyPanel());
                     clientGUIFrame.getLayeredPane().repaint();
@@ -260,14 +247,11 @@ public class Player {
         clientGUIFrame.getStartButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (gameId != null) {
-                    gameServerImp.startGame(sessionToken, gameId);
-                } else {
-                    System.err.println("No game ID available.");
-                }
+                gameServerImp.startGame(sessionToken.value, gameId);
             }
         });
     }
+
 
     public static void changeAccSettings(){
         String newUsername = clientGUIFrame.getcUsernameTextfield().getText();
