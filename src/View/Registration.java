@@ -20,6 +20,20 @@ public class Registration extends JFrame {
         return loginPasswordField;
     }
 
+    public JTextField getFirstNameTextfield() {return firstNameTextfield;}
+
+    public JTextField getLastNameTextfield() {return lastNameTextfield;}
+
+    public JTextField getUsernameRegisterTextfield() {return usernameRegisterTextfield;}
+
+    public JPasswordField getSignUpPasswordField() {
+        return signUpPasswordField;
+    }
+
+    public JPasswordField getConfirmPasswordField() {
+        return confirmPasswordField;
+    }
+
     private JPasswordField loginPasswordField;
     private JTextField firstNameTextfield;
     private JTextField lastNameTextfield;
