@@ -512,7 +512,7 @@ public class ClientGUIFrame extends JFrame {
         quitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 layeredPane.removeAll();
-                layeredPane.add(rankingPanel);
+                layeredPane.add(homePanel);
                 layeredPane.repaint();
                 layeredPane.revalidate();
             }
