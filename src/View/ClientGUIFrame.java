@@ -1,10 +1,7 @@
 package View;
 
 import TestingGrounds.Client_Java.Player;
-import View.Design.FallingLettersPanel;
-import View.Design.GradientSliderUI;
-import View.Design.LetterCube;
-import View.Design.RoundedPanel;
+import View.Design.*;
 //import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -24,7 +21,7 @@ public class ClientGUIFrame extends JFrame {
     private JPanel contentPane;
     private JTextField inputTextField, cUsernameTextfield;
     private JPasswordField pwField, confirmpwField;
-    private JPanel homePanel, lobbyPanel, gamePanel, rankingPanel, leaderboardPanel, settingsPanel;
+    private JPanel homePanel, lobbyPanel, gamePanel, rankingPanel, leaderboardsPanel, settingsPanel;
     private JLabel player1gamePic, player2gamePic, player3gamePic, player4gamePic;
     private Clip clip;
     private JSlider volumeSlider;
@@ -36,7 +33,7 @@ public class ClientGUIFrame extends JFrame {
     private JLabel player1gameUsername, player2gameUsername, player3gameUsername, player4gameUsername, timerLabel;
     private Timer timer;
     private JTextPane announcementTextpane;
-    private Font rankingFont;
+    private Font rankingFont, leaderboardsFont;
 
     /**
      * Launch the application.
@@ -252,6 +249,20 @@ public class ClientGUIFrame extends JFrame {
         settingsIcon.setIcon(new ImageIcon("src/Icons/Settings.png"));
         settingsIcon.setBounds(1217, 623, 37, 38);
         homePanel.add(settingsIcon);
+
+        JLabel leaderboardsIcon = new JLabel("leaderboard");
+        leaderboardsIcon.setIcon(new ImageIcon("src/Icons/Leaderboard.png"));
+        leaderboardsIcon.setBounds(1170, 623, 37, 38);
+        leaderboardsIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                layeredPane.removeAll();
+                layeredPane.add(leaderboardsPanel);
+                layeredPane.repaint();
+                layeredPane.revalidate();
+            }
+        });
+        homePanel.add(leaderboardsIcon);
 
         layeredPane.add(homePanel, JLayeredPane.DEFAULT_LAYER);
         homePanel.add(fallingLettersPanelHome);
@@ -909,11 +920,10 @@ public class ClientGUIFrame extends JFrame {
         titleLabel.setFont(rankingFont);
         titleLabel.setForeground(new Color(7, 120, 218));
         titleLabel.setBounds(0, 50, 1280, 100);
+
         usernameLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
-
         int startY = titleLabel.getY() + titleLabel.getHeight() + 20;
-
         int centerX = 640;
 
         player1picRanking = new JLabel();
@@ -998,18 +1008,109 @@ public class ClientGUIFrame extends JFrame {
 
         rankingPanel.add(fallingLettersPanelRanking);
 
-        leaderboardPanel = new JPanel();
-        leaderboardPanel.setBackground(new Color(255, 204, 213));
-        leaderboardPanel.setLayout(null);
-        leaderboardPanel.setBounds(0, 0, 1280, 720);
+        leaderboardsPanel = new JPanel();
+        leaderboardsPanel.setBackground(new Color(255, 204, 213));
+        leaderboardsPanel.setLayout(null);
+        leaderboardsPanel.setBounds(0, 0, 1280, 720);
 
         FallingLettersPanel fallingLettersPanelLeaderboard= new FallingLettersPanel();
         fallingLettersPanelLeaderboard.setOpaque(false);
         fallingLettersPanelLeaderboard.setBounds(0, 0, 1280, 720);
+        leaderboardsPanel.add(fallingLettersPanelLeaderboard);
 
+        RoundedPanel lPanel = new RoundedPanel(20);
+        lPanel.setBackground(new Color(250, 229, 139));
+        lPanel.setBounds(198, 51, 894, 578);
+        leaderboardsPanel.add(lPanel);
+        lPanel.setLayout(null);
 
+        RoundedPanel l2Panel = new RoundedPanel(50);
+        l2Panel.setBackground(new Color(153, 214, 234));
+        l2Panel.setBounds(227, 0, 478, 75);
+        lPanel.add(l2Panel);
+        l2Panel.setLayout(null);
 
-        leaderboardPanel.add(fallingLettersPanelLeaderboard);
+        JLabel lLabel = new JLabel("LEADERBOARDS", SwingConstants.CENTER);
+        try {
+            leaderboardsFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/View/Design/Fonts/Wedges.ttf")).deriveFont(Font.BOLD, 50);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(leaderboardsFont);
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+            leaderboardsFont = new Font("Arial", Font.BOLD, 50);
+        }
+        l2Panel.add(lLabel);
+        lLabel.setFont(rankingFont);
+        lLabel.setForeground(new Color(7, 120, 218));
+        lLabel.setBounds(23, 0, 427, 75);
+
+        JLabel firstMedal = new JLabel("1st");
+        firstMedal.setBounds(164, 105, 65, 65);
+        lPanel.add(firstMedal);
+
+        JLabel secondMedal = new JLabel("2nd");
+        secondMedal.setBounds(164, 194, 65, 65);
+        lPanel.add(secondMedal);
+
+        JLabel thirdMedal = new JLabel("3rd");
+        thirdMedal.setBounds(164, 280, 65, 65);
+        lPanel.add(thirdMedal);
+
+        JLabel fourthMedal = new JLabel("4th");
+        fourthMedal.setBounds(164, 370, 65, 65);
+        lPanel.add(fourthMedal);
+
+        JLabel fifthMedal = new JLabel("5th");
+        fifthMedal.setBounds(164, 467, 65, 65);
+        lPanel.add(fifthMedal);
+
+        JLabel lfirstUsername = new JLabel("top1");
+        lfirstUsername.setBounds(271, 105, 396, 65);
+        lPanel.add(lfirstUsername);
+
+        JLabel lsecondUsername = new JLabel("top2");
+        lsecondUsername.setBounds(271, 194, 396, 65);
+        lPanel.add(lsecondUsername);
+
+        JLabel lthirdUsername = new JLabel("top3");
+        lthirdUsername.setBounds(271, 280, 396, 65);
+        lPanel.add(lthirdUsername);
+
+        JLabel lfourthUsername = new JLabel("top4");
+        lfourthUsername.setBounds(271, 370, 396, 65);
+        lPanel.add(lfourthUsername);
+
+        JLabel lfifthUsername = new JLabel("top5");
+        lfifthUsername.setBounds(271, 467, 396, 65);
+        lPanel.add(lfifthUsername);
+
+        JLabel lpoint1 = new JLabel("1st point");
+        lpoint1.setBounds(711, 105, 65, 65);
+        lPanel.add(lpoint1);
+
+        JLabel lpoint2 = new JLabel("2nd point");
+        lpoint2.setBounds(711, 194, 65, 65);
+        lPanel.add(lpoint2);
+
+        JLabel lpoint3 = new JLabel("3rd point");
+        lpoint3.setBounds(711, 280, 65, 65);
+        lPanel.add(lpoint3);
+
+        JLabel lpoint4 = new JLabel("4th point");
+        lpoint4.setBounds(711, 370, 65, 65);
+        lPanel.add(lpoint4);
+
+        JLabel lpoint5 = new JLabel("5th point");
+        lpoint5.setBounds(711, 467, 65, 65);
+        lPanel.add(lpoint5);
+
+        JButton lBackButton = new JButton("New button");
+        lBackButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
+        lBackButton.setBounds(20, 628, 89, 30);
+        leaderboardsPanel.add(lBackButton);
 
         settingsPanel = new JPanel();
         settingsPanel.setBackground(new Color(255, 204, 213));
