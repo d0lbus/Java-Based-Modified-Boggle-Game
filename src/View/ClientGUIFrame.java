@@ -4,7 +4,7 @@ import View.Design.FallingLettersPanel;
 import View.Design.GradientSliderUI;
 import View.Design.LetterCube;
 import View.Design.RoundedPanel;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
+//import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -22,12 +22,12 @@ public class ClientGUIFrame extends JFrame {
     private JPanel contentPane;
     private JTextField inputTextField, cUsernameTextfield;
     private JPasswordField pwField, confirmpwField;
-    private JPanel homePanel, lobbyPanel, gamePanel, leaderboardPanel, settingsPanel;
+    private JPanel homePanel, lobbyPanel, gamePanel, rankingPanel, leaderboardPanel, settingsPanel;
     private JLabel player1gamePic, player2gamePic, player3gamePic, player4gamePic;
     private Clip clip;
     private JSlider volumeSlider;
-    private JLabel player1pic, player2pic, player3pic, player4pic;
-    private JLabel player1username, player2username, player3username, player4username;
+    private JLabel player1pic, player2pic, player3pic, player4pic, player1picRanking, player2picRanking, player3picRanking, player4picRanking;
+    private JLabel player1username, player2username, player3username, player4username, player1usernameRanking, player2usernameRanking, player3usernameRanking, player4usernameRanking;
     private JButton randomButton, quitButton, createLobbyButton, joinButton, startButton;
     private JButton button1, button2, button3, button4, button5, button6, button7, button8, button9, button10, button11, button12, button13, button14, button15, button16, button17, button18, button19, button20;
     private JLabel player1gamePoints, player2gamePoints, player3gamePoints, player4gamePoints;
@@ -40,11 +40,11 @@ public class ClientGUIFrame extends JFrame {
      */
     public static void main(String[] args) {
 
-        try {
+        /*try {
             UIManager.setLookAndFeel(new FlatMacLightLaf());
         } catch (UnsupportedLookAndFeelException e) {
             e.printStackTrace();
-        }
+        } */
 
         EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -512,7 +512,7 @@ public class ClientGUIFrame extends JFrame {
         quitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 layeredPane.removeAll();
-                layeredPane.add(homePanel);
+                layeredPane.add(rankingPanel);
                 layeredPane.repaint();
                 layeredPane.revalidate();
             }
@@ -879,77 +879,77 @@ public class ClientGUIFrame extends JFrame {
         button20.setBackground(new Color(202,240,248));
         buttonPanel.add(button20);
 
-        leaderboardPanel = new JPanel();
-        leaderboardPanel.setBackground(new Color(255, 204, 213));
-        leaderboardPanel.setLayout(null);
-        leaderboardPanel.setBounds(0, 0, 1280, 720);
+        rankingPanel= new JPanel();
+        rankingPanel.setBackground(new Color(255, 204, 213));
+        rankingPanel.setLayout(null);
+        rankingPanel.setBounds(0, 0, 1280, 720);
 
-        FallingLettersPanel fallingLettersPanelLeaderboard = new FallingLettersPanel();
-        fallingLettersPanelLeaderboard.setOpaque(false);
-        fallingLettersPanelLeaderboard.setBounds(0, 0, 1280, 720);
+        FallingLettersPanel fallingLettersPanelRanking= new FallingLettersPanel();
+        fallingLettersPanelRanking.setOpaque(false);
+        fallingLettersPanelRanking.setBounds(0, 0, 1280, 720);
 
         JLabel titleLabel = new JLabel("LEADERBOARDS", SwingConstants.CENTER);
         titleLabel.setFont(new Font("Arial", Font.BOLD, 50));
         titleLabel.setBounds(0, 50, 1280, 100);
-        leaderboardPanel.add(titleLabel);
+        rankingPanel.add(titleLabel);
 
         int startY = titleLabel.getY() + titleLabel.getHeight() + 20;
 
         int centerX = 640;
 
-        /*player1pic = new JLabel();
-        player1pic.setBackground(Color.GRAY);
-        player1pic.setBounds(centerX - 190, startY, 70, 70);
-        leaderboardPanel.add(player1pic);
-        player1pic.setLayout(null);
-        player1pic.add(createBadgeLabel(0, 0, new Color(248, 168, 197), "1st"));
+        player1picRanking = new JLabel();
+        player1picRanking.setBackground(Color.GRAY);
+        player1picRanking.setBounds(centerX - 190, startY, 70, 70);
+        rankingPanel.add(player1picRanking);
+        player1picRanking.setLayout(null);
+        player1picRanking.add(createBadgeLabel(0, 0, new Color(248, 168, 197), "1st"));
 
-        player1username = new JLabel("JLabel");
-        player1username.setHorizontalAlignment(SwingConstants.CENTER);
-        player1username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
-        player1username.setBounds(centerX - 110, startY, 300, 70);
-        leaderboardPanel.add(player1username);
+        player1usernameRanking = new JLabel("JLabel");
+        player1usernameRanking.setHorizontalAlignment(SwingConstants.CENTER);
+        player1usernameRanking.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
+        player1usernameRanking.setBounds(centerX - 110, startY, 300, 70);
+        rankingPanel.add(player1usernameRanking);
 
-        player2pic = new JLabel();
-        player2pic.setBackground(Color.GRAY);
-        player2pic.setBounds(centerX - 190, startY + 85, 70, 70);
-        leaderboardPanel.add(player2pic);
-        player2pic.setLayout(null);
-        player2pic.add(createBadgeLabel(0, 0, new Color(124, 222, 225), "2nd"));
+        player2picRanking = new JLabel();
+        player2picRanking.setBackground(Color.GRAY);
+        player2picRanking.setBounds(centerX - 190, startY + 85, 70, 70);
+        rankingPanel.add(player2picRanking);
+        player2picRanking.setLayout(null);
+        player2picRanking.add(createBadgeLabel(0, 0, new Color(124, 222, 225), "2nd"));
 
-        player2username = new JLabel("JLabel1");
-        player2username.setHorizontalAlignment(SwingConstants.CENTER);
-        player2username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
-        player2username.setBounds(centerX - 110, startY + 85, 300, 70);
-        leaderboardPanel.add(player2username);
+        player2usernameRanking = new JLabel("JLabel1");
+        player2usernameRanking.setHorizontalAlignment(SwingConstants.CENTER);
+        player2usernameRanking.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
+        player2usernameRanking.setBounds(centerX - 110, startY + 85, 300, 70);
+        rankingPanel.add(player2usernameRanking);
 
-        player3pic = new JLabel();
-        player3pic.setBackground(Color.GRAY);
-        player3pic.setBounds(centerX - 190, startY + 170, 70, 70);
-        leaderboardPanel.add(player3pic);
-        player3pic.setLayout(null);
-        player3pic.add(createBadgeLabel(0, 0, new Color(225, 217, 31), "3rd"));
+        player3picRanking = new JLabel();
+        player3picRanking.setBackground(Color.GRAY);
+        player3picRanking.setBounds(centerX - 190, startY + 170, 70, 70);
+        rankingPanel.add(player3picRanking);
+        player3picRanking.setLayout(null);
+        player3picRanking.add(createBadgeLabel(0, 0, new Color(225, 217, 31), "3rd"));
 
-        player3username = new JLabel("JLabel2");
-        player3username.setHorizontalAlignment(SwingConstants.CENTER);
-        player3username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
-        player3username.setBounds(centerX - 110, startY + 170, 300, 70);
-        leaderboardPanel.add(player3username);
+        player3usernameRanking = new JLabel("JLabel2");
+        player3usernameRanking .setHorizontalAlignment(SwingConstants.CENTER);
+        player3usernameRanking .setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
+        player3usernameRanking .setBounds(centerX - 110, startY + 170, 300, 70);
+        rankingPanel.add(player3usernameRanking );
 
-        player4pic = new JLabel();
-        player4pic.setBackground(Color.GRAY);
-        player4pic.setBounds(centerX - 190, startY + 255, 70, 70);
-        leaderboardPanel.add(player4pic);
-        player4pic.setLayout(null);
-        player4pic.add(createBadgeLabel(0, 0, new Color(229, 179, 131), "4th"));
+        player4picRanking = new JLabel();
+        player4picRanking.setBackground(Color.GRAY);
+        player4picRanking.setBounds(centerX - 190, startY + 255, 70, 70);
+        rankingPanel.add(player4picRanking);
+        player4picRanking.setLayout(null);
+        player4picRanking.add(createBadgeLabel(0, 0, new Color(229, 179, 131), "4th"));
 
-        player4username = new JLabel("JLabel3");
-        player4username.setHorizontalAlignment(SwingConstants.CENTER);
-        player4username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
-        player4username.setBounds(centerX - 110, startY + 255, 300, 70);
-        leaderboardPanel.add(player4username);*/
+        player4usernameRanking = new JLabel("JLabel3");
+        player4usernameRanking.setHorizontalAlignment(SwingConstants.CENTER);
+        player4usernameRanking.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
+        player4usernameRanking.setBounds(centerX - 110, startY + 255, 300, 70);
+        rankingPanel.add(player4usernameRanking);
 
-        int buttonsY = Math.max(player4username.getY() + player4username.getHeight(), player4pic.getY() + player4pic.getHeight()) + 50;
+        int buttonsY = Math.max(player4usernameRanking.getY() + player4usernameRanking.getHeight(), player4picRanking.getY() + player4picRanking.getHeight()) + 50;
 
         JButton backToLobbyButton = new JButton("Back to Lobby");
         backToLobbyButton.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -962,7 +962,7 @@ public class ClientGUIFrame extends JFrame {
                 layeredPane.revalidate();
             }
         });
-        leaderboardPanel.add(backToLobbyButton);
+        rankingPanel.add(backToLobbyButton);
 
         JButton backToHomeButton = new JButton("Back to Home");
         backToHomeButton.setFont(new Font("Arial", Font.PLAIN, 15));
@@ -975,9 +975,9 @@ public class ClientGUIFrame extends JFrame {
                 layeredPane.revalidate();
             }
         });
-        leaderboardPanel.add(backToHomeButton);
+        rankingPanel.add(backToHomeButton);
 
-        leaderboardPanel.add(fallingLettersPanelLeaderboard);
+        rankingPanel.add(fallingLettersPanelRanking);
 
         settingsPanel = new JPanel();
         settingsPanel.setBackground(new Color(255, 204, 213));
@@ -1122,7 +1122,7 @@ public class ClientGUIFrame extends JFrame {
                         time.minutes--;
                     } else {
                         timer.stop();
-                     }
+                    }
                 }
 
                 String formattedTime = String.format("%02d:%02d", time.minutes, time.seconds);
@@ -1346,6 +1346,30 @@ public class ClientGUIFrame extends JFrame {
     }
     public JLabel getTimerLabel() {
         return timerLabel;
+    }
+    public JLabel getPlayer1picRanking() {
+        return player1picRanking;
+    }
+    public JLabel getPlayer2picRanking() {
+        return player2picRanking;
+    }
+    public JLabel getPlayer3picRanking() {
+        return player3picRanking;
+    }
+    public JLabel getPlayer4picRanking() {
+        return player4picRanking;
+    }
+    public JLabel getPlayer1usernameRanking() {
+        return player1usernameRanking;
+    }
+    public JLabel getPlayer2usernameRanking() {
+        return player2usernameRanking;
+    }
+    public JLabel getPlayer3usernameRanking() {
+        return player3usernameRanking;
+    }
+    public JLabel getPlayer4usernameRanking() {
+        return player4usernameRanking;
     }
 }
 
