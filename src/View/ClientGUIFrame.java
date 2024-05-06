@@ -16,6 +16,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
+import java.io.IOException;
 
 public class ClientGUIFrame extends JFrame {
 
@@ -34,6 +35,7 @@ public class ClientGUIFrame extends JFrame {
     private JLabel player1gameUsername, player2gameUsername, player3gameUsername, player4gameUsername, timerLabel;
     private Timer timer;
     private JTextPane announcementTextpane;
+    private Font rankingFont;
 
     /**
      * Launch the application.
@@ -888,10 +890,26 @@ public class ClientGUIFrame extends JFrame {
         fallingLettersPanelRanking.setOpaque(false);
         fallingLettersPanelRanking.setBounds(0, 0, 1280, 720);
 
-        JLabel titleLabel = new JLabel("LEADERBOARDS", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 50));
+        JPanel rPanel = new JPanel();
+        rPanel.setBackground(new Color(255, 238, 153));
+        rPanel.setBounds(482, 50, 315, 68);
+        rankingPanel.add(rPanel);
+
+        JLabel titleLabel = new JLabel("RANKING", SwingConstants.CENTER);
+        try {
+            rankingFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/View/Design/Fonts/Wedges.ttf")).deriveFont(Font.BOLD, 50);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(rankingFont);
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+            rankingFont = new Font("Arial", Font.BOLD, 50);
+        }
+        rPanel.add(titleLabel);
+        titleLabel.setFont(rankingFont);
+        titleLabel.setForeground(new Color(7, 120, 218));
         titleLabel.setBounds(0, 50, 1280, 100);
-        rankingPanel.add(titleLabel);
+        usernameLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
 
         int startY = titleLabel.getY() + titleLabel.getHeight() + 20;
 
@@ -978,6 +996,19 @@ public class ClientGUIFrame extends JFrame {
         rankingPanel.add(backToHomeButton);
 
         rankingPanel.add(fallingLettersPanelRanking);
+
+        leaderboardPanel = new JPanel();
+        leaderboardPanel.setBackground(new Color(255, 204, 213));
+        leaderboardPanel.setLayout(null);
+        leaderboardPanel.setBounds(0, 0, 1280, 720);
+
+        FallingLettersPanel fallingLettersPanelLeaderboard= new FallingLettersPanel();
+        fallingLettersPanelLeaderboard.setOpaque(false);
+        fallingLettersPanelLeaderboard.setBounds(0, 0, 1280, 720);
+
+
+
+        leaderboardPanel.add(fallingLettersPanelLeaderboard);
 
         settingsPanel = new JPanel();
         settingsPanel.setBackground(new Color(255, 204, 213));
