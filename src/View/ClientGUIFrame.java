@@ -1019,7 +1019,6 @@ public class ClientGUIFrame extends JFrame {
         FallingLettersPanel fallingLettersPanelLeaderboard= new FallingLettersPanel();
         fallingLettersPanelLeaderboard.setOpaque(false);
         fallingLettersPanelLeaderboard.setBounds(0, 0, 1280, 720);
-        leaderboardsPanel.add(fallingLettersPanelLeaderboard);
 
         RoundedPanel lPanel = new RoundedPanel(20);
         lPanel.setBackground(new Color(250, 229, 139));
@@ -1114,6 +1113,8 @@ public class ClientGUIFrame extends JFrame {
         });
         lBackButton.setBounds(20, 628, 89, 30);
         leaderboardsPanel.add(lBackButton);
+
+        leaderboardsPanel.add(fallingLettersPanelLeaderboard);
 
         settingsPanel = new JPanel();
         settingsPanel.setBackground(new Color(255, 204, 213));
