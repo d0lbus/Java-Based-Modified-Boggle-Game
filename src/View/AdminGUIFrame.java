@@ -11,17 +11,10 @@ import javax.swing.table.DefaultTableModel;
 
 public class AdminGUIFrame extends JFrame {
 
-    private JPanel contentPane;
-    private JPanel homePanel;
-    private JPanel viewPanel;
-    private JPanel editPanel;
-    private JPanel hPanel;
-    private JPanel vPanel;
-    private JPanel ePanel;
-    private JPanel accountPanel;
-    private JPanel aPanel;
+    private JPanel contentPane, homePanel, viewPanel, editPanel, hPanel, vPanel, ePanel, accountPanel, aPanel;
     private JTable table;
     private JTextField textField;
+    private JButton editTimerButton, deleteTimerButton, viewTimerButton, viewPlayersButton, editPlayersButton, editRoundsButton;
 
 
     public static void main(String[] args) {
@@ -309,5 +302,37 @@ public class AdminGUIFrame extends JFrame {
         textField.setBounds(118, 83, 181, 20);
         aPanel.add(textField);
         textField.setColumns(10);
+    }
+
+    public JButton getEditTimerButton() {
+        return editTimerButton;
+    }
+
+    public JButton getEditPlayersButton() {
+        return editPlayersButton;
+    }
+
+    public JButton getDeleteTimerButton() {
+        return deleteTimerButton;
+    }
+
+    public JButton getViewTimerButton() {
+        return viewTimerButton;
+    }
+
+    public JButton getEditRoundsButton() {
+        return editRoundsButton;
+    }
+
+    public JButton getViewPlayersButton() {
+        return viewPlayersButton;
+    }
+
+    public JTextField textField() {
+        return textField;
+    }
+    
+    public JTable getTable() {
+        return table;
     }
 }
