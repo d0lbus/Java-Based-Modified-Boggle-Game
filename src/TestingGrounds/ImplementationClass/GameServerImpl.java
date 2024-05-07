@@ -187,6 +187,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
     @Override
     public void submitWord(String sessionToken, String gameToken, String word) {
         GameSession session = activeGameLobbies.get(gameToken);
+        String playerWhoGuessed = retrievePlayerFromSessionToken(sessionToken);
         if (session == null) {
             System.out.println("Invalid game session token.");
             return;
@@ -232,7 +233,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
                     CallbackInterface callback = sessionCallbacks.get(token);
                     if (callback != null) {
                         try {
-                            callback.broadcastGuessedWord(playerData.toArray(new PlayerInfo[0]), word);
+                            callback.broadcastGuessedWord(playerData.toArray(new PlayerInfo[0]), lowerWord, playerWhoGuessed);
                         } catch (Exception e) {
                             System.err.println("Error updating GUI for token: " + token);
                             e.printStackTrace();

@@ -5,6 +5,8 @@ import TestingGrounds.GameSystem.PlayerInfo;
 import View.ClientGUIFrame;
 
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 import java.io.File;
 import java.util.*;
@@ -14,18 +16,23 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
     private ClientGUIFrame gui;
     private final Random random = new Random();
     private static final String ICONS_PATH = "src/Icons";
+    private Map<String, Icon> usernameToIconMap = new HashMap<>();
+    private List<Icon> availableIcons = new ArrayList<>();
+    private Set<Icon> assignedIcons = new HashSet<>();
+
 
     public GameClientCallbackImpl(){
 
     }
     public GameClientCallbackImpl(ClientGUIFrame gui) {
         this.gui = gui;
+        loadAvailableIcons();
     }
 
     @Override
     public void CreateLobGUI(String username, String gameId) {
         SwingUtilities.invokeLater(() -> {
-
+            gui.getPlayer1pic().setIcon(assignIcon(username));
         });
     }
 
@@ -54,10 +61,10 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
             gui.getPlayer3username().setText(defaultPositions.get(3));
             gui.getPlayer4username().setText(defaultPositions.get(4));
 
-            gui.getPlayer1pic().setIcon(defaultPositions.get(1).equals("Empty") ? null : getRandomIcon());
-            gui.getPlayer2pic().setIcon(defaultPositions.get(2).equals("Empty") ? null : getRandomIcon());
-            gui.getPlayer3pic().setIcon(defaultPositions.get(3).equals("Empty") ? null : getRandomIcon());
-            gui.getPlayer4pic().setIcon(defaultPositions.get(4).equals("Empty") ? null : getRandomIcon());
+            gui.getPlayer1pic().setIcon(defaultPositions.get(1).equals("Empty") ? null : assignIcon(defaultPositions.get(1)));
+            gui.getPlayer2pic().setIcon(defaultPositions.get(2).equals("Empty") ? null : assignIcon(defaultPositions.get(2)));
+            gui.getPlayer3pic().setIcon(defaultPositions.get(3).equals("Empty") ? null : assignIcon(defaultPositions.get(3)));
+            gui.getPlayer4pic().setIcon(defaultPositions.get(4).equals("Empty") ? null : assignIcon(defaultPositions.get(4)));
 
         });
     }
@@ -109,11 +116,17 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
             gui.getPlayer2gamePoints().setText(String.valueOf(defaultScores.get(2)));
             gui.getPlayer3gamePoints().setText(String.valueOf(defaultScores.get(3)));
             gui.getPlayer4gamePoints().setText(String.valueOf(defaultScores.get(4)));
+
+            gui.getPlayer1gamePic().setIcon(defaultPositions.get(1).equals("Empty") ? null : assignIcon(defaultPositions.get(1)));
+            gui.getPlayer2gamePic().setIcon(defaultPositions.get(2).equals("Empty") ? null : assignIcon(defaultPositions.get(2)));
+            gui.getPlayer3gamePic().setIcon(defaultPositions.get(3).equals("Empty") ? null : assignIcon(defaultPositions.get(3)));
+            gui.getPlayer4gamePic().setIcon(defaultPositions.get(4).equals("Empty") ? null : assignIcon(defaultPositions.get(4)));
+
         });
     }
 
     @Override
-    public void broadcastGuessedWord(PlayerInfo[] playerData, String word) {
+    public void broadcastGuessedWord(PlayerInfo[] playerData, String word, String playerWhoGuessed) {
         Map<Integer, String> defaultPositions = new HashMap<>();
         Map<Integer, Long> defaultScores = new HashMap<>();
         defaultPositions.put(1, "Empty");
@@ -142,28 +155,60 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         gui.getPlayer2gamePoints().setText(String.valueOf(defaultScores.get(2)));
         gui.getPlayer3gamePoints().setText(String.valueOf(defaultScores.get(3)));
         gui.getPlayer4gamePoints().setText(String.valueOf(defaultScores.get(4)));
+
+        // Announce to players
+        appendToAnnouncement(gui.getAnnouncementTextpane(), playerWhoGuessed + " has guessed the word " + word + "\n");
     }
 
 
-    private Icon getRandomIcon() {
+    private void loadAvailableIcons() {
         File iconDirectory = new File(ICONS_PATH);
         if (!iconDirectory.exists() || !iconDirectory.isDirectory()) {
             System.err.println("Icon directory not found: " + ICONS_PATH);
-            return null;
+            return;
         }
 
-        File[] icons = iconDirectory.listFiles((dir, name) -> name.endsWith(".gif"));
+        File[] gifFiles = iconDirectory.listFiles((dir, name) -> name.endsWith(".gif"));
 
-        if (icons != null && icons.length > 0) {
-            File randomIconFile = icons[random.nextInt(icons.length)];
-            System.out.println("Selected Icon: " + randomIconFile.getName());
-
-            ImageIcon icon = new ImageIcon(randomIconFile.getPath());
-            Image image = icon.getImage().getScaledInstance(500, 500, Image.SCALE_SMOOTH);
-            return new ImageIcon(image);
+        if (gifFiles != null) {
+            for (File gifFile : gifFiles) {
+                ImageIcon icon = new ImageIcon(gifFile.getPath());
+                availableIcons.add(icon);
+            }
         } else {
-            System.err.println("No icons found in directory: " + ICONS_PATH);
-            return null;
+            System.err.println("No GIF icons found in directory: " + ICONS_PATH);
+        }
+    }
+
+    private Icon assignIcon(String username) {
+        if (usernameToIconMap.containsKey(username)) {
+            return usernameToIconMap.get(username);
+        }
+
+        // Ensure availableIcons is not empty
+        if (availableIcons.isEmpty()) {
+            System.err.println("No available icons to assign.");
+            return null; // Return a fallback icon if needed, or return null
+        }
+
+        for (Icon icon : availableIcons) {
+            if (!assignedIcons.contains(icon)) {
+                assignedIcons.add(icon);
+                usernameToIconMap.put(username, icon);
+                return icon;
+            }
+        }
+
+        System.err.println("All icons have been assigned. Using a default icon for " + username);
+        return null;
+    }
+
+    private void appendToAnnouncement(JTextPane textPane, String message) {
+        StyledDocument doc = textPane.getStyledDocument();
+        try {
+            doc.insertString(doc.getLength(), message, null);
+        } catch (BadLocationException e) {
+            e.printStackTrace();
         }
     }
 }
