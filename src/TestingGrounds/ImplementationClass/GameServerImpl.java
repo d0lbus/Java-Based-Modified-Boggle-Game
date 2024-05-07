@@ -131,11 +131,11 @@ public class GameServerImpl extends GameServerPOA implements Object {
         List<PlayerInfo> playerData = new ArrayList<>();
         session.getPlayers().forEach((token, position) -> {
             String username = retrievePlayerFromSessionToken(token);
-            playerData.add(new PlayerInfo(token, username, position));
+            int score = session.getPlayerScore(token);
+            playerData.add(new PlayerInfo(token, username, position, score));
         });
         return playerData;
     }
-
 
     @Override
     public boolean startGame(String sessionToken, String gameId) {
@@ -147,7 +147,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
             CallbackInterface callback = sessionCallbacks.get(token);
             if (callback != null) {
                 try {
-
                     callback.startGameGUI(playerData.toArray(new PlayerInfo[0]), charArrayList);
                 } catch (Exception e) {
                     System.err.println("Error updating GUI for token: " + token);
@@ -204,7 +203,8 @@ public class GameServerImpl extends GameServerPOA implements Object {
         }
 
         // Convert submitted word to lowercase
-        char[] charArray = word.toLowerCase().toCharArray();
+        String lowerWord = word.toLowerCase();
+        char[] charArray = lowerWord.toCharArray();
         Map<Character, Integer> wordMap = new HashMap<>();
         for (char c : charArray) {
             wordMap.put(c, wordMap.getOrDefault(c, 0) + 1);
@@ -220,8 +220,29 @@ public class GameServerImpl extends GameServerPOA implements Object {
             }
         }
 
-        if (isValid && wordValidator.isWordValid(word)) {
-            System.out.println("Valid word: " + word);
+        if (isValid && wordValidator.isWordValid(lowerWord)) {
+            if (session.getGuessedWords().contains(lowerWord)) {
+                System.out.println("Word has already been guessed: " + word);
+            } else {
+                session.addGuessedWord(lowerWord);
+                session.updatePlayerScore(sessionToken, lowerWord.length());
+
+                List<PlayerInfo> playerData = collectPlayerData(session);
+                session.getPlayers().forEach((token, position) -> {
+                    CallbackInterface callback = sessionCallbacks.get(token);
+                    if (callback != null) {
+                        try {
+                            callback.broadcastGuessedWord(playerData.toArray(new PlayerInfo[0]), word);
+                        } catch (Exception e) {
+                            System.err.println("Error updating GUI for token: " + token);
+                            e.printStackTrace();
+                        }
+                    } else {
+                        System.err.println("No callback registered for token: " + token);
+                    }
+                });
+                System.out.println("Valid word: " + word);
+            }
         } else {
             System.out.println("Invalid word: " + word);
         }
@@ -298,7 +319,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
     }
 
     private String generateSecureToken() {
-        // Example: Generate a UUID as a secure token
         return UUID.randomUUID().toString();
     }
 

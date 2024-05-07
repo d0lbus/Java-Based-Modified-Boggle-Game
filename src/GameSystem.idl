@@ -3,6 +3,7 @@ struct PlayerInfo {
         string sessionToken;
         string username;
         long position;
+        long score;
     };
 
 typedef sequence<PlayerInfo> PlayerInfoList;
@@ -12,8 +13,7 @@ interface CallbackInterface {
     void CreateLobGUI( in string username, in string gameId);
     void UpdateLobGUI( in PlayerInfoList playerData);
     void startGameGUI( in PlayerInfoList playerData, in CharList charArrayList);
-    void scoreUser(in long userPosition, in string word, in long score);
-    void wordGuesses(in long userPosition, in string word, in long score);
+    void broadcastGuessedWord ( in PlayerInfoList playerData, in string word);
     };
 
 

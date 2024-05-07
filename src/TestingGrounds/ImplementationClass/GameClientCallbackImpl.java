@@ -59,14 +59,6 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
             gui.getPlayer3pic().setIcon(defaultPositions.get(3).equals("Empty") ? null : getRandomIcon());
             gui.getPlayer4pic().setIcon(defaultPositions.get(4).equals("Empty") ? null : getRandomIcon());
 
-            // Print out the current state of the GUI components for debugging
-            System.out.println("GUI State:");
-            System.out.println("Player 1: " + gui.getPlayer1username().getText());
-            System.out.println("Player 2: " + gui.getPlayer2username().getText());
-            System.out.println("Player 3: " + gui.getPlayer3username().getText());
-            System.out.println("Player 4: " + gui.getPlayer4username().getText());
-
-
         });
     }
 
@@ -90,32 +82,66 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
                 letterButtons[i].setText(String.valueOf(charArrayList[i]));
             }
 
-            // Update player labels directly within the function
             Map<Integer, String> defaultPositions = new HashMap<>();
+            Map<Integer, Integer> defaultScores = new HashMap<>();
+
             defaultPositions.put(1, "Empty");
             defaultPositions.put(2, "Empty");
             defaultPositions.put(3, "Empty");
             defaultPositions.put(4, "Empty");
 
+            defaultScores.put(1, 0);
+            defaultScores.put(2, 0);
+            defaultScores.put(3, 0);
+            defaultScores.put(4, 0);
+
             for (PlayerInfo info : playerData) {
                 defaultPositions.put((int) info.position, info.username);
+                defaultScores.put((int) info.position, info.score);
             }
 
             gui.getPlayer1gameUsername().setText(defaultPositions.get(1));
             gui.getPlayer2gameUsername().setText(defaultPositions.get(2));
             gui.getPlayer3gameUsername().setText(defaultPositions.get(3));
             gui.getPlayer4gameUsername().setText(defaultPositions.get(4));
+
+            gui.getPlayer1gamePoints().setText(String.valueOf(defaultScores.get(1)));
+            gui.getPlayer2gamePoints().setText(String.valueOf(defaultScores.get(2)));
+            gui.getPlayer3gamePoints().setText(String.valueOf(defaultScores.get(3)));
+            gui.getPlayer4gamePoints().setText(String.valueOf(defaultScores.get(4)));
         });
     }
 
     @Override
-    public void scoreUser(int userPosition, String word, int score) {
+    public void broadcastGuessedWord(PlayerInfo[] playerData, String word) {
+        Map<Integer, String> defaultPositions = new HashMap<>();
+        Map<Integer, Long> defaultScores = new HashMap<>();
+        defaultPositions.put(1, "Empty");
+        defaultPositions.put(2, "Empty");
+        defaultPositions.put(3, "Empty");
+        defaultPositions.put(4, "Empty");
 
-    }
+        defaultScores.put(1, 0L);
+        defaultScores.put(2, 0L);
+        defaultScores.put(3, 0L);
+        defaultScores.put(4, 0L);
 
-    @Override
-    public void wordGuesses(int userPosition, String word, int score) {
+        for (PlayerInfo info : playerData) {
+            defaultPositions.put((int) info.position, info.username);
+            defaultScores.put((int) info.position, (long) info.score);
+        }
 
+        // Set usernames
+        gui.getPlayer1gameUsername().setText(defaultPositions.get(1));
+        gui.getPlayer2gameUsername().setText(defaultPositions.get(2));
+        gui.getPlayer3gameUsername().setText(defaultPositions.get(3));
+        gui.getPlayer4gameUsername().setText(defaultPositions.get(4));
+
+        // Set scores
+        gui.getPlayer1gamePoints().setText(String.valueOf(defaultScores.get(1)));
+        gui.getPlayer2gamePoints().setText(String.valueOf(defaultScores.get(2)));
+        gui.getPlayer3gamePoints().setText(String.valueOf(defaultScores.get(3)));
+        gui.getPlayer4gamePoints().setText(String.valueOf(defaultScores.get(4)));
     }
 
 
