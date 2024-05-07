@@ -10,11 +10,14 @@ import java.sql.SQLException;
 public class UserDAO {
     public User getUserByUsername(String username) throws SQLException {
         String sql = "SELECT * FROM users WHERE username = ?";
+        System.out.println("Executing query with username: " + username); // Debugging log
+
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, username);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
+                    System.out.println("User found with username: " + username); // Debugging log
                     return new User(
                             rs.getString("playerId"),
                             rs.getString("username"),
@@ -23,12 +26,16 @@ public class UserDAO {
                             rs.getInt("score"),
                             rs.getString("currentGameToken")
                     );
+                } else {
+                    System.out.println("No user found with username: " + username); // Debugging log
                 }
             }
+        } catch (SQLException e) {
+            System.err.println("Error querying user by username: " + e.getMessage());
+            throw e;
         }
-        return null;
+        return null; // Return null if no matching user is found
     }
-
     public boolean validatePassword(User user, String password) throws SQLException {
         String sql = "SELECT password FROM users WHERE username = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -44,11 +51,11 @@ public class UserDAO {
     }
 
     public void updateSessionToken(User user, String sessionToken) throws SQLException {
-        String sql = "UPDATE users SET sessionToken = ? WHERE playerId = ?";
+        String sql = "UPDATE users SET sessionToken = ? WHERE username = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, sessionToken);
-            ps.setString(2, user.getPlayerId());
+            ps.setString(2, user.getUsername());
             ps.executeUpdate();
         }
     }

@@ -27,7 +27,7 @@ public class Player {
     private static String username = "";
     private static String password = "";
     private static String gameId = "";
-    private static StringHolder sessionToken = new StringHolder();
+    private static org.omg.CORBA.StringHolder sessionToken = new StringHolder();
     static GameServer gameServerImp;
     static GameClientCallbackImpl cbi;
     static CallbackInterface callbackRef;
@@ -64,7 +64,10 @@ public class Player {
             public void actionPerformed(ActionEvent e) {
                 username = registration.getUsernameLoginTextfield().getText();
                 password = new String(registration.getLoginPasswordField().getPassword());
+
                 boolean loginSuccessful = gameServerImp.login(username, password, sessionToken, callbackRef);
+
+
                 if (loginSuccessful) {
                     System.out.println("Login for " + username + " is successful. Session token: " + sessionToken.value);
                     startGame();

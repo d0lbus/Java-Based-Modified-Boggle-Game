@@ -29,9 +29,10 @@ public class GameServerImpl extends GameServerPOA implements Object {
 
 
     @Override
-    public boolean login(String username, String password, StringHolder sessionToken, CallbackInterface cbi) {
+    public boolean login(String username, String password, org.omg.CORBA.StringHolder sessionToken, CallbackInterface cbi) {
         try {
             User user = userDAO.getUserByUsername(username);
+
             if (user == null || !userDAO.validatePassword(user, password)) {
                 throw new InvalidCredentials();
             }
