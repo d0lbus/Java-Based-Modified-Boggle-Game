@@ -26,7 +26,7 @@ import java.util.UUID;
 public class Player {
     private static String username = "";
     private static String password = "";
-    private static String gameId = "";
+    private static String gameToken = "";
     private static org.omg.CORBA.StringHolder sessionToken = new StringHolder();
     static GameServer gameServerImp;
     static GameClientCallbackImpl cbi;
@@ -144,15 +144,15 @@ public class Player {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Session Token: " + sessionToken.value);
-                gameId = gameServerImp.hostGame(sessionToken.value, callbackRef);
+                gameToken = gameServerImp.hostGame(sessionToken.value, callbackRef);
             }
         });
 
         clientGUIFrame.getRandomButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gameId = gameServerImp.joinRandomGame(sessionToken.value, callbackRef);
-                if (gameId != null) {
+                gameToken = gameServerImp.joinRandomGame(sessionToken.value, callbackRef);
+                if (gameToken != null) {
                     clientGUIFrame.getLayeredPane().removeAll();
                     clientGUIFrame.getLayeredPane().add(clientGUIFrame.getLobbyPanel());
                     clientGUIFrame.getLayeredPane().repaint();
@@ -166,7 +166,15 @@ public class Player {
         clientGUIFrame.getStartButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gameServerImp.startGame(sessionToken.value, gameId);
+                gameServerImp.startGame(sessionToken.value, gameToken);
+            }
+        });
+
+        clientGUIFrame.getInputTextField().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String word = clientGUIFrame.getInputTextField().getText();
+                gameServerImp.submitWord(sessionToken.value, gameToken, word);
             }
         });
     }

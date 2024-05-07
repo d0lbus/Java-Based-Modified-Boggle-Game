@@ -11,6 +11,7 @@ import org.omg.PortableServer.POAHelper;
 public class Server {
     public static void main(String args[]) {
         try {
+            Runtime.getRuntime().exec("cmd /c start orbd -ORBInitialPort 900 -ORBInitialHost 0.0.0.0");
             ORB orb = ORB.init(args, null);
             POA rootpoa = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
             rootpoa.the_POAManager().activate();

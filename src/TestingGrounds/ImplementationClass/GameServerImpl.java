@@ -195,24 +195,21 @@ public class GameServerImpl extends GameServerPOA implements Object {
 
         WordValidator wordValidator = new WordValidator("src/words.txt");
 
+        // Convert random letters to lowercase
         char[] randomLetters = session.getRandomLetters();
-        char[] charArray = word.toCharArray();
-
-        // Create frequency maps for both the random letters and the submitted word
         Map<Character, Integer> randomLetterMap = new HashMap<>();
-        Map<Character, Integer> wordMap = new HashMap<>();
-
-        // Count occurrences in the random letters
         for (char c : randomLetters) {
-            randomLetterMap.put(c, randomLetterMap.getOrDefault(c, 0) + 1);
+            char lowerC = Character.toLowerCase(c);
+            randomLetterMap.put(lowerC, randomLetterMap.getOrDefault(lowerC, 0) + 1);
         }
 
-        // Count occurrences in the submitted word
+        // Convert submitted word to lowercase
+        char[] charArray = word.toLowerCase().toCharArray();
+        Map<Character, Integer> wordMap = new HashMap<>();
         for (char c : charArray) {
             wordMap.put(c, wordMap.getOrDefault(c, 0) + 1);
         }
 
-        // Validate the submitted word against the random letters
         boolean isValid = true;
         for (Map.Entry<Character, Integer> entry : wordMap.entrySet()) {
             char letter = entry.getKey();
@@ -223,7 +220,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
             }
         }
 
-        // Check if the word is valid and exists in word.txt
         if (isValid && wordValidator.isWordValid(word)) {
             System.out.println("Valid word: " + word);
         } else {
