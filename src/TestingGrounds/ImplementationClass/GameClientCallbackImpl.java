@@ -109,11 +109,15 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
     }
 
     @Override
-    public void informUser(int userPosition, String word, int score) {
-        SwingUtilities.invokeLater(() -> {
+    public void scoreUser(int userPosition, String word, int score) {
 
-        });
     }
+
+    @Override
+    public void wordGuesses(int userPosition, String word, int score) {
+
+    }
+
 
     private Icon getRandomIcon() {
         File iconDirectory = new File(ICONS_PATH);

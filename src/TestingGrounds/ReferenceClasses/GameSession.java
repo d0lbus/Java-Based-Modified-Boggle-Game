@@ -1,4 +1,4 @@
-package TestingGrounds.Client_Java;
+package TestingGrounds.ReferenceClasses;
 
 import java.util.HashMap;
 import java.util.Map;

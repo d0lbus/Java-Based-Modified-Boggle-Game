@@ -1,4 +1,4 @@
-package TestingGrounds.Utilities;
+package TestingGrounds.Utilities.DataAccessObjects;
 
 
 import java.sql.Connection;
@@ -7,10 +7,10 @@ import java.sql.SQLException;
 
 public class DBConnection {
     private static Connection con;
-    // Get connection method
-    public Connection getConnection() throws SQLException {
+
+    public static Connection getConnection() throws SQLException {
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/quantum", "root", "");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/boggled", "root", "password");
         } catch (Exception e) {
             System.out.println("Database connection failed.");
             throw e;

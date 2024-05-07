@@ -1,4 +1,4 @@
-package TestingGrounds.Client_Java;
+package TestingGrounds.ReferenceClasses;
 
 public class User {
     private String playerId;
@@ -6,12 +6,16 @@ public class User {
     private String sessionToken;
     private boolean inGame;
     private int score;
+    private String currentGameToken;
 
-    public User(String username, String sessionToken) {
+
+    public User(String playerId, String username, String sessionToken, boolean inGame, int score, String currentGameToken) {
+        this.playerId = getPlayerId();
         this.username = username;
         this.sessionToken = sessionToken;
         this.inGame = false;
         this.score = 0;
+        this.currentGameToken = "";
     }
 
     public String getPlayerId() {
@@ -55,6 +59,22 @@ public class User {
     public void leaveGame() {
         this.inGame = false;
         this.score = 0;  // (RESET TO 0 OR KEEP THE SCORE)
+    }
+
+    public void setPlayerId(String playerId) {
+        this.playerId = playerId;
+    }
+
+    public void setSessionToken(String sessionToken) {
+        this.sessionToken = sessionToken;
+    }
+
+    public String getCurrentGameToken() {
+        return currentGameToken;
+    }
+
+    public void setCurrentGameToken(String currentGameToken) {
+        this.currentGameToken = currentGameToken;
     }
 
     public String getSessionToken() {

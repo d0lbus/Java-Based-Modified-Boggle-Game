@@ -1,14 +1,17 @@
 package TestingGrounds.ImplementationClass;
 
-import TestingGrounds.Client_Java.GameSession;
-import TestingGrounds.Client_Java.User;
+import TestingGrounds.GameSystem.InvalidCredentials;
+import TestingGrounds.ReferenceClasses.GameSession;
 import TestingGrounds.GameSystem.CallbackInterface;
 import TestingGrounds.GameSystem.GameServerPOA;
 import TestingGrounds.GameSystem.PlayerInfo;
+import TestingGrounds.ReferenceClasses.User;
+import TestingGrounds.Utilities.DataAccessObjects.UserDAO;
 import TestingGrounds.Utilities.WordValidator;
 import org.omg.CORBA.*;
 import org.omg.CORBA.Object;
 
+import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -21,20 +24,32 @@ public class GameServerImpl extends GameServerPOA implements Object {
     private static final char[] VOWELS = "AEIOU".toCharArray();
     private static final int NUM_CONSONANTS = 13;
     private static final int NUM_VOWELS = 7;
-
+    private UserDAO userDAO = new UserDAO();
     private final Random random = new Random();
 
 
     @Override
-    public boolean login(String username, String password, org.omg.CORBA.StringHolder sessionToken, CallbackInterface cbi) {
-        if (username != null && password != null) {
+    public boolean login(String username, String password, StringHolder sessionToken, CallbackInterface cbi) {
+        try {
+            User user = userDAO.getUserByUsername(username);
+            if (user == null || !userDAO.validatePassword(user, password)) {
+                throw new InvalidCredentials();
+            }
+
             String token = generateSecureToken();
             sessionToken.value = token;
+
+            // Update user session in the database
+            user.setSessionToken(token);
+            userDAO.updateSessionToken(user, token);
+
             sessionTokens.put(token, username);
             sessionCallbacks.put(token, cbi);
+
             System.out.println("Callback registered for " + username + " with token: " + token);
             return true;
-        } else {
+        } catch (SQLException | InvalidCredentials e) {
+            System.err.println("Login error: " + e.getMessage());
             return false;
         }
     }

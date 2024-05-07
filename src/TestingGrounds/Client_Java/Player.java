@@ -1,11 +1,8 @@
 package TestingGrounds.Client_Java;
 
-import TestingGrounds.GameSystem.CallbackInterface;
-import TestingGrounds.GameSystem.CallbackInterfaceHelper;
-import TestingGrounds.GameSystem.GameServer;
-import TestingGrounds.GameSystem.GameServerHelper;
+import TestingGrounds.GameSystem.*;
 import TestingGrounds.ImplementationClass.GameClientCallbackImpl;
-import TestingGrounds.Utilities.DBConnection;
+import TestingGrounds.Utilities.DataAccessObjects.DBConnection;
 import View.ClientGUIFrame;
 import View.Registration;
 import org.omg.CORBA.ORB;
@@ -34,7 +31,6 @@ public class Player {
     static GameServer gameServerImp;
     static GameClientCallbackImpl cbi;
     static CallbackInterface callbackRef;
-    private static int lobbyCounter = 1;
     static ClientGUIFrame clientGUIFrame = new ClientGUIFrame();
     static Registration registration = new Registration();
     public static void main(String[] args) {
@@ -61,68 +57,25 @@ public class Player {
         }
     }
 
-
     public static void startLogin() {
         registration.setVisible(true);
         registration.getSignInButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String username = registration.getUsernameLoginTextfield().getText();
-                char[] enteredPasswordChars = registration.getLoginPasswordField().getPassword();
-                String enteredPassword = new String(enteredPasswordChars);
-
-                Connection connection = null;
-                PreparedStatement statement = null;
-                ResultSet resultSet = null;
-
-                try {
-                    // Obtain database connection
-                    DBConnection dbConnection = new DBConnection();
-                    connection = dbConnection.getConnection();
-
-                    // Query to retrieve user information
-                    String query = "SELECT password FROM players WHERE username=?";
-                    statement = connection.prepareStatement(query);
-                    statement.setString(1, username);
-                    resultSet = statement.executeQuery();
-
-                    if (resultSet.next()) {
-                        // Username exists in the database
-                        String storedPassword = resultSet.getString("password");
-                        if (storedPassword.equals(enteredPassword)) {
-                            // Password is correct
-                            // Generate session token
-                            sessionToken.value = generateSessionToken();
-
-                            // Update session token in database for the current user
-                            updateSessionTokenInDatabase(connection, username, sessionToken.value);
-
-                            System.out.println("Login for " + username + " is successful. Session token: " + sessionToken.value);
-                            JOptionPane.showMessageDialog(registration, "Successful Login! Welcome to Boggled, " + username);
-                            startGame(sessionToken.value);
-                            registration.setVisible(false);
-                        } else {
-                            // Wrong password
-                            JOptionPane.showMessageDialog(registration, "Wrong password", "Login Failed", JOptionPane.ERROR_MESSAGE);
-                        }
-                    } else {
-                        // Username not found
-                        JOptionPane.showMessageDialog(registration, "Username not found", "Login Failed", JOptionPane.ERROR_MESSAGE);
-                    }
-                } catch (SQLException ex) {
-                    System.err.println("Error executing SQL query: " + ex.getMessage());
-                } finally {
-                    // Close database resources
-                    try {
-                        if (resultSet != null) resultSet.close();
-                        if (statement != null) statement.close();
-                        if (connection != null) connection.close();
-                    } catch (SQLException ex) {
-                        System.err.println("Error closing database resources: " + ex.getMessage());
-                    }
+                username = registration.getUsernameLoginTextfield().getText();
+                password = new String(registration.getLoginPasswordField().getPassword());
+                boolean loginSuccessful = gameServerImp.login(username, password, sessionToken, callbackRef);
+                if (loginSuccessful) {
+                    System.out.println("Login for " + username + " is successful. Session token: " + sessionToken.value);
+                    startGame();
+                    registration.setVisible(false);
+                } else {
+                    System.out.println("Login failed.");
                 }
             }
         });
+
+
         registration.getDoneButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -182,43 +135,6 @@ public class Player {
     }
 
 
-    // Generate a random session token using UUID
-    private static String generateSessionToken() {
-        return UUID.randomUUID().toString();
-    }
-
-    // Update session token in the database
-    private static void updateSessionTokenInDatabase(Connection connection, String username, String sessionToken) throws SQLException {
-        String updateQuery = "UPDATE players SET sessionToken = ? WHERE username = ?";
-        PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
-        updateStatement.setString(1, sessionToken);
-        updateStatement.setString(2, username);
-        updateStatement.executeUpdate();
-        updateStatement.close();
-    }
-
-    public static String generateGameToken() {
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        StringBuilder token = new StringBuilder();
-        Random random = new Random();
-        for (int i = 0; i < 6; i++) {
-            token.append(characters.charAt(random.nextInt(characters.length())));
-        }
-        return token.toString();
-    }
-
-
-    private static void insertLobbyIntoDatabase(Connection connection, String gameId, String sessionToken, String gameToken) throws SQLException {
-        String insertQuery = "INSERT INTO activegames (gameId, sessionToken, gameToken) VALUES (?, ?, ?)";
-        PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
-        insertStatement.setString(1, gameId);
-        insertStatement.setString(2, sessionToken);
-        insertStatement.setString(3, gameToken);
-        insertStatement.executeUpdate();
-        insertStatement.close();
-    }
-
-
     public static void startGame() {
         clientGUIFrame.setVisible(true);
         clientGUIFrame.getCreateLobbyButton().addActionListener(new ActionListener() {
@@ -232,8 +148,8 @@ public class Player {
         clientGUIFrame.getRandomButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean gameFound = gameServerImp.joinRandomGame(sessionToken.value, callbackRef);
-                if (gameFound) {
+                gameId = gameServerImp.joinRandomGame(sessionToken.value, callbackRef);
+                if (gameId != null) {
                     clientGUIFrame.getLayeredPane().removeAll();
                     clientGUIFrame.getLayeredPane().add(clientGUIFrame.getLobbyPanel());
                     clientGUIFrame.getLayeredPane().repaint();
