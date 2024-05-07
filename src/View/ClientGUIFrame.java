@@ -211,31 +211,31 @@ public class ClientGUIFrame extends JFrame {
         quitButton.setBounds(593, 570, 100, 40);
         homePanel.add(quitButton);
 
-        LetterCube cubeB = new LetterCube("B");
+        LetterCube cubeB = new LetterCube("B", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
         cubeB.setBounds(200, 100, 150, 150);
         homePanel.add(cubeB);
 
-        LetterCube cubeO = new LetterCube("O");
+        LetterCube cubeO = new LetterCube("O", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
         cubeO.setBounds(320, 150, 150, 150);
         homePanel.add(cubeO);
 
-        LetterCube cubeG = new LetterCube("G");
+        LetterCube cubeG = new LetterCube("G", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
         cubeG.setBounds(440, 100, 150, 150);
         homePanel.add(cubeG);
 
-        LetterCube cubeG2 = new LetterCube("G");
+        LetterCube cubeG2 = new LetterCube("G", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
         cubeG2.setBounds(560, 150, 150, 150);
         homePanel.add(cubeG2);
 
-        LetterCube cubeL = new LetterCube("L");
+        LetterCube cubeL = new LetterCube("L", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
         cubeL.setBounds(680, 100, 150, 150);
         homePanel.add(cubeL);
 
-        LetterCube cubeE = new LetterCube("E");
+        LetterCube cubeE = new LetterCube("E", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
         cubeE.setBounds(800, 150, 150, 150);
         homePanel.add(cubeE);
 
-        LetterCube cubeD = new LetterCube("D");
+        LetterCube cubeD = new LetterCube("D", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
         cubeD.setBounds(920, 100, 150, 150);
         homePanel.add(cubeD);
 
