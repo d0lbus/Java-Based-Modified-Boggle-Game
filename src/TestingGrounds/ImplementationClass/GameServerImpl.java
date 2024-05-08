@@ -215,6 +215,8 @@ public class GameServerImpl extends GameServerPOA implements Object {
         return true;
     }
 
+
+
     private void startGameSession(GameSession session) {
         List<PlayerInfo> playerData = collectPlayerData(session);
         char[] charArrayList = generateRandomCharArray();
@@ -239,7 +241,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
         // Start the round timer
         startRoundTimer(session);
     }
-
     private void startRoundTimer(GameSession session) {
         notifyRoundTimerToPlayers(session, 30);
         scheduler.schedule(() -> {
@@ -277,7 +278,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
             }
         });
     }
-
     private void notifyGameWinner(GameSession session, String winnerToken) {
         String winnerName = retrievePlayerFromSessionToken(winnerToken);
         session.getPlayers().forEach((token, position) -> {
@@ -294,7 +294,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
             }
         });
     }
-
     private void notifyTieToPlayers(GameSession session) {
         session.getPlayers().forEach((token, position) -> {
             CallbackInterface callback = sessionCallbacks.get(token);
@@ -310,7 +309,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
             }
         });
     }
-
     private void completeRound(GameSession session) {
         String roundWinner = session.determineRoundWinner();
         if (roundWinner != null) {
@@ -330,19 +328,21 @@ public class GameServerImpl extends GameServerPOA implements Object {
         } else {
             session.resetScoresForNextRound();
             notifyPlayersAboutChanges(session);
-            startNextRound(session);
+            scheduler.schedule(() -> startNextRound(session), 5, TimeUnit.SECONDS);
         }
     }
-
     private void startNextRound(GameSession session) {
         char[] charArrayList = generateRandomCharArray();
         session.setRandomLetters(charArrayList);
+        session.setStatus(GameSession.GameStatus.ACTIVE);
 
+        List<PlayerInfo> playerData = collectPlayerData(session);
         session.getPlayers().forEach((token, position) -> {
             CallbackInterface callback = sessionCallbacks.get(token);
             if (callback != null) {
                 try {
-                    callback.startGameGUI(collectPlayerData(session).toArray(new PlayerInfo[0]), charArrayList);
+                    callback.startGameGUI(playerData.toArray(new PlayerInfo[0]), charArrayList);
+                    callback.startRoundTimer(30);  // Reset the round timer GUI
                 } catch (Exception e) {
                     System.err.println("Error updating GUI for token: " + token);
                     e.printStackTrace();
@@ -353,8 +353,10 @@ public class GameServerImpl extends GameServerPOA implements Object {
         });
 
         System.out.println("Next round started for session ID: " + session.getSessionId());
-    }
 
+        // Start the round timer
+        startRoundTimer(session);
+    }
     private void sendTimeoutExceptionToHost(String sessionToken, GameSession session) {
         CallbackInterface callback = sessionCallbacks.get(sessionToken);
         if (callback != null) {
@@ -453,8 +455,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
             System.out.println("Invalid word: " + word);
         }
     }
-
-
 
     @Override
     public String getLetters(String sessionToken, String gameId) {
