@@ -1,5 +1,8 @@
 package TestingGrounds.ReferenceClasses;
 
+import TestingGrounds.Utilities.DataAccessObjects.GameSettingsDAO;
+
+import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -17,7 +20,7 @@ public class GameSession {
     private ArrayList<String> guessedWords;
     private AtomicBoolean timerRunning = new AtomicBoolean(false);
     private AtomicInteger hostPosition = new AtomicInteger(0);
-    private static final int WINNING_ROUNDS = 3;
+    private static int WINNING_ROUNDS;
 
     public enum GameStatus {
         WAITING, ACTIVE, COMPLETED
@@ -33,6 +36,7 @@ public class GameSession {
         this.randomLetters = new char[20];
         this.guessedWords = new ArrayList<>();
     }
+
 
     public void addPlayer(String sessionToken) {
         if (status != GameStatus.WAITING) {
@@ -153,10 +157,11 @@ public class GameSession {
         List<Map.Entry<String, Integer>> sortedScores = new ArrayList<>(playerScores.entrySet());
         sortedScores.sort((a, b) -> Integer.compare(b.getValue(), a.getValue()));
 
-        if (sortedScores.size() < 2 || sortedScores.get(0).getValue() != sortedScores.get(1).getValue()) {
-            return sortedScores.get(0).getKey();
+        if (sortedScores.isEmpty() || sortedScores.size() < 2 || sortedScores.get(0).getValue() == sortedScores.get(1).getValue()) {
+            return null; // No clear winner
         }
-        return null; // No clear winner
+
+        return sortedScores.get(0).getKey();
     }
 
     public void incrementRoundWinCount(String sessionToken) {
@@ -164,12 +169,25 @@ public class GameSession {
     }
 
     public String determineOverallWinner() {
+        WINNING_ROUNDS = fetchRoundsToWin();
         for (Map.Entry<String, Integer> entry : playerRoundsWon.entrySet()) {
             if (entry.getValue() >= WINNING_ROUNDS) {
                 return entry.getKey();
             }
         }
         return null;
+    }
+
+    private int fetchRoundsToWin() {
+        GameSettingsDAO settingsDAO = new GameSettingsDAO();
+        int roundsToWin;
+        try {
+            roundsToWin = settingsDAO.fetchRoundsToWin();
+        } catch (SQLException e) {
+            System.err.println("Error fetching rounds to win: " + e.getMessage());
+            roundsToWin = 3; // default
+        }
+        return roundsToWin;
     }
 
     // Reset scores for the next round
