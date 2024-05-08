@@ -60,8 +60,10 @@ public class UserDAO {
         }
     }
 
-    public void createUser(User user, String password) throws SQLException {
-        String sql = "INSERT INTO users (playerId, username, password, sessionToken, inGame, score, currentGameId) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public static void createUser(User user, String firstName, String lastName, String password) throws SQLException {
+        String sqlGetLastPlayerId = "SELECT playerId FROM users ORDER BY playerId DESC LIMIT 1";
+        String sqlInsertUser = "INSERT INTO users (playerId, username, firstName, lastName, password, sessionToken, inGame, score, currentGameToken) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, user.getPlayerId());
@@ -72,6 +74,41 @@ public class UserDAO {
             ps.setInt(6, user.getScore());
             ps.setString(7, user.getCurrentGameToken());
             ps.executeUpdate();
+             PreparedStatement psGetLastPlayerId = conn.prepareStatement(sqlGetLastPlayerId);
+             ResultSet rs = psGetLastPlayerId.executeQuery()) {
+
+            int lastPlayerId = 0;
+            if (rs.next()) {
+                lastPlayerId = rs.getInt("playerId");
+            }
+
+            // Increment playerId
+            int newPlayerId = lastPlayerId + 1;
+
+            try (PreparedStatement psInsertUser = conn.prepareStatement(sqlInsertUser)) {
+                psInsertUser.setInt(1, newPlayerId);
+                psInsertUser.setString(2, user.getUsername());
+                psInsertUser.setString(3, firstName); // Set first name
+                psInsertUser.setString(4, lastName);  // Set last name
+                psInsertUser.setString(5, password);
+                psInsertUser.setString(6, user.getSessionToken());
+                psInsertUser.setBoolean(7, user.isInGame());
+                psInsertUser.setInt(8, user.getScore());
+                psInsertUser.setString(9, user.getCurrentGameToken());
+
+                psInsertUser.executeUpdate();
+            }
+        }
+    }
+    public static boolean doesUsernameExist(String username) throws SQLException {
+        String sqlCheckUsername = "SELECT * FROM users WHERE username = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement psCheckUsername = conn.prepareStatement(sqlCheckUsername)) {
+            psCheckUsername.setString(1, username);
+            try (ResultSet rs = psCheckUsername.executeQuery()) {
+                return rs.next(); // If rs.next() returns true, the username exists
+            }
         }
     }
 }

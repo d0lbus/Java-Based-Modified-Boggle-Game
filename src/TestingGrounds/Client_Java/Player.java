@@ -99,24 +99,32 @@ public class Player {
                     JOptionPane.showMessageDialog(registration, "Passwords do not match", "Signup Failed", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+                try {
+                    if (UserDAO.doesUsernameExist(username)) {
+                        JOptionPane.showMessageDialog(registration, "Username is already taken. Please choose a different one.", "Signup Failed", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                } catch (SQLException ex) {
+                    System.err.println("Error checking username existence: " + ex.getMessage());
+                    JOptionPane.showMessageDialog(registration, "Error checking username existence: " + ex.getMessage(), "Signup Failed", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
                 // Insert user into the database
                 try {
-                    DBConnection dbConnection = new DBConnection();
-                    Connection connection = dbConnection.getConnection();
-
                     // Capitalize the first letter of first name and last name
                     String firstNameCapitalized = firstName.substring(0, 1).toUpperCase() + firstName.substring(1).toLowerCase();
                     String lastNameCapitalized = lastName.substring(0, 1).toUpperCase() + lastName.substring(1).toLowerCase();
 
-                    String query = "INSERT INTO players (firstName, lastName, password, username, userType) VALUES (?, ?, ?, ?, ?)";
-                    PreparedStatement statement = connection.prepareStatement(query);
-                    statement.setString(1, firstNameCapitalized);
-                    statement.setString(2, lastNameCapitalized);
-                    statement.setString(3, password);
-                    statement.setString(4, username);
-                    statement.setString(5, "player");
-                    statement.executeUpdate();
+                    // Create a User object
+                    User user = new User(null, username, null, false, 0, null);
+                    user.setFirstName(firstNameCapitalized);
+                    user.setLastName(lastNameCapitalized);
+                    user.setUsername(username);
+                    // Set other user properties as needed
+
+                    // Call createUser method to insert user into the database
+                    UserDAO.createUser(user, firstNameCapitalized, lastNameCapitalized, password);
 
                     JOptionPane.showMessageDialog(registration, "Registration successful! Welcome to Boggled, " + username);
 

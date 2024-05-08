@@ -3,6 +3,8 @@ package TestingGrounds.ReferenceClasses;
 public class User {
     private String playerId;
     private String username;
+    private String firstName;
+    private String lastName;
     private String sessionToken;
     private boolean inGame;
     private int score;
@@ -24,6 +26,14 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 
     public void setUsername(String username) {
@@ -63,6 +73,12 @@ public class User {
 
     public void setPlayerId(String playerId) {
         this.playerId = playerId;
+    }
+    public void setFirstName(String firstName) {
+        this.playerId = firstName;
+    }
+    public void setLastName(String lastName) {
+        this.playerId = lastName;
     }
 
     public void setSessionToken(String sessionToken) {
