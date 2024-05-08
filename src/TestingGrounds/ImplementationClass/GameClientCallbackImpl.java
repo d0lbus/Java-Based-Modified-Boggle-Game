@@ -24,6 +24,7 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
     private Set<Icon> assignedIcons = new HashSet<>();
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private final ScheduledExecutorService roundScheduler = Executors.newScheduledThreadPool(1);
 
 
     public GameClientCallbackImpl(){
@@ -151,6 +152,24 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
     }
 
     @Override
+    public void startRoundTimer(int durationSeconds) {
+        roundScheduler.scheduleAtFixedRate(new Runnable() {
+            private int remainingSeconds = durationSeconds;
+            @Override
+            public void run() {
+                SwingUtilities.invokeLater(() -> {
+                    if (remainingSeconds >= 0) {
+                        gui.getTimerLabel().setText("00:" + remainingSeconds);
+                        remainingSeconds--;
+                    } else {
+                        scheduler.shutdown();
+                    }
+                });
+            }
+        }, 0, 1, TimeUnit.SECONDS);
+    }
+
+    @Override
     public void broadcastGuessedWord(PlayerInfo[] playerData, String word, String playerWhoGuessed) {
         Map<Integer, String> defaultPositions = new HashMap<>();
         Map<Integer, Long> defaultScores = new HashMap<>();
@@ -183,6 +202,28 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
 
         // Announce to players
         appendToAnnouncement(gui.getAnnouncementTextpane(), playerWhoGuessed + " has guessed the word " + word + "\n");
+    }
+
+    @Override
+    public void displayRoundWinner(String winnerName) {
+        SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(gui, "Round winner: " + winnerName, "Round Winner", JOptionPane.INFORMATION_MESSAGE);
+        });
+    }
+
+    @Override
+    public void displayOverallWinner(String winnerName) {
+        SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(gui, "Overall winner: " + winnerName + " has won the game!", "Overall Winner", JOptionPane.INFORMATION_MESSAGE);
+            gui.getTimerLabel().setText("Timer: 0");
+        });
+    }
+
+    @Override
+    public void displayTie() {
+        SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(gui, "No winner declared for the round due to a tie.", "Round Tie", JOptionPane.INFORMATION_MESSAGE);
+        });
     }
 
     private void loadAvailableIcons() {

@@ -10,12 +10,14 @@ public class GameSession {
     private String gameToken;
     private ConcurrentHashMap<String, Integer> players;
     private ConcurrentHashMap<String, Integer> playerScores;
+    private ConcurrentHashMap<String, Integer> playerRoundsWon;
     private ConcurrentHashMap<String, Boolean> readyPlayers;
     private GameStatus status;
     private char[] randomLetters;
     private ArrayList<String> guessedWords;
     private AtomicBoolean timerRunning = new AtomicBoolean(false);
     private AtomicInteger hostPosition = new AtomicInteger(0);
+    private static final int WINNING_ROUNDS = 3;
 
     public enum GameStatus {
         WAITING, ACTIVE, COMPLETED
@@ -25,10 +27,11 @@ public class GameSession {
         this.gameToken = UUID.randomUUID().toString();
         this.players = new ConcurrentHashMap<>();
         this.playerScores = new ConcurrentHashMap<>();
+        this.playerRoundsWon = new ConcurrentHashMap<>();
         this.readyPlayers = new ConcurrentHashMap<>();
         this.status = GameStatus.WAITING;
         this.randomLetters = new char[20];
-        this.guessedWords = new ArrayList<String>();
+        this.guessedWords = new ArrayList<>();
     }
 
     public void addPlayer(String sessionToken) {
@@ -44,6 +47,7 @@ public class GameSession {
         int position = players.size() + 1;
         players.put(sessionToken, position);
         readyPlayers.put(sessionToken, false);
+        playerRoundsWon.put(sessionToken, 0);
         if (players.size() == 1) {
             hostPosition.set(position);
         }
@@ -52,6 +56,7 @@ public class GameSession {
     public void removePlayer(String sessionToken) {
         players.remove(sessionToken);
         readyPlayers.remove(sessionToken);
+        playerRoundsWon.remove(sessionToken);
         if (players.size() < 2 && status == GameStatus.ACTIVE) {
             endGame();
         }
@@ -141,5 +146,37 @@ public class GameSession {
 
     public boolean isHost(String sessionToken) {
         return players.get(sessionToken) == hostPosition.get();
+    }
+
+    // Determine the round winner
+    public String determineRoundWinner() {
+        List<Map.Entry<String, Integer>> sortedScores = new ArrayList<>(playerScores.entrySet());
+        sortedScores.sort((a, b) -> Integer.compare(b.getValue(), a.getValue()));
+
+        if (sortedScores.size() < 2 || sortedScores.get(0).getValue() != sortedScores.get(1).getValue()) {
+            return sortedScores.get(0).getKey();
+        }
+        return null; // No clear winner
+    }
+
+    // Increment the round win count for a player
+    public void incrementRoundWinCount(String sessionToken) {
+        playerRoundsWon.put(sessionToken, playerRoundsWon.getOrDefault(sessionToken, 0) + 1);
+    }
+
+    // Check if any player has won the required number of rounds to win the game
+    public String determineOverallWinner() {
+        for (Map.Entry<String, Integer> entry : playerRoundsWon.entrySet()) {
+            if (entry.getValue() >= WINNING_ROUNDS) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
+    // Reset scores for the next round
+    public void resetScoresForNextRound() {
+        playerScores.replaceAll((key, value) -> 0);
+        guessedWords.clear();
     }
 }
