@@ -6,6 +6,7 @@ import TestingGrounds.GameSystem.CallbackInterface;
 import TestingGrounds.GameSystem.GameServerPOA;
 import TestingGrounds.GameSystem.PlayerInfo;
 import TestingGrounds.ReferenceClasses.User;
+import TestingGrounds.Utilities.DataAccessObjects.GameSettingsDAO;
 import TestingGrounds.Utilities.DataAccessObjects.UserDAO;
 import TestingGrounds.Utilities.WordValidator;
 import org.omg.CORBA.*;
@@ -29,6 +30,8 @@ public class GameServerImpl extends GameServerPOA implements Object {
     private static final int NUM_VOWELS = 7;
     private UserDAO userDAO = new UserDAO();
     private final Random random = new Random();
+    private int durationPerRound;
+    private int durationPerWaiting;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private final ScheduledExecutorService roundScheduler = Executors.newScheduledThreadPool(1);
 
@@ -193,7 +196,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
                 System.out.println("Host started the timer, please click ready");
                 updateReadyStatusForPlayers(session);
 
-                startTimerForGui(session, 10);
+                startTimerForGui(session, fetchSecondsPerWaiting());
                 session.setTimerRunning(true);
 
                 scheduler.schedule(() -> {
@@ -206,7 +209,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
                         }
                     }
                     session.setTimerRunning(false);
-                }, 10, TimeUnit.SECONDS);
+                }, fetchSecondsPerWaiting(), TimeUnit.SECONDS);
             } else {
                 System.out.println("Timer is already running.");
             }
@@ -274,10 +277,10 @@ public class GameServerImpl extends GameServerPOA implements Object {
         startRoundTimer(session);
     }
     private void startRoundTimer(GameSession session) {
-        notifyRoundTimerToPlayers(session, 30);
+        notifyRoundTimerToPlayers(session, fetchSecondsPerRound());
         scheduler.schedule(() -> {
             completeRound(session);
-        }, 30, TimeUnit.SECONDS);
+        }, fetchSecondsPerRound(), TimeUnit.SECONDS);
     }
     private void notifyRoundTimerToPlayers(GameSession session, int durationSeconds) {
         session.getPlayers().forEach((token, position) -> {
@@ -341,20 +344,15 @@ public class GameServerImpl extends GameServerPOA implements Object {
             }
         });
     }
-
-
-
-
     private void completeRound(GameSession session) {
+
         String roundWinner = session.determineRoundWinner();
         if (roundWinner != null) {
             session.incrementRoundWinCount(roundWinner);
             System.out.println("Round winner is: " + retrievePlayerFromSessionToken(roundWinner));
-            session.resetScoresForNextRound();
             notifyRoundWinnerToPlayers(session, roundWinner);
         } else {
             System.out.println("No winner declared for the round due to a tie.");
-            session.resetScoresForNextRound();
             notifyTieToPlayers(session);
         }
 
@@ -364,9 +362,27 @@ public class GameServerImpl extends GameServerPOA implements Object {
             notifyGameWinner(session, overallWinner);
             session.setStatus(GameSession.GameStatus.COMPLETED);
         } else {
+            int roundDelaySeconds = 5;
+            notifyPlayersAboutChanges(session);
+
+            session.getPlayers().forEach((token, position) -> {
+                CallbackInterface callback = sessionCallbacks.get(token);
+                if (callback != null) {
+                    try {
+                        callback.startRoundDelayTimer(roundDelaySeconds);
+                    } catch (Exception e) {
+                        System.err.println("Error starting round delay timer for token: " + token);
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+            // Reset scores for the next round
             session.resetScoresForNextRound();
             notifyPlayersAboutChanges(session);
-            scheduler.schedule(() -> startNextRound(session), 5, TimeUnit.SECONDS);
+
+            // Schedule the next round after the delay
+            scheduler.schedule(() -> startNextRound(session), roundDelaySeconds, TimeUnit.SECONDS);
         }
     }
     private void startNextRound(GameSession session) {
@@ -380,7 +396,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
             if (callback != null) {
                 try {
                     callback.startGameGUI(playerData.toArray(new PlayerInfo[0]), charArrayList);
-                    callback.startRoundTimer(30);  // Reset the round timer GUI
+                    callback.startRoundTimer(fetchSecondsPerRound());  // Reset the round timer GUI
                 } catch (Exception e) {
                     System.err.println("Error updating GUI for token: " + token);
                     e.printStackTrace();
@@ -395,8 +411,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
         // Start the round timer
         startRoundTimer(session);
     }
-
-
 
     private void sendTimeoutExceptionToHost(String sessionToken, GameSession session) {
         CallbackInterface callback = sessionCallbacks.get(sessionToken);
@@ -517,6 +531,39 @@ public class GameServerImpl extends GameServerPOA implements Object {
                 }
             }
             System.out.println("Invalid word: " + word);
+        }
+    }
+    private int fetchSecondsPerRound() {
+        GameSettingsDAO settingsDAO = new GameSettingsDAO();
+        try {
+            durationPerRound = settingsDAO.fetchSecondsPerRound();
+        } catch (SQLException e) {
+            System.err.println("Error fetching seconds per round: " + e.getMessage());
+            durationPerRound  = 30; // default
+        }
+
+        return durationPerRound;
+    }
+    private int fetchSecondsPerWaiting() {
+        GameSettingsDAO settingsDAO = new GameSettingsDAO();
+        try {
+            durationPerWaiting = settingsDAO.fetchSecondsPerRound();
+        } catch (SQLException e) {
+            System.err.println("Error fetching seconds per round: " + e.getMessage());
+            durationPerWaiting  = 10; // default
+        }
+
+        return durationPerWaiting;
+    }
+
+    @Override
+    public void updateSecondsPerWaiting(int newSeconds) {
+        GameSettingsDAO settingsDAO = new GameSettingsDAO();
+        try {
+            settingsDAO.updateSecondsPerWaiting(newSeconds);
+        } catch (SQLException e) {
+            System.err.println("Error fetching seconds per round: " + e.getMessage());
+            durationPerRound  = 10;
         }
     }
 

@@ -23,7 +23,9 @@ interface CallbackInterface {
     void displayTie();
     void ReadyStateException();
     void wordHasBeenGuessed(in string word);
+    void wordIsValid(in string word);
     void wordIsInvalid(in string word);
+    void startRoundDelayTimer(in long delaySeconds);
     };
 
 

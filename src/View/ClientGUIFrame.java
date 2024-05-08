@@ -443,13 +443,12 @@ public class ClientGUIFrame extends JFrame {
 
         timerLabel = new JLabel("00:30");
         timerLabel.setFont(new Font("Arial", Font.BOLD, 36));
-        timerLabel.setBounds(525, 10, 150, 50);
-        timerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        timerLabel.setBounds(525, 10, 450, 50);
         gamePanel.add(timerLabel);
 
         JPanel timerBackground = new JPanel();
-        timerBackground.setBackground(new Color(144, 224, 239));
-        timerBackground.setBounds(500, 5, 200, 60);
+        timerBackground.setBackground(new Color(255, 204, 213));
+        timerBackground.setBounds(500, 5, 450, 60);
         gamePanel.add(timerBackground);
         gamePanel.setComponentZOrder(timerLabel, 0);
 

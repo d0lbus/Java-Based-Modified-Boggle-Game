@@ -25,6 +25,7 @@ interface CallbackInterface {
     void wordHasBeenGuessed(in string word);
     void wordIsValid(in string word);
     void wordIsInvalid(in string word);
+    void startRoundDelayTimer(in long delaySeconds);
     };
 
 
@@ -37,6 +38,7 @@ interface CallbackInterface {
         boolean startGame(in string sessionToken, in string gameId);
         void submitWord(in string sessionToken, in string gameId, in string word);
         string getLetters(in string sessionToken, in string gameId);
+        void updateSecondsPerWaiting(in long newSeconds);
 
     };
 

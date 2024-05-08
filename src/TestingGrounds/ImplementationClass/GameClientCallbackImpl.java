@@ -2,12 +2,16 @@ package TestingGrounds.ImplementationClass;
 
 import TestingGrounds.GameSystem.CallbackInterfacePOA;
 import TestingGrounds.GameSystem.PlayerInfo;
+import View.AdminGUIFrame;
 import View.ClientGUIFrame;
 
 import javax.swing.*;
+import javax.swing.Timer;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.*;
 import java.util.List;
@@ -17,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 public class GameClientCallbackImpl extends CallbackInterfacePOA {
     private ClientGUIFrame gui;
+    private AdminGUIFrame guiAdmin;
     private final Random random = new Random();
     private static final String ICONS_PATH = "src/Icons";
     private Map<String, Icon> usernameToIconMap = new HashMap<>();
@@ -33,6 +38,10 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
     public GameClientCallbackImpl(ClientGUIFrame gui) {
         this.gui = gui;
         loadAvailableIcons();
+    }
+
+    public GameClientCallbackImpl(AdminGUIFrame guiAdmin){
+        this.guiAdmin = guiAdmin;
     }
 
     @Override
@@ -215,6 +224,31 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
                 });
             }
         }, 0, 1, TimeUnit.SECONDS);
+    }
+
+    @Override
+    public void startRoundDelayTimer(int delaySeconds) {
+        SwingUtilities.invokeLater(() -> {
+            gui.getTimerLabel().setText("Next Round in: " + delaySeconds + " seconds");
+        });
+
+        Timer delayTimer = new Timer(1000, new ActionListener() {
+            int remainingTime = delaySeconds;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SwingUtilities.invokeLater(() -> {
+                    gui.getTimerLabel().setText("Next Round in: " + remainingTime + " seconds");
+                });
+
+                remainingTime--;
+                if (remainingTime < 0) {
+                    ((Timer) e.getSource()).stop();
+                }
+            }
+        });
+
+        delayTimer.start();
     }
 
     @Override
