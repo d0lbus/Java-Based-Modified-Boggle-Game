@@ -322,6 +322,12 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         });
     }
 
+    public void updateWaitingTimeLabel(int newSeconds){
+        SwingUtilities.invokeLater(() -> {
+            gui.getWaitingTimeLabel().setText("Waiting time for players to join a game: " + newSeconds);
+        });
+    }
+
     @Override
     public void displayTie() {
         SwingUtilities.invokeLater(() -> {

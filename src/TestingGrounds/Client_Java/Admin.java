@@ -63,10 +63,7 @@ public class Admin {
             public void actionPerformed(ActionEvent e) {
                 username = registration.getUsernameLoginTextfield().getText();
                 password = new String(registration.getLoginPasswordField().getPassword());
-
                 boolean loginSuccessful = gameServerImp.login(username, password, sessionToken, callbackRef);
-
-
                 if (loginSuccessful) {
                     System.out.println("Login for " + username + " is successful. Session token: " + sessionToken.value);
                     startGame();
@@ -144,6 +141,11 @@ public class Admin {
         });
     }
     public static void startGame() {
+        if (gameServerImp == null) {
+            System.err.println("GameServer implementation is not initialized.");
+            return;
+        }
+
         adminGUIFrame.setVisible(true);
         adminGUIFrame.getEditTimerButton().addActionListener(new ActionListener() {
             @Override
@@ -158,8 +160,14 @@ public class Admin {
 
                 if (option == JOptionPane.OK_OPTION) {
                     int newSecondsPerRound = (int) timerSpinner.getValue();
-                    gameServerImp.updateSecondsPerWaiting(newSecondsPerRound);
-                    JOptionPane.showMessageDialog(adminGUIFrame, "Timer duration updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    try {
+                        gameServerImp.updateSecondsPerWaiting(newSecondsPerRound);
+                        JOptionPane.showMessageDialog(adminGUIFrame, "Timer duration updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    } catch (Exception ex) {
+                        System.err.println("Error updating timer duration: " + ex.getMessage());
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(adminGUIFrame, "Error updating timer duration: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         });

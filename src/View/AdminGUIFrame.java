@@ -205,7 +205,7 @@ public class AdminGUIFrame extends JFrame {
         buttonPanel.setBackground(Color.WHITE);
         buttonWrapperPanel.add(buttonPanel, BorderLayout.CENTER);
 
-        JButton editTimerButton = new JButton("Edit Timer");
+        editTimerButton = new JButton("Edit Timer");
         editTimerButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
         buttonPanel.add(editTimerButton);
 

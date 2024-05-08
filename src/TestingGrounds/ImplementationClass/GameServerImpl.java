@@ -547,7 +547,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
     private int fetchSecondsPerWaiting() {
         GameSettingsDAO settingsDAO = new GameSettingsDAO();
         try {
-            durationPerWaiting = settingsDAO.fetchSecondsPerRound();
+            durationPerWaiting = settingsDAO.fetchSecondsPerWaiting();
         } catch (SQLException e) {
             System.err.println("Error fetching seconds per round: " + e.getMessage());
             durationPerWaiting  = 10; // default
@@ -561,6 +561,18 @@ public class GameServerImpl extends GameServerPOA implements Object {
         GameSettingsDAO settingsDAO = new GameSettingsDAO();
         try {
             settingsDAO.updateSecondsPerWaiting(newSeconds);
+            sessionCallbacks.forEach((token, callback) -> {
+                if (callback != null) {
+                    try {
+                        callback.updateWaitingTimeLabel(newSeconds);
+                    } catch (Exception e) {
+                        System.err.println("Error updating waiting time label for token: " + token);
+                        e.printStackTrace();
+                    }
+                } else {
+                    System.err.println("No callback registered for token: " + token);
+                }
+            });
         } catch (SQLException e) {
             System.err.println("Error fetching seconds per round: " + e.getMessage());
             durationPerRound  = 10;

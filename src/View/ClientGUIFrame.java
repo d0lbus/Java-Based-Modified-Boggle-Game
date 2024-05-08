@@ -25,7 +25,7 @@ public class ClientGUIFrame extends JFrame {
     private JLabel player1gamePic, player2gamePic, player3gamePic, player4gamePic;
     private Clip clip;
     private JSlider volumeSlider;
-    private JLabel player1pic, player2pic, player3pic, player4pic, player1Ready, player2Ready, player3Ready, player4Ready, player1picRanking, player2picRanking, player3picRanking, player4picRanking;
+    private JLabel player1pic, player2pic, player3pic, player4pic, player1Ready, player2Ready, player3Ready, player4Ready, player1picRanking, player2picRanking, player3picRanking, player4picRanking, waitingTimeLabel;
     private JLabel player1username, player2username, player3username, player4username, player1usernameRanking,
             player2usernameRanking, player3usernameRanking, player4usernameRanking, inputJLabel;
     private JButton randomButton, quitButton, leaveButton, createLobbyButton, joinButton, startButton;
@@ -390,6 +390,11 @@ public class ClientGUIFrame extends JFrame {
         player1username.setHorizontalAlignment(SwingConstants.CENTER);
         player1username.setBounds(81, 407, 240, 32);
         lobbyPanel.add(player1username);
+
+        waitingTimeLabel = new JLabel("Waiting time for players to join a game: 10 SECONDS");
+        waitingTimeLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
+        waitingTimeLabel.setBounds(81, 600, 400, 32);
+        lobbyPanel.add(waitingTimeLabel);
 
         player1Ready = new JLabel("Not Ready");
         player1Ready.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
@@ -1512,6 +1517,11 @@ public class ClientGUIFrame extends JFrame {
     public JButton getButton16() {
         return button16;
     }
+
+    public JLabel getWaitingTimeLabel() {
+        return waitingTimeLabel;
+    }
+
     public JButton getButton17() {
         return button17;
     }
