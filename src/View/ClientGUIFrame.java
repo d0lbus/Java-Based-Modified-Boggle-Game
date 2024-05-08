@@ -28,7 +28,7 @@ public class ClientGUIFrame extends JFrame {
     private JLabel player1pic, player2pic, player3pic, player4pic, player1picRanking, player2picRanking, player3picRanking, player4picRanking;
     private JLabel player1username, player2username, player3username, player4username, player1usernameRanking,
             player2usernameRanking, player3usernameRanking, player4usernameRanking;
-    private JButton randomButton, quitButton, createLobbyButton, joinButton, startButton;
+    private JButton randomButton, quitButton, leaveButton, createLobbyButton, joinButton, startButton;
     private JButton button1, button2, button3, button4, button5, button6, button7, button8, button9, button10,
             button11, button12, button13, button14, button15, button16, button17, button18, button19, button20;
     private JLabel player1gamePoints, player2gamePoints, player3gamePoints, player4gamePoints;
@@ -37,6 +37,7 @@ public class ClientGUIFrame extends JFrame {
     private Timer timer;
     private JTextPane announcementTextpane;
     private Font rankingFont, leaderboardsFont;
+    private WindowListener windowListener;
 
     /**
      * Launch the application.
@@ -202,15 +203,8 @@ public class ClientGUIFrame extends JFrame {
             }
         });
         quitButton.setBackground(new Color(240, 128, 128));
-        quitButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                dispose();
-                System.exit(0);
-            }
-        });
         quitButton.setBounds(593, 570, 100, 40);
         homePanel.add(quitButton);
-
         LetterCube cubeB = new LetterCube("B", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
         cubeB.setBounds(200, 100, 150, 150);
         homePanel.add(cubeB);
@@ -522,19 +516,19 @@ public class ClientGUIFrame extends JFrame {
         settingsIcon2.setBounds(1217, 623, 37, 38);
         gamePanel.add(settingsIcon2);
 
-        quitButton = new JButton("Leave Game");
-        quitButton.addMouseListener(new MouseAdapter() {
+        leaveButton = new JButton("Leave Game");
+        leaveButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                quitButton.setBackground(new Color(255, 104, 107));
+                leaveButton.setBackground(new Color(255, 104, 107));
             }
             @Override
             public void mouseExited(MouseEvent e) {
-                quitButton.setBackground(new Color(240, 128, 128));
+                leaveButton.setBackground(new Color(240, 128, 128));
             }
         });
-        quitButton.setBackground(new Color(240, 128, 128));
-        quitButton.addActionListener(new ActionListener() {
+        leaveButton.setBackground(new Color(240, 128, 128));
+        leaveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 layeredPane.removeAll();
                 layeredPane.add(homePanel);
@@ -542,8 +536,8 @@ public class ClientGUIFrame extends JFrame {
                 layeredPane.revalidate();
             }
         });
-        quitButton.setBounds(1062, 626, 100, 30);
-        gamePanel.add(quitButton);
+        leaveButton.setBounds(1062, 626, 100, 30);
+        gamePanel.add(leaveButton);
 
         RoundedPanel aPanel = new RoundedPanel(30);
         aPanel.setBackground(new Color(255, 238, 153));
@@ -1328,6 +1322,9 @@ public class ClientGUIFrame extends JFrame {
     }
     public JPanel getHomePanel() {
         return homePanel;
+    }
+    public WindowListener getWindowListener() {
+        return windowListener;
     }
     public void setHomePanel(JPanel homePanel) {
         this.homePanel = homePanel;

@@ -57,7 +57,19 @@ public class GameServerImpl extends GameServerPOA implements Object {
 
     @Override
     public boolean logout(String sessionToken) {
-        return false;
+        try {
+            // Always attempt to remove the session token from the sessionTokens map
+            sessionTokens.remove(sessionToken);
+
+            // Clear the session token in the database using the provided session token
+            userDAO.clearSessionToken(sessionToken);
+
+            return true; // Return true if the operation was successful
+        } catch (SQLException ex) {
+            // Log any database-related errors
+            System.err.println("Error clearing session token: " + ex.getMessage());
+            return false; // Return false if an exception occurred
+        }
     }
 
     @Override
