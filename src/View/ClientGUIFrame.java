@@ -32,7 +32,7 @@ public class ClientGUIFrame extends JFrame {
     private JButton button1, button2, button3, button4, button5, button6, button7, button8, button9, button10,
             button11, button12, button13, button14, button15, button16, button17, button18, button19, button20;
     private JLabel player1gamePoints, player2gamePoints, player3gamePoints, player4gamePoints;
-    private JLabel player1gameUsername, player2gameUsername, player3gameUsername, player4gameUsername, timerLabel;
+    private JLabel player1gameUsername, player2gameUsername, player3gameUsername, player4gameUsername, lobbyTimerLabel, timerLabel;
     private JLabel lfirstUsername, lsecondUsername, lthirdUsername, lfourthUsername, lfifthUsername, lpoint1, lpoint2, lpoint3, lpoint4, lpoint5;
     private Timer timer;
     private JTextPane announcementTextpane;
@@ -349,6 +349,18 @@ public class ClientGUIFrame extends JFrame {
         });
         exitLobbyButton.setBounds(585, 615, 105, 38);
         lobbyPanel.add(exitLobbyButton);
+
+        JPanel lobbyTimerBackground = new JPanel();
+        lobbyTimerBackground.setBackground(new Color(144, 224, 239));
+        lobbyTimerBackground.setBounds(800, 22, 150, 68);
+        lobbyPanel.add(lobbyTimerBackground);
+
+        lobbyTimerLabel = new JLabel("00:00");
+        lobbyTimerLabel.setFont(new Font("Arial", Font.BOLD, 36));
+        lobbyTimerLabel.setBounds(0, 0, 150, 68);
+        lobbyTimerLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        lobbyTimerBackground.setLayout(null);
+        lobbyTimerBackground.add(lobbyTimerLabel);
 
         JPanel usernamePanel = new JPanel();
         usernamePanel.setBackground(new Color(255, 238, 153));
@@ -1266,6 +1278,7 @@ public class ClientGUIFrame extends JFrame {
                 String formattedTime = String.format("%02d:%02d", time.minutes, time.seconds);
 
                 timerLabel.setText(formattedTime);
+                lobbyTimerLabel.setText(formattedTime);
             }
         });
         timer.start();
