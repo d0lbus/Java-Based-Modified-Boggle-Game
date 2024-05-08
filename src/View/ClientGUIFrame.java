@@ -280,30 +280,26 @@ public class ClientGUIFrame extends JFrame {
         fallingLettersPanelLobby.setBounds(0, 0, 1280, 720);
 
         player1pic = new JLabel();
-        player1pic.setBackground(Color.GRAY);
-        player1pic.setBounds(59, 233, 240, 230);
+        player1pic.setBounds(132, 233, 150, 140);
         lobbyPanel.add(player1pic);
         player1pic.setLayout(null);
 
         player2pic = new JLabel();
-        player2pic.setBackground(Color.PINK);
         player2pic.setLayout(null);
-        player2pic.setBounds(358, 233, 240, 230);
+        player2pic.setBounds(399, 233, 150, 140);
         lobbyPanel.add(player2pic);
 
         player3pic = new JLabel();
-        player3pic.setBackground(Color.YELLOW);
         player3pic.setLayout(null);
-        player3pic.setBounds(657, 233, 240, 230);
+        player3pic.setBounds(685, 233, 150, 140);
         lobbyPanel.add(player3pic);
 
         player4pic = new JLabel();
-        player4pic.setBackground(Color.MAGENTA);
         player4pic.setLayout(null);
-        player4pic.setBounds(963, 233, 240, 230);
+        player4pic.setBounds(978, 233, 150, 140);
         lobbyPanel.add(player4pic);
 
-        startButton = new JButton("Start");
+        startButton = new JButton("Ready");
         startButton.setBackground(new Color(189, 224, 254));
         startButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -323,7 +319,7 @@ public class ClientGUIFrame extends JFrame {
                 layeredPane.revalidate();
             }
         });
-        startButton.setBounds(585, 567, 105, 38);
+        startButton.setBounds(556, 480, 105, 38);
         lobbyPanel.add(startButton);
 
         JButton exitLobbyButton = new JButton("Exit Lobby");
@@ -402,25 +398,25 @@ public class ClientGUIFrame extends JFrame {
         player1username = new JLabel("JLabel");
         player1username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
         player1username.setHorizontalAlignment(SwingConstants.CENTER);
-        player1username.setBounds(59, 485, 240, 32);
+        player1username.setBounds(81, 407, 240, 32);
         lobbyPanel.add(player1username);
 
         player2username = new JLabel("JLabel1");
         player2username.setHorizontalAlignment(SwingConstants.CENTER);
         player2username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
-        player2username.setBounds(358, 485, 240, 32);
+        player2username.setBounds(357, 407, 240, 32);
         lobbyPanel.add(player2username);
 
         player3username = new JLabel("JLabel2");
         player3username.setHorizontalAlignment(SwingConstants.CENTER);
         player3username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
-        player3username.setBounds(657, 485, 240, 32);
+        player3username.setBounds(640, 407, 240, 32);
         lobbyPanel.add(player3username);
 
         player4username = new JLabel("JLabel3");
         player4username.setHorizontalAlignment(SwingConstants.CENTER);
         player4username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
-        player4username.setBounds(963, 485, 240, 32);
+        player4username.setBounds(937, 407, 240, 32);
         lobbyPanel.add(player4username);
 
         lobbyPanel.add(fallingLettersPanelLobby);
@@ -508,7 +504,7 @@ public class ClientGUIFrame extends JFrame {
             public void keyPressed(KeyEvent e) {
             }
         });
-        inputTextField.setBounds(472, 106, 254, 30);
+        inputTextField.setBounds(489, 114, 245, 30);
         gamePanel.add(inputTextField);
         inputTextField.setColumns(10);
 
@@ -564,7 +560,7 @@ public class ClientGUIFrame extends JFrame {
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setBackground(new Color(244, 204, 213));
-        buttonPanel.setBounds(341, 167, 537, 411);
+        buttonPanel.setBounds(380, 174, 485, 390);
         gamePanel.add(buttonPanel);
         buttonPanel.setLayout(new GridLayout(0, 5, 0, 0));
 
