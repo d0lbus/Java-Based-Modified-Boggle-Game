@@ -133,6 +133,54 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
     }
 
     @Override
+    public void updatePlayerReadyStatus(PlayerInfo[] playerData, boolean[] readyStatus) {
+        SwingUtilities.invokeLater(() -> {
+            System.out.println("Updating player ready status for all players");
+
+            Map<Integer, String> defaultPositions = new HashMap<>();
+            defaultPositions.put(1, "Empty");
+            defaultPositions.put(2, "Empty");
+            defaultPositions.put(3, "Empty");
+            defaultPositions.put(4, "Empty");
+
+            Map<Integer, Boolean> defaultReadyStatus = new HashMap<>();
+            defaultReadyStatus.put(1, false);
+            defaultReadyStatus.put(2, false);
+            defaultReadyStatus.put(3, false);
+            defaultReadyStatus.put(4, false);
+
+            for (int i = 0; i < playerData.length; i++) {
+                PlayerInfo info = playerData[i];
+                int position = (int) info.position;
+                defaultPositions.put(position, info.username);
+                defaultReadyStatus.put(position, readyStatus[i]);
+            }
+
+            updateReadyStatusLabel(gui.getPlayer1Ready(), defaultPositions.get(1), defaultReadyStatus.get(1));
+            updateReadyStatusLabel(gui.getPlayer2Ready(), defaultPositions.get(2), defaultReadyStatus.get(2));
+            updateReadyStatusLabel(gui.getPlayer3Ready(), defaultPositions.get(3), defaultReadyStatus.get(3));
+            updateReadyStatusLabel(gui.getPlayer4Ready(), defaultPositions.get(4), defaultReadyStatus.get(4));
+        });
+    }
+
+    private void updateReadyStatusLabel(JLabel label, String username, boolean isReady) {
+        if (username.equals("Empty")) {
+            label.setText("Not Ready");
+            label.setForeground(Color.RED);
+        } else {
+            label.setText(isReady ? "Ready" : "Not Ready");
+            label.setForeground(isReady ? Color.GREEN : Color.RED);
+        }
+    }
+
+    @Override
+    public void ReadyStateException() {
+        SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(gui, "Cannot start the game with fewer than two players.", "Insufficient Players", JOptionPane.WARNING_MESSAGE);
+        });
+    }
+
+    @Override
     public void startLobbyTimer(int durationSeconds) {
         scheduler.scheduleAtFixedRate(new Runnable() {
             private int remainingSeconds = durationSeconds;
@@ -216,6 +264,27 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         SwingUtilities.invokeLater(() -> {
             JOptionPane.showMessageDialog(gui, "Overall winner: " + winnerName + " has won the game!", "Overall Winner", JOptionPane.INFORMATION_MESSAGE);
             gui.getTimerLabel().setText("Timer: 0");
+        });
+    }
+
+    @Override
+    public void wordIsValid(String word) {
+        SwingUtilities.invokeLater(() -> {
+            gui.getInputJLabel().setText(word + " is valid");
+        });
+    }
+
+    @Override
+    public void wordHasBeenGuessed(String word) {
+        SwingUtilities.invokeLater(() -> {
+            gui.getInputJLabel().setText(word + " has been guessed");
+        });
+    }
+
+    @Override
+    public void wordIsInvalid(String word) {
+        SwingUtilities.invokeLater(() -> {
+            gui.getInputJLabel().setText(word + " is invalid");
         });
     }
 

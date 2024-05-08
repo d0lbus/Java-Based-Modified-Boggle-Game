@@ -181,6 +181,7 @@ public class Player {
             public void actionPerformed(ActionEvent e) {
                 String word = clientGUIFrame.getInputTextField().getText();
                 gameServerImp.submitWord(sessionToken.value, gameToken, word);
+                clientGUIFrame.getInputTextField().setText("");
             }
         });
 

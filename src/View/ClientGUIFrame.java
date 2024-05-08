@@ -25,9 +25,9 @@ public class ClientGUIFrame extends JFrame {
     private JLabel player1gamePic, player2gamePic, player3gamePic, player4gamePic;
     private Clip clip;
     private JSlider volumeSlider;
-    private JLabel player1pic, player2pic, player3pic, player4pic, player1picRanking, player2picRanking, player3picRanking, player4picRanking;
+    private JLabel player1pic, player2pic, player3pic, player4pic, player1Ready, player2Ready, player3Ready, player4Ready, player1picRanking, player2picRanking, player3picRanking, player4picRanking;
     private JLabel player1username, player2username, player3username, player4username, player1usernameRanking,
-            player2usernameRanking, player3usernameRanking, player4usernameRanking;
+            player2usernameRanking, player3usernameRanking, player4usernameRanking, inputJLabel;
     private JButton randomButton, quitButton, leaveButton, createLobbyButton, joinButton, startButton;
     private JButton button1, button2, button3, button4, button5, button6, button7, button8, button9, button10,
             button11, button12, button13, button14, button15, button16, button17, button18, button19, button20;
@@ -293,6 +293,8 @@ public class ClientGUIFrame extends JFrame {
         player4pic.setBounds(978, 233, 150, 140);
         lobbyPanel.add(player4pic);
 
+
+
         startButton = new JButton("Ready");
         startButton.setBackground(new Color(189, 224, 254));
         startButton.addMouseListener(new MouseAdapter() {
@@ -309,7 +311,7 @@ public class ClientGUIFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
             }
         });
-        startButton.setBounds(556, 480, 105, 38);
+        startButton.setBounds(556, 550, 105, 38);
         lobbyPanel.add(startButton);
 
         JButton exitLobbyButton = new JButton("Exit Lobby");
@@ -391,11 +393,26 @@ public class ClientGUIFrame extends JFrame {
         player1username.setBounds(81, 407, 240, 32);
         lobbyPanel.add(player1username);
 
+        player1Ready = new JLabel("Not Ready");
+        player1Ready.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
+        player1Ready.setHorizontalAlignment(SwingConstants.CENTER);
+        player1Ready.setBounds(81, 470, 240, 32);
+        lobbyPanel.add(player1Ready);
+
+
         player2username = new JLabel("JLabel1");
         player2username.setHorizontalAlignment(SwingConstants.CENTER);
         player2username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
         player2username.setBounds(357, 407, 240, 32);
         lobbyPanel.add(player2username);
+
+        player2Ready = new JLabel("Not Ready");
+        player2Ready.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
+        player2Ready.setHorizontalAlignment(SwingConstants.CENTER);
+        player2Ready.setBounds(357, 470, 240, 32);
+        lobbyPanel.add(player2Ready);
+
+
 
         player3username = new JLabel("JLabel2");
         player3username.setHorizontalAlignment(SwingConstants.CENTER);
@@ -403,11 +420,24 @@ public class ClientGUIFrame extends JFrame {
         player3username.setBounds(640, 407, 240, 32);
         lobbyPanel.add(player3username);
 
+        player3Ready = new JLabel("Not Ready");
+        player3Ready.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
+        player3Ready.setHorizontalAlignment(SwingConstants.CENTER);
+        player3Ready.setBounds(640, 470, 240, 32);
+        lobbyPanel.add(player3Ready);
+
         player4username = new JLabel("JLabel3");
         player4username.setHorizontalAlignment(SwingConstants.CENTER);
         player4username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
         player4username.setBounds(937, 407, 240, 32);
         lobbyPanel.add(player4username);
+
+        player4Ready = new JLabel("Not Ready");
+        player4Ready.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
+        player4Ready.setHorizontalAlignment(SwingConstants.CENTER);
+        player4Ready.setBounds(937, 470, 240, 32);
+        lobbyPanel.add(player4Ready);
+
 
         lobbyPanel.add(fallingLettersPanelLobby);
 
@@ -497,6 +527,11 @@ public class ClientGUIFrame extends JFrame {
         inputTextField.setBounds(489, 114, 245, 30);
         gamePanel.add(inputTextField);
         inputTextField.setColumns(10);
+
+        inputJLabel = new JLabel("");
+        inputJLabel.setFont(new Font("Franklin Gothic Book", Font.PLAIN, 16));
+        inputJLabel.setBounds(489, 148, 245, 30);
+        gamePanel.add(inputJLabel);
 
         JLabel settingsIcon2 = new JLabel("");
         settingsIcon2.addMouseListener(new MouseAdapter() {
@@ -1570,6 +1605,39 @@ public class ClientGUIFrame extends JFrame {
         return lpoint5;
     }
 
+
+    public JLabel getPlayer1Ready() {
+        return player1Ready;
+    }
+
+    public void setPlayer1Ready(JLabel player1Ready) {
+        this.player1Ready = player1Ready;
+    }
+
+    public JLabel getPlayer2Ready() {
+        return player2Ready;
+    }
+
+    public void setPlayer2Ready(JLabel player2Ready) {
+        this.player2Ready = player2Ready;
+    }
+
+    public JLabel getPlayer3Ready() {
+        return player3Ready;
+    }
+
+    public void setPlayer3Ready(JLabel player3Ready) {
+        this.player3Ready = player3Ready;
+    }
+
+    public JLabel getPlayer4Ready() {
+        return player4Ready;
+    }
+
+    public void setPlayer4Ready(JLabel player4Ready) {
+        this.player4Ready = player4Ready;
+    }
+
     public JLabel getLobbyTimerLabel() {
         return lobbyTimerLabel;
     }
@@ -1580,6 +1648,10 @@ public class ClientGUIFrame extends JFrame {
 
     public void setTimerLabel(JLabel timerLabel) {
         this.timerLabel = timerLabel;
+    }
+
+    public JLabel getInputJLabel() {
+        return inputJLabel;
     }
 }
 

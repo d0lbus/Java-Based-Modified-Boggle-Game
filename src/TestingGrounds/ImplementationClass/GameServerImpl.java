@@ -172,9 +172,27 @@ public class GameServerImpl extends GameServerPOA implements Object {
         }
 
         if (session.isHost(sessionToken)) {
+            // Check if there are fewer than two players
+            if (session.getPlayers().size() < 2) {
+                System.out.println("Cannot start the game with fewer than two players.");
+                CallbackInterface callback = sessionCallbacks.get(sessionToken);
+                if (callback != null) {
+                    try {
+                        callback.ReadyStateException();
+                    } catch (Exception e) {
+                        System.err.println("Error notifying host about insufficient players: " + sessionToken);
+                        e.printStackTrace();
+                    }
+                }
+                return false; // Exit early
+            }
+
+            // Start the timer if there are two or more players
             if (!session.isTimerRunning()) {
                 session.markReady(sessionToken);
                 System.out.println("Host started the timer, please click ready");
+                updateReadyStatusForPlayers(session);
+
                 startTimerForGui(session, 10);
                 session.setTimerRunning(true);
 
@@ -196,6 +214,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
             if (session.isTimerRunning()) {
                 session.markReady(sessionToken);
                 System.out.println("Player marked as ready: " + sessionToken);
+                updateReadyStatusForPlayers(session);
                 if (session.allPlayersReady() && session.getStatus() != GameSession.GameStatus.ACTIVE) {
                     startGameSession(session);
                 }
@@ -206,6 +225,29 @@ public class GameServerImpl extends GameServerPOA implements Object {
 
         notifyPlayersAboutChanges(session);
         return true;
+    }
+    private void updateReadyStatusForPlayers(GameSession session) {
+        List<PlayerInfo> playerData = collectPlayerData(session);
+        boolean[] readyStatus = new boolean[playerData.size()];
+
+        for (int i = 0; i < playerData.size(); i++) {
+            PlayerInfo info = playerData.get(i);
+            readyStatus[i] = session.isReady(info.sessionToken);
+        }
+
+        session.getPlayers().forEach((token, position) -> {
+            CallbackInterface callback = sessionCallbacks.get(token);
+            if (callback != null) {
+                try {
+                    callback.updatePlayerReadyStatus(playerData.toArray(new PlayerInfo[0]), readyStatus);
+                } catch (Exception e) {
+                    System.err.println("Error updating player ready status for token: " + token);
+                    e.printStackTrace();
+                }
+            } else {
+                System.err.println("No callback registered for token: " + token);
+            }
+        });
     }
     private void startGameSession(GameSession session) {
         List<PlayerInfo> playerData = collectPlayerData(session);
@@ -299,6 +341,10 @@ public class GameServerImpl extends GameServerPOA implements Object {
             }
         });
     }
+
+
+
+
     private void completeRound(GameSession session) {
         String roundWinner = session.determineRoundWinner();
         if (roundWinner != null) {
@@ -349,6 +395,9 @@ public class GameServerImpl extends GameServerPOA implements Object {
         // Start the round timer
         startRoundTimer(session);
     }
+
+
+
     private void sendTimeoutExceptionToHost(String sessionToken, GameSession session) {
         CallbackInterface callback = sessionCallbacks.get(sessionToken);
         if (callback != null) {
@@ -422,7 +471,14 @@ public class GameServerImpl extends GameServerPOA implements Object {
 
         if (isValid && wordValidator.isWordValid(lowerWord)) {
             if (session.getGuessedWords().contains(lowerWord)) {
-                System.out.println("Word has already been guessed: " + word);
+                CallbackInterface callback = sessionCallbacks.get(sessionToken);
+                if (callback != null) {
+                    try {
+                        callback.wordHasBeenGuessed(lowerWord);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
             } else {
                 session.addGuessedWord(lowerWord);
                 session.updatePlayerScore(sessionToken, lowerWord.length());
@@ -441,9 +497,25 @@ public class GameServerImpl extends GameServerPOA implements Object {
                         System.err.println("No callback registered for token: " + token);
                     }
                 });
+                CallbackInterface callback = sessionCallbacks.get(sessionToken);
+                if (callback != null) {
+                    try {
+                        callback.wordIsValid(lowerWord);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
                 System.out.println("Valid word: " + word);
             }
         } else {
+            CallbackInterface callback = sessionCallbacks.get(sessionToken);
+            if (callback != null) {
+                try {
+                    callback.wordIsInvalid(lowerWord);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
             System.out.println("Invalid word: " + word);
         }
     }
