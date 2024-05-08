@@ -2,7 +2,9 @@ package TestingGrounds.Client_Java;
 
 import TestingGrounds.GameSystem.*;
 import TestingGrounds.ImplementationClass.GameClientCallbackImpl;
+import TestingGrounds.ReferenceClasses.User;
 import TestingGrounds.Utilities.DataAccessObjects.DBConnection;
+import TestingGrounds.Utilities.DataAccessObjects.UserDAO;
 import View.ClientGUIFrame;
 import View.Registration;
 import org.omg.CORBA.ORB;

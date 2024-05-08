@@ -13,6 +13,7 @@ interface CallbackInterface {
     void CreateLobGUI( in string username, in string gameId);
     void UpdateLobGUI( in PlayerInfoList playerData);
     void startGameGUI( in PlayerInfoList playerData, in CharList charArrayList);
+    void startLobbyTimer(in long durationSeconds);
     void broadcastGuessedWord ( in PlayerInfoList playerData, in string word, in string username);
     };
 

@@ -11,6 +11,9 @@ import java.awt.*;
 import java.io.File;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class GameClientCallbackImpl extends CallbackInterfacePOA {
     private ClientGUIFrame gui;
@@ -19,6 +22,8 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
     private Map<String, Icon> usernameToIconMap = new HashMap<>();
     private List<Icon> availableIcons = new ArrayList<>();
     private Set<Icon> assignedIcons = new HashSet<>();
+
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
 
     public GameClientCallbackImpl(){
@@ -69,6 +74,7 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         });
     }
 
+    @Override
     public void startGameGUI(PlayerInfo[] playerData, char[] charArrayList) {
         SwingUtilities.invokeLater(() -> {
             // Switch to the game panel
@@ -126,6 +132,25 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
     }
 
     @Override
+    public void startLobbyTimer(int durationSeconds) {
+        scheduler.scheduleAtFixedRate(new Runnable() {
+            private int remainingSeconds = durationSeconds;
+
+            @Override
+            public void run() {
+                SwingUtilities.invokeLater(() -> {
+                    if (remainingSeconds >= 0) {
+                        gui.getLobbyTimerLabel().setText("00:" + remainingSeconds);
+                        remainingSeconds--;
+                    } else {
+                        scheduler.shutdown();
+                    }
+                });
+            }
+        }, 0, 1, TimeUnit.SECONDS);
+    }
+
+    @Override
     public void broadcastGuessedWord(PlayerInfo[] playerData, String word, String playerWhoGuessed) {
         Map<Integer, String> defaultPositions = new HashMap<>();
         Map<Integer, Long> defaultScores = new HashMap<>();
@@ -159,7 +184,6 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         // Announce to players
         appendToAnnouncement(gui.getAnnouncementTextpane(), playerWhoGuessed + " has guessed the word " + word + "\n");
     }
-
 
     private void loadAvailableIcons() {
         File iconDirectory = new File(ICONS_PATH);

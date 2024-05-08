@@ -1,32 +1,32 @@
 package TestingGrounds.ReferenceClasses;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameSession {
     private final int MAX_PLAYERS = 4;
-    private int gameId;
     private String gameToken;
-    private HashMap<String, Integer> players;
-    private Map<String, Integer> playerScores;
+    private ConcurrentHashMap<String, Integer> players;
+    private ConcurrentHashMap<String, Integer> playerScores;
+    private ConcurrentHashMap<String, Boolean> readyPlayers;
     private GameStatus status;
-    private int position;
     private char[] randomLetters;
     private ArrayList<String> guessedWords;
+    private AtomicBoolean timerRunning = new AtomicBoolean(false);
+    private AtomicInteger hostPosition = new AtomicInteger(0);
 
     public enum GameStatus {
         WAITING, ACTIVE, COMPLETED
     }
 
     public GameSession() {
-        this.gameId = 0;
         this.gameToken = UUID.randomUUID().toString();
-        this.players = new HashMap<>();
-        this.playerScores = new HashMap<>();
+        this.players = new ConcurrentHashMap<>();
+        this.playerScores = new ConcurrentHashMap<>();
+        this.readyPlayers = new ConcurrentHashMap<>();
         this.status = GameStatus.WAITING;
-        this.position = 0;
         this.randomLetters = new char[20];
         this.guessedWords = new ArrayList<String>();
     }
@@ -41,14 +41,17 @@ public class GameSession {
         if (players.size() >= MAX_PLAYERS) {
             throw new IllegalStateException("Game already has maximum allowed players");
         }
-        players.put(sessionToken, ++position);
-        if (players.size() == MAX_PLAYERS) {
-            startGame();
+        int position = players.size() + 1;
+        players.put(sessionToken, position);
+        readyPlayers.put(sessionToken, false);
+        if (players.size() == 1) {
+            hostPosition.set(position);
         }
     }
 
     public void removePlayer(String sessionToken) {
         players.remove(sessionToken);
+        readyPlayers.remove(sessionToken);
         if (players.size() < 2 && status == GameStatus.ACTIVE) {
             endGame();
         }
@@ -114,5 +117,29 @@ public class GameSession {
 
     public Map<String, Integer> getPlayerScores() {
         return new HashMap<>(playerScores);
+    }
+
+    public boolean isReady(String sessionToken) {
+        return readyPlayers.getOrDefault(sessionToken, false);
+    }
+
+    public void markReady(String sessionToken) {
+        readyPlayers.put(sessionToken, true);
+    }
+
+    public boolean allPlayersReady() {
+        return readyPlayers.values().stream().allMatch(Boolean::booleanValue);
+    }
+
+    public boolean isTimerRunning() {
+        return timerRunning.get();
+    }
+
+    public void setTimerRunning(boolean running) {
+        timerRunning.set(running);
+    }
+
+    public boolean isHost(String sessionToken) {
+        return players.get(sessionToken) == hostPosition.get();
     }
 }

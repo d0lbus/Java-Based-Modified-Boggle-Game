@@ -307,10 +307,6 @@ public class ClientGUIFrame extends JFrame {
         });
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                layeredPane.removeAll();
-                layeredPane.add(gamePanel);
-                layeredPane.repaint();
-                layeredPane.revalidate();
             }
         });
         startButton.setBounds(556, 480, 105, 38);
@@ -1291,9 +1287,6 @@ public class ClientGUIFrame extends JFrame {
                 }
 
                 String formattedTime = String.format("%02d:%02d", time.minutes, time.seconds);
-
-                timerLabel.setText(formattedTime);
-                lobbyTimerLabel.setText(formattedTime);
             }
         });
         timer.start();
@@ -1575,6 +1568,18 @@ public class ClientGUIFrame extends JFrame {
     }
     public JLabel getLpoint5() {
         return lpoint5;
+    }
+
+    public JLabel getLobbyTimerLabel() {
+        return lobbyTimerLabel;
+    }
+
+    public void setLobbyTimerLabel(JLabel lobbyTimerLabel) {
+        this.lobbyTimerLabel = lobbyTimerLabel;
+    }
+
+    public void setTimerLabel(JLabel timerLabel) {
+        this.timerLabel = timerLabel;
     }
 }
 

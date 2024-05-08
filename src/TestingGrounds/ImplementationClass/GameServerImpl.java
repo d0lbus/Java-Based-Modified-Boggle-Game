@@ -14,6 +14,9 @@ import org.omg.CORBA.Object;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class GameServerImpl extends GameServerPOA implements Object {
@@ -26,6 +29,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
     private static final int NUM_VOWELS = 7;
     private UserDAO userDAO = new UserDAO();
     private final Random random = new Random();
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
 
     @Override
@@ -139,6 +143,23 @@ public class GameServerImpl extends GameServerPOA implements Object {
         });
     }
 
+    public void startTimerForGui(GameSession session, int seconds){
+        List<PlayerInfo> playerData = collectPlayerData(session);
+        session.getPlayers().forEach((token, position) -> {
+            CallbackInterface callback = sessionCallbacks.get(token);
+            if (callback != null) {
+                try {
+                    callback.startLobbyTimer(seconds);
+                } catch (Exception e) {
+                    System.err.println("Error updating GUI for token: " + token);
+                    e.printStackTrace();
+                }
+            } else {
+                System.err.println("No callback registered for token: " + token);
+            }
+        });
+    }
+
     private List<PlayerInfo> collectPlayerData(GameSession session) {
         List<PlayerInfo> playerData = new ArrayList<>();
         session.getPlayers().forEach((token, position) -> {
@@ -150,8 +171,48 @@ public class GameServerImpl extends GameServerPOA implements Object {
     }
 
     @Override
-    public boolean startGame(String sessionToken, String gameId) {
-        GameSession session = activeGameLobbies.get(gameId);
+    public boolean startGame(String sessionToken, String gameToken) {
+        GameSession session = activeGameLobbies.get(gameToken);
+        if (session == null) {
+            System.out.println("Invalid game session token.");
+            return false;
+        }
+        if (session.isHost(sessionToken)) {
+            if (!session.isTimerRunning()) {
+                session.markReady(sessionToken);
+                System.out.println("Host started the timer, please click ready");
+                startTimerForGui(session, 10);
+                session.setTimerRunning(true);
+                scheduler.schedule(() -> {
+                    if (!session.allPlayersReady()) {
+                        System.out.println("Not all players are ready within the specified time.");
+                        sendTimeoutExceptionToHost(sessionToken, session);
+                    } else {
+                        startGameSession(session);
+                    }
+                    session.setTimerRunning(false);
+                }, 10, TimeUnit.SECONDS);
+            } else {
+                System.out.println("Timer is already running.");
+            }
+        } else {
+            if (session.isTimerRunning()) {
+                session.markReady(sessionToken);
+                System.out.println("Player marked as ready: " + sessionToken);
+                if (session.allPlayersReady()) {
+                    startGameSession(session);
+                }
+            } else {
+                System.out.println("Timer is not running. Cannot mark player as ready.");
+            }
+        }
+
+        notifyPlayersAboutChanges(session);
+        return true;
+    }
+
+
+    private void startGameSession(GameSession session) {
         List<PlayerInfo> playerData = collectPlayerData(session);
         char[] charArrayList = generateRandomCharArray();
         session.setRandomLetters(charArrayList);
@@ -169,8 +230,22 @@ public class GameServerImpl extends GameServerPOA implements Object {
             }
         });
 
-        return true;
+        session.setStatus(GameSession.GameStatus.ACTIVE);
+        System.out.println("Game session started with ID: " + session.getSessionId());
     }
+
+    private void sendTimeoutExceptionToHost(String sessionToken, GameSession session) {
+        CallbackInterface callback = sessionCallbacks.get(sessionToken);
+        if (callback != null) {
+            try {
+                System.out.print("Unable to start the game due to lack of players ready in time.");
+            } catch (Exception e) {
+                System.err.println("Error sending TimeoutException to host: " + sessionToken);
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     private char[] generateRandomCharArray() {
         List<Character> consonantsList = new ArrayList<>();
