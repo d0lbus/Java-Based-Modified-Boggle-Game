@@ -15,13 +15,9 @@ import org.omg.PortableServer.POAHelper;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Random;
-import java.util.UUID;
 
 public class Player {
     private static String username = "";
@@ -183,6 +179,35 @@ public class Player {
             public void actionPerformed(ActionEvent e) {
                 String word = clientGUIFrame.getInputTextField().getText();
                 gameServerImp.submitWord(sessionToken.value, gameToken, word);
+            }
+        });
+
+        clientGUIFrame.getQuitButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Call the logout method from GameServerImpl
+                boolean logoutSuccessful = gameServerImp.logout(sessionToken.value);
+                if (logoutSuccessful) {
+
+                    System.out.println("Logout for " + username + " is successful.");
+                    System.exit(0); // Exit the application after successful logout
+                } else {
+                    System.out.println("Logout for " + username + " failed");
+                }
+            }
+        });
+
+        clientGUIFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Call the logout method from GameServerImpl
+                boolean logoutSuccessful = gameServerImp.logout(sessionToken.value);
+                if (logoutSuccessful) {
+                    System.out.println("Logout for " + username + " is successful.");
+                    System.exit(0); // Exit the application after successful logout
+                } else {
+                    System.out.println("Logout for " + username + " failed");
+                }
             }
         });
     }

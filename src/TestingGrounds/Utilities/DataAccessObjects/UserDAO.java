@@ -65,15 +65,6 @@ public class UserDAO {
         String sqlInsertUser = "INSERT INTO users (playerId, username, firstName, lastName, password, sessionToken, inGame, score, currentGameToken) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, user.getPlayerId());
-            ps.setString(2, user.getUsername());
-            ps.setString(3, password);
-            ps.setString(4, user.getSessionToken());
-            ps.setBoolean(5, user.isInGame());
-            ps.setInt(6, user.getScore());
-            ps.setString(7, user.getCurrentGameToken());
-            ps.executeUpdate();
              PreparedStatement psGetLastPlayerId = conn.prepareStatement(sqlGetLastPlayerId);
              ResultSet rs = psGetLastPlayerId.executeQuery()) {
 
@@ -109,6 +100,15 @@ public class UserDAO {
             try (ResultSet rs = psCheckUsername.executeQuery()) {
                 return rs.next(); // If rs.next() returns true, the username exists
             }
+        }
+    }
+
+    public static void clearSessionToken(String sessionToken) throws SQLException {
+        String sql = "UPDATE users SET sessionToken = NULL WHERE sessionToken = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, sessionToken);
+            ps.executeUpdate();
         }
     }
 }
