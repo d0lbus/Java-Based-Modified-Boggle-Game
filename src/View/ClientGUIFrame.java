@@ -21,7 +21,7 @@ public class ClientGUIFrame extends JFrame {
     private JPanel contentPane;
     private JTextField inputTextField, cUsernameTextfield;
     private JPasswordField pwField, confirmpwField;
-    private JPanel homePanel, lobbyPanel, gamePanel, rankingPanel, leaderboardsPanel, settingsPanel;
+    private JPanel homePanel, lobbyPanel, gamePanel, rankingPanel, leaderboardsPanel, settingsPanel, sPanel, nPanel;
     private JLabel player1gamePic, player2gamePic, player3gamePic, player4gamePic;
     private Clip clip;
     private JSlider volumeSlider;
@@ -101,7 +101,7 @@ public class ClientGUIFrame extends JFrame {
         homePanel.setLayout(null);
         homePanel.setBounds(0, 0, 1280, 720);
 
-        ImageIcon catIcon = new ImageIcon("src/Icons/cat.gif");
+        ImageIcon catIcon = new ImageIcon("src/Icons/CAT.gif");
         Image image = catIcon.getImage();
         Image scaledImage = image.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
         catIcon = new ImageIcon(scaledImage);
@@ -122,7 +122,7 @@ public class ClientGUIFrame extends JFrame {
         randomButton.setBounds(440, 399, 400, 50);
         homePanel.add(randomButton);
 
-        ImageIcon frogIcon = new ImageIcon("src/Icons/frog.gif");
+        ImageIcon frogIcon = new ImageIcon("src/Icons/FROG.gif");
         Image image2 = frogIcon.getImage();
         Image scaledImage2 = image2.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
         frogIcon = new ImageIcon(scaledImage2);
@@ -156,7 +156,7 @@ public class ClientGUIFrame extends JFrame {
         createLobbyButton.setBounds(440, 450, 400, 50);
         homePanel.add(createLobbyButton);
 
-        ImageIcon bearIcon = new ImageIcon("src/Icons/bear.gif");
+        ImageIcon bearIcon = new ImageIcon("src/Icons/BEAR.gif");
         Image image3 = bearIcon.getImage();
         Image scaledImage3 = image3.getScaledInstance(70, 70, Image.SCALE_DEFAULT);
         bearIcon = new ImageIcon(scaledImage3);
@@ -293,8 +293,6 @@ public class ClientGUIFrame extends JFrame {
         player4pic.setBounds(978, 233, 150, 140);
         lobbyPanel.add(player4pic);
 
-
-
         startButton = new JButton("Ready");
         startButton.setBackground(new Color(189, 224, 254));
         startButton.addMouseListener(new MouseAdapter() {
@@ -412,8 +410,6 @@ public class ClientGUIFrame extends JFrame {
         player2Ready.setBounds(357, 470, 240, 32);
         lobbyPanel.add(player2Ready);
 
-
-
         player3username = new JLabel("JLabel2");
         player3username.setHorizontalAlignment(SwingConstants.CENTER);
         player3username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
@@ -437,7 +433,6 @@ public class ClientGUIFrame extends JFrame {
         player4Ready.setHorizontalAlignment(SwingConstants.CENTER);
         player4Ready.setBounds(937, 470, 240, 32);
         lobbyPanel.add(player4Ready);
-
 
         lobbyPanel.add(fallingLettersPanelLobby);
 
@@ -1079,7 +1074,7 @@ public class ClientGUIFrame extends JFrame {
         lLabel.setForeground(new Color(7, 120, 218));
         lLabel.setBounds(23, 0, 427, 75);
 
-        ImageIcon medal1Icon = new ImageIcon("src/Icons/1.gif");
+        ImageIcon medal1Icon = new ImageIcon("src/Icons/1s-5th/1.gif");
         Image image11 = medal1Icon.getImage();
         Image scaledImage11 = image11.getScaledInstance(65, 65, Image.SCALE_DEFAULT);
         medal1Icon = new ImageIcon(scaledImage11);
@@ -1088,7 +1083,7 @@ public class ClientGUIFrame extends JFrame {
         firstMedal.setBounds(164, 105, 65, 65);
         lPanel.add(firstMedal);
 
-        ImageIcon medal2Icon = new ImageIcon("src/Icons/2.gif");
+        ImageIcon medal2Icon = new ImageIcon("src/Icons/1s-5th/2.gif");
         Image image22 = medal2Icon.getImage();
         Image scaledImage22 = image22.getScaledInstance(65, 65, Image.SCALE_DEFAULT);
         medal2Icon = new ImageIcon(scaledImage22);
@@ -1097,7 +1092,7 @@ public class ClientGUIFrame extends JFrame {
         secondMedal.setBounds(164, 194, 65, 65);
         lPanel.add(secondMedal);
 
-        ImageIcon medal3Icon = new ImageIcon("src/Icons/3.gif");
+        ImageIcon medal3Icon = new ImageIcon("src/Icons/1s-5th/3.gif");
         Image image33 = medal3Icon.getImage();
         Image scaledImage33 = image33.getScaledInstance(65, 65, Image.SCALE_DEFAULT);
         medal3Icon = new ImageIcon(scaledImage33);
@@ -1106,7 +1101,7 @@ public class ClientGUIFrame extends JFrame {
         thirdMedal.setBounds(164, 280, 65, 65);
         lPanel.add(thirdMedal);
 
-        ImageIcon medal4Icon = new ImageIcon("src/Icons/4.gif");
+        ImageIcon medal4Icon = new ImageIcon("src/Icons/1s-5th/4.gif");
         Image image44 = medal4Icon.getImage();
         Image scaledImage44 = image44.getScaledInstance(65, 65, Image.SCALE_DEFAULT);
         medal4Icon = new ImageIcon(scaledImage44);
@@ -1115,7 +1110,7 @@ public class ClientGUIFrame extends JFrame {
         fourthMedal.setBounds(164, 370, 65, 65);
         lPanel.add(fourthMedal);
 
-        ImageIcon medal5Icon = new ImageIcon("src/Icons/5.gif");
+        ImageIcon medal5Icon = new ImageIcon("src/Icons/1s-5th/5.gif");
         Image image55 = medal5Icon.getImage();
         Image scaledImage55 = image55.getScaledInstance(65, 65, Image.SCALE_DEFAULT);
         medal5Icon = new ImageIcon(scaledImage55);
@@ -1178,6 +1173,14 @@ public class ClientGUIFrame extends JFrame {
         settingsPanel.setBackground(new Color(255, 204, 213));
         settingsPanel.setLayout(null);
         settingsPanel.setBounds(0, 0, 1280, 720);
+
+        JTextArea errorsTextArea = new JTextArea();
+        errorsTextArea.setEditable(false);
+        errorsTextArea.setFont(new Font("Arial", Font.PLAIN, 13));
+        errorsTextArea.setForeground(Color.RED);
+        errorsTextArea.setBackground(new Color(255, 204, 213));
+        errorsTextArea.setBounds(471, 148, 293, 22);
+        gamePanel.add(errorsTextArea);
 
         JLabel musicLabel = new JLabel("Music");
         musicLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 25));
@@ -1297,6 +1300,26 @@ public class ClientGUIFrame extends JFrame {
         settingsPanel.add(saveButton);
 
         settingsPanel.add(fallingLettersPanelSettings);
+
+        sPanel = new JPanel();
+        sPanel.setBackground(new Color(255, 204, 213));
+        sPanel.setLayout(null);
+        sPanel.setBounds(0, 0, 1280, 720);
+
+        JLabel startingGameLabel = new JLabel("Starting Game");
+        startingGameLabel.setFont(new Font("Tahoma", Font.PLAIN, 100));
+        startingGameLabel.setBounds(309, 203, 914, 166);
+        sPanel.add(startingGameLabel);
+
+        nPanel = new JPanel();
+        nPanel.setBackground(new Color(255, 204, 213));
+        nPanel.setLayout(null);
+        nPanel.setBounds(0, 0, 1280, 720);
+
+        JLabel nextGameLabel = new JLabel("Next Round");
+        nextGameLabel.setFont(new Font("Tahoma", Font.PLAIN, 100));
+        nextGameLabel.setBounds(375, 199, 796, 166);
+        nPanel.add(nextGameLabel);
     }
 
     private void startTimer(JLabel timerLabel) {
