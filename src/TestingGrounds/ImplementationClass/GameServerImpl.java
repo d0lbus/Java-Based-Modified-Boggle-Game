@@ -59,7 +59,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
             return false;
         }
     }
-
     @Override
     public boolean logout(String sessionToken) {
         try {
@@ -76,7 +75,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
             return false; // Return false if an exception occurred
         }
     }
-
     @Override
     public String hostGame(String sessionToken, CallbackInterface cbi){
         if (cbi == null) {
@@ -94,7 +92,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
         notifyPlayersAboutChanges(newGameSession);
         return newGameSession.getSessionId();
     }
-
     @Override
     public String joinRandomGame(String sessionToken, CallbackInterface gci) {
         if (!validateSessionToken(sessionToken)) {
@@ -117,7 +114,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
         notifyPlayersAboutChanges(selectedSession);
         return selectedSession.getSessionId();
     }
-
     @Override
     public String joinGame(String sessionToken, String gameId) {
         System.out.println("Player with session token " + sessionToken + " attempting to join game " + gameId);
@@ -126,7 +122,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
         //TO DO: ADD PLAYER TO THE SESSION
         return session.getSessionId();
     }
-
     public void notifyPlayersAboutChanges(GameSession session) {
         List<PlayerInfo> playerData = collectPlayerData(session);
         session.getPlayers().forEach((token, position) -> {
@@ -143,7 +138,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
             }
         });
     }
-
     public void startTimerForGui(GameSession session, int seconds){
         List<PlayerInfo> playerData = collectPlayerData(session);
         session.getPlayers().forEach((token, position) -> {
@@ -160,7 +154,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
             }
         });
     }
-
     private List<PlayerInfo> collectPlayerData(GameSession session) {
         List<PlayerInfo> playerData = new ArrayList<>();
         session.getPlayers().forEach((token, position) -> {
@@ -214,9 +207,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
         notifyPlayersAboutChanges(session);
         return true;
     }
-
-
-
     private void startGameSession(GameSession session) {
         List<PlayerInfo> playerData = collectPlayerData(session);
         char[] charArrayList = generateRandomCharArray();
@@ -314,9 +304,11 @@ public class GameServerImpl extends GameServerPOA implements Object {
         if (roundWinner != null) {
             session.incrementRoundWinCount(roundWinner);
             System.out.println("Round winner is: " + retrievePlayerFromSessionToken(roundWinner));
+            session.resetScoresForNextRound();
             notifyRoundWinnerToPlayers(session, roundWinner);
         } else {
             System.out.println("No winner declared for the round due to a tie.");
+            session.resetScoresForNextRound();
             notifyTieToPlayers(session);
         }
 
