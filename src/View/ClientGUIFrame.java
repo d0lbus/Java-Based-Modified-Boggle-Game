@@ -432,22 +432,22 @@ public class ClientGUIFrame extends JFrame {
         gamePanel.add(timerBackground);
         gamePanel.setComponentZOrder(timerLabel, 0);
 
-        player1gamePic = new JLabel("Player 1");
+        player1gamePic = new JLabel();
         player1gamePic.setBounds(24, 30, 150, 140);
         gamePanel.add(player1gamePic);
         player1gamePic.setLayout(null);
 
-        player2gamePic = new JLabel("Player 2");
+        player2gamePic = new JLabel();
         player2gamePic.setLayout(null);
         player2gamePic.setBounds(24, 188, 150, 140);
         gamePanel.add(player2gamePic);
 
-        player3gamePic = new JLabel("Player 3");
+        player3gamePic = new JLabel();
         player3gamePic.setLayout(null);
         player3gamePic.setBounds(24, 347, 150, 140);
         gamePanel.add(player3gamePic);
 
-        player4gamePic = new JLabel("Player 4");
+        player4gamePic = new JLabel();
         player4gamePic.setLayout(null);
         player4gamePic.setBounds(24, 509, 150, 140);
         gamePanel.add(player4gamePic);
@@ -1048,23 +1048,48 @@ public class ClientGUIFrame extends JFrame {
         lLabel.setForeground(new Color(7, 120, 218));
         lLabel.setBounds(23, 0, 427, 75);
 
-        JLabel firstMedal = new JLabel("1st");
+        ImageIcon medal1Icon = new ImageIcon("src/Icons/1.gif");
+        Image image11 = medal1Icon.getImage();
+        Image scaledImage11 = image11.getScaledInstance(65, 65, Image.SCALE_DEFAULT);
+        medal1Icon = new ImageIcon(scaledImage11);
+
+        JLabel firstMedal = new JLabel(medal1Icon);
         firstMedal.setBounds(164, 105, 65, 65);
         lPanel.add(firstMedal);
 
-        JLabel secondMedal = new JLabel("2nd");
+        ImageIcon medal2Icon = new ImageIcon("src/Icons/2.gif");
+        Image image22 = medal2Icon.getImage();
+        Image scaledImage22 = image22.getScaledInstance(65, 65, Image.SCALE_DEFAULT);
+        medal2Icon = new ImageIcon(scaledImage22);
+
+        JLabel secondMedal = new JLabel(medal2Icon);
         secondMedal.setBounds(164, 194, 65, 65);
         lPanel.add(secondMedal);
 
-        JLabel thirdMedal = new JLabel("3rd");
+        ImageIcon medal3Icon = new ImageIcon("src/Icons/3.gif");
+        Image image33 = medal3Icon.getImage();
+        Image scaledImage33 = image33.getScaledInstance(65, 65, Image.SCALE_DEFAULT);
+        medal3Icon = new ImageIcon(scaledImage33);
+
+        JLabel thirdMedal = new JLabel(medal3Icon);
         thirdMedal.setBounds(164, 280, 65, 65);
         lPanel.add(thirdMedal);
 
-        JLabel fourthMedal = new JLabel("4th");
+        ImageIcon medal4Icon = new ImageIcon("src/Icons/4.gif");
+        Image image44 = medal4Icon.getImage();
+        Image scaledImage44 = image44.getScaledInstance(65, 65, Image.SCALE_DEFAULT);
+        medal4Icon = new ImageIcon(scaledImage44);
+
+        JLabel fourthMedal = new JLabel(medal4Icon);
         fourthMedal.setBounds(164, 370, 65, 65);
         lPanel.add(fourthMedal);
 
-        JLabel fifthMedal = new JLabel("5th");
+        ImageIcon medal5Icon = new ImageIcon("src/Icons/5.gif");
+        Image image55 = medal5Icon.getImage();
+        Image scaledImage55 = image55.getScaledInstance(65, 65, Image.SCALE_DEFAULT);
+        medal5Icon = new ImageIcon(scaledImage55);
+
+        JLabel fifthMedal = new JLabel(medal5Icon);
         fifthMedal.setBounds(164, 467, 65, 65);
         lPanel.add(fifthMedal);
 
