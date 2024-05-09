@@ -588,10 +588,14 @@ public class ClientGUIFrame extends JFrame {
         gamePanel.add(buttonPanel);
         buttonPanel.setLayout(new GridLayout(0, 5, 0, 0));
 
-        button1 = new JButton("New button");
+        button1 = new JButton("Back");
         button1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                layeredPane.removeAll();
+                layeredPane.add(homePanel);
+                layeredPane.repaint();
+                layeredPane.revalidate();
             }
             @Override
             public void mouseEntered(MouseEvent e) {
