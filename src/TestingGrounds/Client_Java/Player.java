@@ -33,12 +33,15 @@ public class Player {
     static Registration registration = new Registration();
     public static void main(String[] args) {
         try {
+            ORB orb = ORB.init(new String[]{"-ORBInitialPort", "900", "-ORBInitialHost", "192.168.1.108"}, null);
+
             cbi = new GameClientCallbackImpl(clientGUIFrame);
-            ORB orb = ORB.init(args, null);
+
             org.omg.CORBA.Object objRef = orb.resolve_initial_references("NameService");
             NamingContextExt ncRef = NamingContextExtHelper.narrow(objRef);
             String name = "GameServer";
             gameServerImp = GameServerHelper.narrow(ncRef.resolve_str(name));
+
             POA rootpoa = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
             rootpoa.the_POAManager().activate();
             if (cbi == null) {
