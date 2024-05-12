@@ -52,9 +52,10 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
     }
 
     @Override
-    public void UpdateLobGUI(PlayerInfo[] playerData) {
+    public void UpdateLobGUI(PlayerInfo[] playerData, String gameToken) {
         SwingUtilities.invokeLater(() -> {
-            System.out.println("Updating GUI for all players");
+           gui.getUsernameLabel().setText(gameToken);
+
 
             // Create a map of default player positions
             Map<Integer, String> defaultPositions = new HashMap<>();

@@ -153,14 +153,22 @@ public class Player {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Session Token: " + sessionToken.value);
-                gameToken = gameServerImp.hostGame(sessionToken.value, callbackRef);
+                try {
+                    gameToken = gameServerImp.hostGame(sessionToken.value, callbackRef);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
         clientGUIFrame.getRandomButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gameToken = gameServerImp.joinRandomGame(sessionToken.value, callbackRef);
+                try {
+                    gameToken = gameServerImp.joinRandomGame(sessionToken.value, callbackRef);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
                 if (gameToken != null) {
                     clientGUIFrame.getLayeredPane().removeAll();
                     clientGUIFrame.getLayeredPane().add(clientGUIFrame.getLobbyPanel());
@@ -175,7 +183,11 @@ public class Player {
         clientGUIFrame.getStartButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gameServerImp.startGame(sessionToken.value, gameToken);
+                try {
+                    gameServerImp.startGame(sessionToken.value, gameToken);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
@@ -183,7 +195,11 @@ public class Player {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String word = clientGUIFrame.getInputTextField().getText();
-                gameServerImp.submitWord(sessionToken.value, gameToken, word);
+                try {
+                    gameServerImp.submitWord(sessionToken.value, gameToken, word);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
                 clientGUIFrame.getInputTextField().setText("");
             }
         });

@@ -1,0 +1,68 @@
+package TestingGrounds.Utilities.DataAccessObjects;
+
+import TestingGrounds.ReferenceClasses.GameSession;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class GameSessionDAO {
+
+    public GameSessionDAO(){
+
+    }
+
+
+    public GameSessionDAO(Connection connection) {
+    }
+
+    public void saveGameSession(GameSession session) throws SQLException {
+        String sql = "INSERT INTO game_sessions (game_token, winning_rounds, lobby_waiting_time, duration_per_round, delay_per_round, status, player_count) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        Connection connection = DBConnection.getConnection();
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, session.getSessionId());
+            stmt.setInt(2, session.getWINNING_ROUNDS());
+            stmt.setInt(3, session.getLOBBY_WAITING_TIME());
+            stmt.setInt(4, session.getDURATION_PER_ROUNDS());
+            stmt.setInt(5, session.getDELAY_PER_ROUNDS());
+            stmt.setString(6, session.getStatus().name());
+            stmt.setInt(7, session.getCurrentPlayerCount());
+            stmt.executeUpdate();
+        }
+    }
+
+    public GameSession loadGameSession(String gameToken) throws SQLException {
+        String sql = "SELECT * FROM game_sessions WHERE game_token = ?";
+        Connection connection = DBConnection.getConnection();
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, gameToken);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                GameSession session = new GameSession(rs.getString("game_token"));
+                session.setWINNING_ROUNDS(rs.getInt("winning_rounds"));
+                session.setLOBBY_WAITING_TIME(rs.getInt("lobby_waiting_time"));
+                session.setDURATION_PER_ROUNDS(rs.getInt("duration_per_round"));
+                session.setDELAY_PER_ROUNDS(rs.getInt("delay_per_round"));
+                session.setStatus(GameSession.GameStatus.valueOf(rs.getString("status")));
+                session.setCurrentPlayerCount(rs.getInt("player_count"));
+                return session;
+            }
+        }
+        return null;
+    }
+
+    public boolean isTokenUnique(String token) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM game_sessions WHERE game_token = ?";
+        Connection connection = DBConnection.getConnection();
+        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+            stmt.setString(1, token);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) == 0;
+            }
+        }
+        return false;
+    }
+}
+

@@ -12,7 +12,7 @@ typedef sequence<boolean> ReadyStatusList;
 
 interface CallbackInterface {
     void CreateLobGUI( in string username, in string gameId);
-    void UpdateLobGUI( in PlayerInfoList playerData);
+    void UpdateLobGUI( in PlayerInfoList playerData, in string gameToken);
     void startGameGUI( in PlayerInfoList playerData, in CharList charArrayList);
     void updatePlayerReadyStatus(in PlayerInfoList playerData, in ReadyStatusList readyStatus);
     void startLobbyTimer(in long durationSeconds);

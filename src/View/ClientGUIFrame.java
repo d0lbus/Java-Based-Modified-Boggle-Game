@@ -25,7 +25,7 @@ public class ClientGUIFrame extends JFrame {
     private JLabel player1gamePic, player2gamePic, player3gamePic, player4gamePic;
     private Clip clip;
     private JSlider volumeSlider;
-    private JLabel player1pic, player2pic, player3pic, player4pic, player1Ready, player2Ready, player3Ready, player4Ready, player1picRanking, player2picRanking, player3picRanking, player4picRanking, waitingTimeLabel;
+    private JLabel player1pic, player2pic, player3pic, player4pic, player1Ready, player2Ready, player3Ready, player4Ready, player1picRanking, player2picRanking, player3picRanking, player4picRanking, waitingTimeLabel, usernameLabel;
     private JLabel player1username, player2username, player3username, player4username, player1usernameRanking,
             player2usernameRanking, player3usernameRanking, player4usernameRanking, inputJLabel;
     private JButton randomButton, quitButton, leaveButton, createLobbyButton, joinButton, startButton;
@@ -354,22 +354,13 @@ public class ClientGUIFrame extends JFrame {
         lobbyPanel.add(usernamePanel);
         usernamePanel.setLayout(null);
 
-        JLabel usernameLabel = new JLabel("\"Username\" Lobby");
+        usernameLabel = new JLabel("CODE: ");
         usernameLabel.setBounds(0, 0, 315, 68);
         usernamePanel.add(usernameLabel);
         usernameLabel.setBackground(Color.YELLOW);
         usernameLabel.setHorizontalAlignment(SwingConstants.CENTER);
         usernameLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 30));
 
-        JLabel cLabel = new JLabel("Code:");
-        cLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 20));
-        cLabel.setBounds(541, 114, 58, 45);
-        lobbyPanel.add(cLabel);
-
-        JLabel codeLabel = new JLabel("JLabel");
-        codeLabel.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 20));
-        codeLabel.setBounds(600, 114, 141, 45);
-        lobbyPanel.add(codeLabel);
 
         JLabel settingsIcon1 = new JLabel("");
         settingsIcon1.addMouseListener(new MouseAdapter() {
@@ -1688,6 +1679,14 @@ public class ClientGUIFrame extends JFrame {
 
     public JLabel getInputJLabel() {
         return inputJLabel;
+    }
+
+    public JLabel getUsernameLabel() {
+        return usernameLabel;
+    }
+
+    public void setUsernameLabel(JLabel usernameLabel) {
+        this.usernameLabel = usernameLabel;
     }
 }
 
