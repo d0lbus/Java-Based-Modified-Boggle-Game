@@ -101,7 +101,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('0','dolbus','123',NULL,NULL,NULL,NULL,'John','Doe'),('1','fresk','password','51e13550-b1f2-4b02-9ea7-e5bc50e3101d',NULL,NULL,NULL,'Maria','DB'),('2','ju','admin','52484f5e-d0e1-4c5e-8cf0-b3d0ff780996',NULL,NULL,NULL,'E','Bike');
+INSERT INTO `users` VALUES ('0','dolbus','123',NULL,NULL,NULL,NULL,'John','Doe'),('1','fresk','password',NULL,NULL,NULL,NULL,'Maria','DB'),('2','ju','admin',NULL,NULL,NULL,NULL,'E','Bike');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 

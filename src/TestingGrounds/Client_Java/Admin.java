@@ -120,7 +120,7 @@ public class Admin {
                     // Set other user properties as needed
 
                     // Call createUser method to insert user into the database
-                    UserDAO.createUser(user, firstNameCapitalized, lastNameCapitalized, password);
+                    UserDAO.createUser(user, firstNameCapitalized, lastNameCapitalized, password, null, null, null, null);
 
                     JOptionPane.showMessageDialog(registration, "Registration successful! Welcome to Boggled, " + username);
 

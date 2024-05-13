@@ -12,6 +12,7 @@ import TestingGrounds.Utilities.DataAccessObjects.GameSettingsDAO;
 import TestingGrounds.Utilities.DataAccessObjects.UserDAO;
 import TestingGrounds.Utilities.TokenGenerator;
 import TestingGrounds.Utilities.WordValidator;
+
 import org.omg.CORBA.*;
 import org.omg.CORBA.Object;
 
@@ -53,6 +54,15 @@ public class GameServerImpl extends GameServerPOA implements Object {
                 throw new InvalidCredentials();
             }
 
+            String storedToken = UserDAO.getSessionTokenByUsername(username);
+
+            // Check if the session token is not null, meaning the user is already logged in
+            if (storedToken != null) {
+                System.err.println("User " + username + " is already logged in.");
+                throw new AlreadyLoggedIn("User " + username + " is already logged in.");
+            }
+
+
             String token = generateSecureToken();
             sessionToken.value = token;
 
@@ -65,7 +75,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
 
             System.out.println("Callback registered for " + username + " with token: " + token);
             return true;
-        } catch (SQLException | InvalidCredentials e) {
+        } catch (SQLException | InvalidCredentials | AlreadyLoggedIn e) {
             System.err.println("Login error: " + e.getMessage());
             return false;
         }

@@ -60,7 +60,7 @@ public class UserDAO {
         }
     }
 
-    public static void createUser(User user, String firstName, String lastName, String password) throws SQLException {
+    public static void createUser(User user, String firstName, String lastName, String password, String sessionToken, Boolean inGame, Integer score, String currentGameToken) throws SQLException {
         String sqlGetLastPlayerId = "SELECT playerId FROM users ORDER BY playerId DESC LIMIT 1";
         String sqlInsertUser = "INSERT INTO users (playerId, username, firstName, lastName, password, sessionToken, inGame, score, currentGameToken) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -82,10 +82,18 @@ public class UserDAO {
                 psInsertUser.setString(3, firstName); // Set first name
                 psInsertUser.setString(4, lastName);  // Set last name
                 psInsertUser.setString(5, password);
-                psInsertUser.setString(6, user.getSessionToken());
-                psInsertUser.setBoolean(7, user.isInGame());
-                psInsertUser.setInt(8, user.getScore());
-                psInsertUser.setString(9, user.getCurrentGameToken());
+                psInsertUser.setString(6, sessionToken); // Set sessionToken
+                if (inGame != null) {
+                    psInsertUser.setBoolean(7, inGame); // Set inGame
+                } else {
+                    psInsertUser.setNull(7, Types.BOOLEAN); // Set inGame as null
+                }
+                if (score != null) {
+                    psInsertUser.setInt(8, score); // Set score
+                } else {
+                    psInsertUser.setNull(8, Types.INTEGER); // Set score as null
+                }
+                psInsertUser.setString(9, currentGameToken); // Set currentGameToken
 
                 psInsertUser.executeUpdate();
             }
@@ -110,5 +118,19 @@ public class UserDAO {
             ps.setString(1, sessionToken);
             ps.executeUpdate();
         }
+    }
+
+    public static String getSessionTokenByUsername(String username) throws SQLException {
+        String sql = "SELECT sessionToken FROM users WHERE username = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("sessionToken");
+                }
+            }
+        }
+        return null;
     }
 }

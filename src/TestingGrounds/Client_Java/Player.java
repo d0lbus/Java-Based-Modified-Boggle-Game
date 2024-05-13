@@ -3,7 +3,6 @@ package TestingGrounds.Client_Java;
 import TestingGrounds.GameSystem.*;
 import TestingGrounds.ImplementationClass.GameClientCallbackImpl;
 import TestingGrounds.ReferenceClasses.User;
-import TestingGrounds.Utilities.DataAccessObjects.DBConnection;
 import TestingGrounds.Utilities.DataAccessObjects.UserDAO;
 import View.ClientGUIFrame;
 import View.Registration;
@@ -67,7 +66,6 @@ public class Player {
                 password = new String(registration.getLoginPasswordField().getPassword());
 
                 boolean loginSuccessful = gameServerImp.login(username, password, sessionToken, callbackRef);
-
 
                 if (loginSuccessful) {
                     System.out.println("Login for " + username + " is successful. Session token: " + sessionToken.value);
