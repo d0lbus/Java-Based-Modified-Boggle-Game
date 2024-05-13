@@ -288,53 +288,53 @@ public class Registration extends JFrame {
 
 
         LetterCube cubeB = new LetterCube("B", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
-        cubeB.setBounds(80, 200, 50, 50);
+        cubeB.setBounds(40, 200, 60, 60);
         contentPane.add(cubeB);
         cubeB.setOpaque(false);
         cubeB.setBorder(new RoundBorder(40));
-        cubeB.setFontSize(20);
+        cubeB.setFontSize(25);
 
         LetterCube cubeO = new LetterCube("O", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
-        cubeO.setBounds(110, 220, 50, 50);
+        cubeO.setBounds(85, 220, 60, 60);
         contentPane.add(cubeO);
         cubeO.setOpaque(false);
         cubeO.setBorder(new RoundBorder(40));
-        cubeO.setFontSize(20);
+        cubeO.setFontSize(25);
 
         LetterCube cubeG = new LetterCube("G", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
-        cubeG.setBounds(140, 200, 50, 50);
+        cubeG.setBounds(130, 200, 60, 60);
         contentPane.add(cubeG);
         cubeG.setOpaque(false);
         cubeG.setBorder(new RoundBorder(40));
-        cubeG.setFontSize(20);
+        cubeG.setFontSize(25);
 
         LetterCube cubeG2 = new LetterCube("G", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
-        cubeG2.setBounds(170, 220, 50, 50);
+        cubeG2.setBounds(175, 220, 60, 60);
         contentPane.add(cubeG2);
         cubeG2.setOpaque(false);
         cubeG2.setBorder(new RoundBorder(40));
-        cubeG2.setFontSize(20);
+        cubeG2.setFontSize(25);
 
         LetterCube cubeL = new LetterCube("L", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
-        cubeL.setBounds(200, 200, 50, 50);
+        cubeL.setBounds(220, 200, 60, 60);
         contentPane.add(cubeL);
         cubeL.setOpaque(false);
         cubeL.setBorder(new RoundBorder(40));
-        cubeL.setFontSize(20);
+        cubeL.setFontSize(25);
 
         LetterCube cubeE = new LetterCube("E", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
-        cubeE.setBounds(230, 220, 50, 50);
+        cubeE.setBounds(265, 220, 60, 60);
         contentPane.add(cubeE);
         cubeE.setOpaque(false);
         cubeE.setBorder(new RoundBorder(40));
-        cubeE.setFontSize(20);
+        cubeE.setFontSize(25);
 
         LetterCube cubeD = new LetterCube("D", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
-        cubeD.setBounds(260, 200, 50, 50);
+        cubeD.setBounds(310, 200, 60, 60);
         contentPane.add(cubeD);
         cubeD.setOpaque(false);
         cubeD.setBorder(new RoundBorder(40));
-        cubeD.setFontSize(20);
+        cubeD.setFontSize(25);
 
 
         JLabel lblNewLabel_1 = new JLabel("© Team Quantum Tech 2024");

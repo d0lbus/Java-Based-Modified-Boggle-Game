@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `boggled` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `boggled`;
 -- MySQL dump 10.13  Distrib 8.3.0, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: boggled
@@ -18,6 +16,36 @@ USE `boggled`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `game_sessions`
+--
+
+DROP TABLE IF EXISTS `game_sessions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `game_sessions` (
+  `game_token` varchar(255) NOT NULL,
+  `max_players` int DEFAULT '4',
+  `winning_rounds` int DEFAULT NULL,
+  `lobby_waiting_time` int DEFAULT NULL,
+  `duration_per_round` int DEFAULT NULL,
+  `delay_per_round` int DEFAULT NULL,
+  `status` varchar(50) DEFAULT NULL,
+  `player_count` int DEFAULT NULL,
+  PRIMARY KEY (`game_token`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `game_sessions`
+--
+
+LOCK TABLES `game_sessions` WRITE;
+/*!40000 ALTER TABLE `game_sessions` DISABLE KEYS */;
+INSERT INTO `game_sessions` VALUES ('09eb977c-f24e-4d7f-bb2f-8d22844f5589',4,3,10,30,5,'WAITING',1),('1AH-DAAR',4,3,10,30,5,'WAITING',1),('3dbf90f4-fe42-48fc-8cdb-e6e48548180e',4,3,10,30,5,'WAITING',NULL),('44fcfbb6-2887-47e0-9adf-d67dac80cdc4',4,3,10,30,5,'WAITING',1),('SLQ-9TSX',4,3,10,30,5,'WAITING',1);
+/*!40000 ALTER TABLE `game_sessions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `game_settings`
 --
 
@@ -31,7 +59,7 @@ CREATE TABLE `game_settings` (
   `seconds_per_waiting` int DEFAULT '5',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -52,16 +80,16 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
-  `playerId` varchar(36) NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `sessionToken` varchar(36) DEFAULT NULL,
+  `playerId` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sessionToken` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `inGame` tinyint(1) DEFAULT NULL,
   `score` int DEFAULT NULL,
-  `currentGameToken` varchar(36) DEFAULT NULL,
+  `currentGameToken` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`playerId`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -83,4 +111,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-05-09  6:30:02
+-- Dump completed on 2024-05-13  5:09:30
