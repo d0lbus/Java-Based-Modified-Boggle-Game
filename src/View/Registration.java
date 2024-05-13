@@ -6,11 +6,8 @@ import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
 
 public class Registration extends JFrame {
 
@@ -279,12 +276,6 @@ public class Registration extends JFrame {
         backToLoginLabel.setFont(new Font("Tahoma", Font.PLAIN, 13));
         backToLoginLabel.setBounds(162, 499, 101, 23);
         signupPanel.add(backToLoginLabel);
-
-        //JLabel lblNewLabel = new JLabel("New label");
-        //lblNewLabel.setIcon(new ImageIcon("src/Icons/logoRegistration.png"));
-        //lblNewLabel.setBounds(0, 199, 401, 102);
-        //contentPane.add(lblNewLabel);
-
 
 
         LetterCube cubeB = new LetterCube("B", "src/View/Design/Fonts/gomarice_bubble_head.ttf");

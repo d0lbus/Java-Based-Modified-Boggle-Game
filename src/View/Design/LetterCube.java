@@ -52,7 +52,7 @@ public class LetterCube extends JPanel {
         if (customFont != null) {
             customFont = customFont.deriveFont(Font.PLAIN, size);
         }
-        repaint(); // Repaint the component to reflect changes
+        repaint(); 
     }
 
 }
