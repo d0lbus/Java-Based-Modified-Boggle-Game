@@ -47,4 +47,12 @@ public class LetterCube extends JPanel {
         g2d.drawString(letter, x, y);
         g2d.dispose();
     }
+
+    public void setFontSize(int size) {
+        if (customFont != null) {
+            customFont = customFont.deriveFont(Font.PLAIN, size);
+        }
+        repaint(); // Repaint the component to reflect changes
+    }
+
 }

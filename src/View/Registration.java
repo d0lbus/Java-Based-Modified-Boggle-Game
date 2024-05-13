@@ -1,11 +1,16 @@
 package View;
 
+import View.Design.LetterCube;
+import View.Design.RoundBorder;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 
 public class Registration extends JFrame {
 
@@ -275,10 +280,62 @@ public class Registration extends JFrame {
         backToLoginLabel.setBounds(162, 499, 101, 23);
         signupPanel.add(backToLoginLabel);
 
-        JLabel lblNewLabel = new JLabel("New label");
-        lblNewLabel.setIcon(new ImageIcon("src/Icons/logoRegistration.png"));
-        lblNewLabel.setBounds(0, 199, 401, 102);
-        contentPane.add(lblNewLabel);
+        //JLabel lblNewLabel = new JLabel("New label");
+        //lblNewLabel.setIcon(new ImageIcon("src/Icons/logoRegistration.png"));
+        //lblNewLabel.setBounds(0, 199, 401, 102);
+        //contentPane.add(lblNewLabel);
+
+
+
+        LetterCube cubeB = new LetterCube("B", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
+        cubeB.setBounds(80, 200, 50, 50);
+        contentPane.add(cubeB);
+        cubeB.setOpaque(false);
+        cubeB.setBorder(new RoundBorder(40));
+        cubeB.setFontSize(20);
+
+        LetterCube cubeO = new LetterCube("O", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
+        cubeO.setBounds(110, 220, 50, 50);
+        contentPane.add(cubeO);
+        cubeO.setOpaque(false);
+        cubeO.setBorder(new RoundBorder(40));
+        cubeO.setFontSize(20);
+
+        LetterCube cubeG = new LetterCube("G", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
+        cubeG.setBounds(140, 200, 50, 50);
+        contentPane.add(cubeG);
+        cubeG.setOpaque(false);
+        cubeG.setBorder(new RoundBorder(40));
+        cubeG.setFontSize(20);
+
+        LetterCube cubeG2 = new LetterCube("G", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
+        cubeG2.setBounds(170, 220, 50, 50);
+        contentPane.add(cubeG2);
+        cubeG2.setOpaque(false);
+        cubeG2.setBorder(new RoundBorder(40));
+        cubeG2.setFontSize(20);
+
+        LetterCube cubeL = new LetterCube("L", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
+        cubeL.setBounds(200, 200, 50, 50);
+        contentPane.add(cubeL);
+        cubeL.setOpaque(false);
+        cubeL.setBorder(new RoundBorder(40));
+        cubeL.setFontSize(20);
+
+        LetterCube cubeE = new LetterCube("E", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
+        cubeE.setBounds(230, 220, 50, 50);
+        contentPane.add(cubeE);
+        cubeE.setOpaque(false);
+        cubeE.setBorder(new RoundBorder(40));
+        cubeE.setFontSize(20);
+
+        LetterCube cubeD = new LetterCube("D", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
+        cubeD.setBounds(260, 200, 50, 50);
+        contentPane.add(cubeD);
+        cubeD.setOpaque(false);
+        cubeD.setBorder(new RoundBorder(40));
+        cubeD.setFontSize(20);
+
 
         JLabel lblNewLabel_1 = new JLabel("© Team Quantum Tech 2024");
         lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 13));

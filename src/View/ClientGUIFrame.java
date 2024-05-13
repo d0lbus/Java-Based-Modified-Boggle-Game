@@ -209,6 +209,7 @@ public class ClientGUIFrame extends JFrame {
         cubeB.setBounds(200, 100, 150, 150);
         homePanel.add(cubeB);
 
+
         LetterCube cubeO = new LetterCube("O", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
         cubeO.setBounds(320, 150, 150, 150);
         homePanel.add(cubeO);
