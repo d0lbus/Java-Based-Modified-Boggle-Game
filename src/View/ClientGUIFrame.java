@@ -438,6 +438,10 @@ public class ClientGUIFrame extends JFrame {
         gamePanel.setLayout(null);
         gamePanel.setBounds(0, 0, 1280, 720);
 
+        SmallFallingLettersPanel smallFallingLettersPanelGame= new SmallFallingLettersPanel();
+        smallFallingLettersPanelGame.setOpaque(false);
+        smallFallingLettersPanelGame.setBounds(0, 0, 1280, 720);
+
         timerLabel = new JLabel("00:30");
         timerLabel.setFont(new Font("Arial", Font.BOLD, 36));
         timerLabel.setBounds(525, 10, 450, 50);
@@ -923,6 +927,8 @@ public class ClientGUIFrame extends JFrame {
         });
         button20.setBackground(new Color(202,240,248));
         buttonPanel.add(button20);
+
+        gamePanel.add(smallFallingLettersPanelGame);
 
         rankingPanel= new JPanel();
         rankingPanel.setBackground(new Color(255, 204, 213));
