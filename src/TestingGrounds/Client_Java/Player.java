@@ -2,9 +2,11 @@ package TestingGrounds.Client_Java;
 
 import TestingGrounds.GameSystem.*;
 import TestingGrounds.ImplementationClass.GameClientCallbackImpl;
+import TestingGrounds.ImplementationClass.GameServerImpl;
 import TestingGrounds.ReferenceClasses.User;
 import TestingGrounds.Utilities.DataAccessObjects.UserDAO;
 import View.ClientGUIFrame;
+import View.EnterCodeFrame;
 import View.Registration;
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.StringHolder;
@@ -29,10 +31,11 @@ public class Player {
     static GameClientCallbackImpl cbi;
     static CallbackInterface callbackRef;
     static ClientGUIFrame clientGUIFrame = new ClientGUIFrame();
+    static EnterCodeFrame enterCodeFrame = new EnterCodeFrame();
     static Registration registration = new Registration();
     public static void main(String[] args) {
         try {
-            ORB orb = ORB.init(new String[]{"-ORBInitialPort", "900", "-ORBInitialHost", "192.168.1.108"}, null);
+            ORB orb = ORB.init(new String[]{"-ORBInitialPort", "900", "-ORBInitialHost", "localhost"}, null);
 
             cbi = new GameClientCallbackImpl(clientGUIFrame);
 
@@ -123,7 +126,7 @@ public class Player {
                     // Set other user properties as needed
 
                     // Call createUser method to insert user into the database
-                    UserDAO.createUser(user, firstNameCapitalized, lastNameCapitalized, password);
+                    UserDAO.createUser(user, firstNameCapitalized, lastNameCapitalized, password,null,null,null,null);
 
                     JOptionPane.showMessageDialog(registration, "Registration successful! Welcome to Boggled, " + username);
 
@@ -201,6 +204,39 @@ public class Player {
                 clientGUIFrame.getInputTextField().setText("");
             }
         });
+
+        clientGUIFrame.getJoinButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                enterCodeFrame.setVisible(true);
+                enterCodeFrame.getJoinButton().addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        String gameCode = enterCodeFrame.getCodeTextField().getText();
+
+                        if (gameCode.isEmpty()){
+                            JOptionPane.showMessageDialog(enterCodeFrame, "Please type a Game Code", "Join Game Failed", JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+
+                        try {
+                            gameServerImp.joinGame(sessionToken.value, gameCode);
+                        } catch (SQLException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        if (gameToken != null) {
+                            clientGUIFrame.getLayeredPane().removeAll();
+                            clientGUIFrame.getLayeredPane().add(clientGUIFrame.getLobbyPanel());
+                            clientGUIFrame.getLayeredPane().repaint();
+                            clientGUIFrame.getLayeredPane().revalidate();
+                        } else {
+                            System.out.println("No game found or unable to join.");
+                        }
+                    }
+                });
+            }
+        });
+
 
         clientGUIFrame.getQuitButton().addActionListener(new ActionListener() {
             @Override

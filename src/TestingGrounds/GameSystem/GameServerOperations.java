@@ -16,7 +16,7 @@ public interface GameServerOperations
   boolean logout (String sessionToken);
   String hostGame (String sessionToken, TestingGrounds.GameSystem.CallbackInterface cbi) throws SQLException;
   String joinRandomGame (String sessionToken, TestingGrounds.GameSystem.CallbackInterface cbi) throws SQLException;
-  String joinGame (String sessionToken, String gameId);
+  String joinGame (String sessionToken, String gameId) throws SQLException;
   boolean startGame (String sessionToken, String gameId) throws SQLException;
   void submitWord (String sessionToken, String gameId, String word) throws SQLException;
   String getLetters (String sessionToken, String gameId);

@@ -18,7 +18,14 @@ public class GameSessionDAO {
     }
 
     public void saveGameSession(GameSession session) throws SQLException {
-        String sql = "INSERT INTO game_sessions (game_token, winning_rounds, lobby_waiting_time, duration_per_round, delay_per_round, status, player_count) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO game_sessions (game_token, winning_rounds, lobby_waiting_time, duration_per_round, delay_per_round, status, player_count) VALUES (?, ?, ?, ?, ?, ?, ?)"+
+                "ON DUPLICATE KEY UPDATE " +
+                "winning_rounds = VALUES(winning_rounds), " +
+                "lobby_waiting_time = VALUES(lobby_waiting_time), " +
+                "duration_per_round = VALUES(duration_per_round), " +
+                "delay_per_round = VALUES(delay_per_round), " +
+                "status = VALUES(status), " +
+                "player_count = VALUES(player_count)";
         Connection connection = DBConnection.getConnection();
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, session.getSessionId());

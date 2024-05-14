@@ -183,8 +183,8 @@ public class ClientGUIFrame extends JFrame {
 
         joinButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                EnterCodeFrame enterCodeFrame = new EnterCodeFrame();
-                enterCodeFrame.setVisible(true);
+//                EnterCodeFrame enterCodeFrame = new EnterCodeFrame();
+//                enterCodeFrame.setVisible(true);
             }
         });
         joinButton.setBounds(440, 500, 400, 50);

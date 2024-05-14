@@ -100,8 +100,12 @@ public abstract class GameServerPOA extends org.omg.PortableServer.Servant
          String sessionToken = in.read_string ();
          String gameId = in.read_string ();
          String $result = null;
-         $result = this.joinGame (sessionToken, gameId);
-         out = $rh.createReply();
+           try {
+               $result = this.joinGame (sessionToken, gameId);
+           } catch (SQLException e) {
+               throw new RuntimeException(e);
+           }
+           out = $rh.createReply();
          out.write_string ($result);
          break;
        }

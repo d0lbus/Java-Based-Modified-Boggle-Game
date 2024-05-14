@@ -1,10 +1,7 @@
 package TestingGrounds.ImplementationClass;
 
-import TestingGrounds.GameSystem.InvalidCredentials;
+import TestingGrounds.GameSystem.*;
 import TestingGrounds.ReferenceClasses.GameSession;
-import TestingGrounds.GameSystem.CallbackInterface;
-import TestingGrounds.GameSystem.GameServerPOA;
-import TestingGrounds.GameSystem.PlayerInfo;
 import TestingGrounds.ReferenceClasses.User;
 import TestingGrounds.Utilities.DataAccessObjects.DBConnection;
 import TestingGrounds.Utilities.DataAccessObjects.GameSessionDAO;
@@ -13,6 +10,7 @@ import TestingGrounds.Utilities.DataAccessObjects.UserDAO;
 import TestingGrounds.Utilities.TokenGenerator;
 import TestingGrounds.Utilities.WordValidator;
 
+import View.EnterCodeFrame;
 import org.omg.CORBA.*;
 import org.omg.CORBA.Object;
 
@@ -146,13 +144,30 @@ public class GameServerImpl extends GameServerPOA implements Object {
         return selectedSession.getSessionId();
     }
     @Override
-    public String joinGame(String sessionToken, String gameId) {
-        System.out.println("Player with session token " + sessionToken + " attempting to join game " + gameId);
-        GameSession session = activeGameLobbies.get(gameId);
+    public String joinGame(String sessionToken, String gameId) throws SQLException {
+        if (!validateSessionToken(sessionToken)) {
+            System.out.println("Invalid session token");
+        }
+        // Find the game session with the specified game ID
+        Optional<GameSession> optionalSession = activeGameLobbies.values().stream()
+                .filter(session -> session.getSessionId().equals(gameId))
+                .filter(GameSession::canJoin)
+                .findFirst();
 
-        //TO DO: ADD PLAYER TO THE SESSION
-        return session.getSessionId();
+        if (!optionalSession.isPresent()) {
+            System.out.println("No available game session with the specified ID to join");
+            return null; // or throw an exception if appropriate
+        }
+
+        GameSession selectedSession = optionalSession.get();
+        selectedSession.addPlayer(sessionToken);
+        System.out.println("Player added to game " + selectedSession.getSessionId());
+
+        gameSessionDAO.saveGameSession(selectedSession);
+        notifyPlayersAboutChanges(selectedSession);
+        return selectedSession.getSessionId();
     }
+
     @Override
     public boolean startGame(String sessionToken, String gameToken) throws SQLException {
         GameSession session = activeGameLobbies.get(gameToken);

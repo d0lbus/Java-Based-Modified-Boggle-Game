@@ -18,13 +18,6 @@ public class EnterCodeFrame extends javax.swing.JFrame {
     private javax.swing.JLabel enterCodeLabel;
     private javax.swing.JTextField codeTextField;
 
-    public JButton getJoinButton() {
-        return joinButton;
-    }
-
-    public JTextField getCodeTextField() {
-        return codeTextField;
-    }
 
     public static void main(String args[]) {
         FlatMacLightLaf.setup();
@@ -88,5 +81,13 @@ public class EnterCodeFrame extends javax.swing.JFrame {
                 UIManager.put(key, f);
             }
         }
+    }
+
+
+    public JTextField getCodeTextField() {
+        return codeTextField;
+    }
+    public JButton getJoinButton() {
+        return joinButton;
     }
 }
