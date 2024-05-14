@@ -438,6 +438,10 @@ public class ClientGUIFrame extends JFrame {
         gamePanel.setLayout(null);
         gamePanel.setBounds(0, 0, 1280, 720);
 
+        SmallFallingLettersPanel smallFallingLettersPanelGame= new SmallFallingLettersPanel();
+        smallFallingLettersPanelGame.setOpaque(false);
+        smallFallingLettersPanelGame.setBounds(0, 0, 1280, 720);
+
         timerLabel = new JLabel("00:30");
         timerLabel.setFont(new Font("Arial", Font.BOLD, 36));
         timerLabel.setBounds(525, 10, 450, 50);
@@ -553,7 +557,7 @@ public class ClientGUIFrame extends JFrame {
         leaveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 layeredPane.removeAll();
-                layeredPane.add(homePanel);
+                layeredPane.add(lobbyPanel);
                 layeredPane.repaint();
                 layeredPane.revalidate();
             }
@@ -924,6 +928,8 @@ public class ClientGUIFrame extends JFrame {
         button20.setBackground(new Color(202,240,248));
         buttonPanel.add(button20);
 
+        gamePanel.add(smallFallingLettersPanelGame);
+
         rankingPanel= new JPanel();
         rankingPanel.setBackground(new Color(255, 204, 213));
         rankingPanel.setLayout(null);
@@ -957,12 +963,12 @@ public class ClientGUIFrame extends JFrame {
         int startY = titleLabel.getY() + titleLabel.getHeight() + 20;
         int centerX = 640;
 
-        player1picRanking = new JLabel();
+        player1picRanking = new JLabel(catIcon);
         player1picRanking.setBackground(Color.GRAY);
         player1picRanking.setBounds(centerX - 190, startY, 70, 70);
         rankingPanel.add(player1picRanking);
         player1picRanking.setLayout(null);
-        player1picRanking.add(createBadgeLabel(0, 0, new Color(248, 168, 197), "1st"));
+        player1picRanking.add(createBadgeLabel(40, 0, "src/Icons/1s-5th/1.gif"));
 
         player1usernameRanking = new JLabel("JLabel");
         player1usernameRanking.setHorizontalAlignment(SwingConstants.CENTER);
@@ -970,12 +976,12 @@ public class ClientGUIFrame extends JFrame {
         player1usernameRanking.setBounds(centerX - 110, startY, 300, 70);
         rankingPanel.add(player1usernameRanking);
 
-        player2picRanking = new JLabel();
+        player2picRanking = new JLabel(frogIcon);
         player2picRanking.setBackground(Color.GRAY);
         player2picRanking.setBounds(centerX - 190, startY + 85, 70, 70);
         rankingPanel.add(player2picRanking);
         player2picRanking.setLayout(null);
-        player2picRanking.add(createBadgeLabel(0, 0, new Color(124, 222, 225), "2nd"));
+        player2picRanking.add(createBadgeLabel(40, 0, "src/Icons/1s-5th/2.gif"));
 
         player2usernameRanking = new JLabel("JLabel1");
         player2usernameRanking.setHorizontalAlignment(SwingConstants.CENTER);
@@ -983,25 +989,27 @@ public class ClientGUIFrame extends JFrame {
         player2usernameRanking.setBounds(centerX - 110, startY + 85, 300, 70);
         rankingPanel.add(player2usernameRanking);
 
-        player3picRanking = new JLabel();
+        ImageIcon chicIcon = new ImageIcon("src/Icons/CHIC.gif");
+        player3picRanking = new JLabel(chicIcon);
         player3picRanking.setBackground(Color.GRAY);
         player3picRanking.setBounds(centerX - 190, startY + 170, 70, 70);
         rankingPanel.add(player3picRanking);
         player3picRanking.setLayout(null);
-        player3picRanking.add(createBadgeLabel(0, 0, new Color(225, 217, 31), "3rd"));
+        player3picRanking.add(createBadgeLabel(40, 0, "src/Icons/1s-5th/3.gif"));
 
         player3usernameRanking = new JLabel("JLabel2");
-        player3usernameRanking .setHorizontalAlignment(SwingConstants.CENTER);
-        player3usernameRanking .setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
-        player3usernameRanking .setBounds(centerX - 110, startY + 170, 300, 70);
-        rankingPanel.add(player3usernameRanking );
+        player3usernameRanking.setHorizontalAlignment(SwingConstants.CENTER);
+        player3usernameRanking.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
+        player3usernameRanking.setBounds(centerX - 110, startY + 170, 300, 70);
+        rankingPanel.add(player3usernameRanking);
 
-        player4picRanking = new JLabel();
+        ImageIcon owlIcon = new ImageIcon("src/Icons/OWL.gif");
+        player4picRanking = new JLabel(owlIcon);
         player4picRanking.setBackground(Color.GRAY);
         player4picRanking.setBounds(centerX - 190, startY + 255, 70, 70);
         rankingPanel.add(player4picRanking);
         player4picRanking.setLayout(null);
-        player4picRanking.add(createBadgeLabel(0, 0, new Color(229, 179, 131), "4th"));
+        player4picRanking.add(createBadgeLabel(40, 0, "src/Icons/1s-5th/4.gif"));
 
         player4usernameRanking = new JLabel("JLabel3");
         player4usernameRanking.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1293,7 +1301,6 @@ public class ClientGUIFrame extends JFrame {
         JButton saveButton = new JButton("Save");
         saveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Player.changeAccSettings();
             }
         });
         saveButton.setBounds(959, 545, 89, 30);
@@ -1370,13 +1377,16 @@ public class ClientGUIFrame extends JFrame {
         }
     }
 
-    private JLabel createBadgeLabel(int x, int y, Color color, String text) {
-        JLabel label = new JLabel(text);
-        label.setHorizontalAlignment(SwingConstants.CENTER);
-        label.setFont(new Font("Arial", Font.BOLD, 12));
-        label.setForeground(Color.WHITE);
-        label.setBackground(color);
-        label.setOpaque(true);
+    private ImageIcon createScaledIcon(String path, int width, int height) {
+        ImageIcon icon = new ImageIcon(path);
+        Image image = icon.getImage();
+        Image scaledImage = image.getScaledInstance(width, height, Image.SCALE_DEFAULT);
+        return new ImageIcon(scaledImage);
+    }
+
+    private JLabel createBadgeLabel(int x, int y, String iconPath) {
+        ImageIcon icon = createScaledIcon(iconPath, 30, 20);
+        JLabel label = new JLabel(icon);
         label.setBounds(x, y, 30, 20);
         return label;
     }
