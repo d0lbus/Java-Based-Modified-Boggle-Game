@@ -7,17 +7,21 @@ public class User {
     private String lastName;
     private String sessionToken;
     private boolean inGame;
-    private int score;
+    private int roundsWon;
     private String currentGameToken;
 
 
-    public User(String playerId, String username, String sessionToken, boolean inGame, int score, String currentGameToken) {
+    public User(String playerId, String username, String sessionToken, boolean inGame, int roundsWon, String currentGameToken) {
         this.playerId = getPlayerId();
         this.username = username;
         this.sessionToken = sessionToken;
         this.inGame = false;
-        this.score = 0;
+        this.roundsWon = getScore();
         this.currentGameToken = "";
+    }
+
+    public User() {
+
     }
 
     public String getPlayerId() {
@@ -49,26 +53,11 @@ public class User {
     }
 
     public int getScore() {
-        return score;
+        return roundsWon;
     }
 
     public void setScore(int score) {
-        this.score = score;
-    }
-
-    public void addScore(int points) {
-        this.score += points;
-    }
-
-    public void resetForNewGame() {
-        this.inGame = true;
-        this.score = 0;
-    }
-
-
-    public void leaveGame() {
-        this.inGame = false;
-        this.score = 0;  // (RESET TO 0 OR KEEP THE SCORE)
+        this.roundsWon = score;
     }
 
     public void setPlayerId(String playerId) {
@@ -103,7 +92,7 @@ public class User {
                 "playerId='" + playerId + '\'' +
                 ", username='" + username + '\'' +
                 ", inGame=" + inGame +
-                ", score=" + score +
+                ", score=" + roundsWon +
                 '}';
     }
 }

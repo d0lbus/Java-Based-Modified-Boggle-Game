@@ -557,31 +557,27 @@ public class GameServerImpl extends GameServerPOA implements Object {
     }
 
     private void updateLeaderboards() {
-        try {
-            List<TestingGrounds.ReferenceClasses.User> topPlayers = userDAO.getTopPlayersByRoundsWon();
-            System.out.println("Top Players List:");
-            for (TestingGrounds.ReferenceClasses.User user : topPlayers) {
-                System.out.println("PlayerId: " + user.getPlayerId() + ", Username: " + user.getUsername() +
-                        ", SessionToken: " + user.getSessionToken() + ", InGame: " + user.isInGame() +
-                        ", Score: " + user.getScore() + ", CurrentGameToken: " + user.getCurrentGameToken());
-            }
+        List<User> topPlayers = userDAO.getTopPlayersByRoundsWon();
+        System.out.println("Top Players List:");
+        for (User user : topPlayers) {
+            System.out.println("PlayerId: " + user.getPlayerId() + ", Username: " + user.getUsername() +
+                    ", SessionToken: " + user.getSessionToken() + ", InGame: " + user.isInGame() +
+                    ", Score: " + user.getScore() + ", CurrentGameToken: " + user.getCurrentGameToken());
+        }
 
-            TestingGrounds.GameSystem.Users[] topPlayersArray = convertListToUsersArray(topPlayers);
+        Users[] topPlayersArray = convertListToUsersArray(topPlayers);
 
-            System.out.println("Top Players Array:");
-            for (TestingGrounds.GameSystem.Users user : topPlayersArray) {
-                System.out.println("PlayerId: " + user.playerId + ", Username: " + user.username +
-                        ", SessionToken: " + user.sessionToken + ", InGame: " + user.inGame +
-                        ", Score: " + user.roundsWon + ", CurrentGameToken: " + user.currentGameToken);
+        System.out.println("Top Players Array:");
+        for (Users user : topPlayersArray) {
+            System.out.println("PlayerId: " + user.playerId + ", Username: " + user.username +
+                    ", SessionToken: " + user.sessionToken + ", InGame: " + user.inGame +
+                    ", Score: " + user.roundsWon + ", CurrentGameToken: " + user.currentGameToken);
+        }
+        for (Map.Entry<String, CallbackInterface> entry : sessionCallbacks.entrySet()) {
+            CallbackInterface callback = entry.getValue();
+            if (callback != null) {
+                callback.updateLeaderBoardGUI(topPlayersArray);
             }
-            for (Map.Entry<String, CallbackInterface> entry : sessionCallbacks.entrySet()) {
-                CallbackInterface callback = entry.getValue();
-                if (callback != null) {
-                    callback.updateLeaderBoardGUI(topPlayersArray);
-                }
-            }
-        } catch (SQLException e) {
-            System.err.println("Failed to fetch top players for leaderboard update: " + e.getMessage());
         }
     }
 

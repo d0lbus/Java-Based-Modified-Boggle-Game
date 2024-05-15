@@ -152,28 +152,24 @@ public class UserDAO {
         }
     }
 
-    public List<User> getTopPlayersByRoundsWon() throws SQLException {
+    public List<User> getTopPlayersByRoundsWon() {
         List<User> topPlayers = new ArrayList<>();
-        String sql = "SELECT * FROM users ORDER BY overall_rounds_won DESC LIMIT 5";
-
+        String sql = "SELECT username, overall_rounds_won FROM users ORDER BY overall_rounds_won DESC LIMIT 5";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
-                User user = new User(
-                        rs.getString("playerId"),
-                        rs.getString("username"),
-                        rs.getString("sessionToken"),
-                        rs.getBoolean("inGame"),
-                        rs.getInt("overall_rounds_won"),
-                        rs.getString("currentGameToken")
-                );
+                User user = new User();
+                user.setUsername(rs.getString("username"));
+                user.setScore(rs.getInt("overall_rounds_won"));
                 topPlayers.add(user);
+
+                // Log each fetched user for debugging
+                System.out.println("Fetched user: " + user.getUsername() + " with rounds won: " + user.getScore());
             }
         } catch (SQLException e) {
             System.err.println("SQL Error during fetching top players: " + e.getMessage());
-            throw e;
         }
         return topPlayers;
     }
