@@ -1197,11 +1197,16 @@ public class ClientGUIFrame extends JFrame {
         lpoint5.setBounds(711, 467, 65, 65);
         lPanel.add(lpoint5);
 
-        JButton lBackButton = new JButton("New button");
+        JButton lBackButton = new JButton("Back");
         lBackButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                layeredPane.removeAll();
+                layeredPane.add(homePanel);
+                layeredPane.repaint();
+                layeredPane.revalidate();
             }
         });
+        
         lBackButton.setBounds(20, 628, 89, 30);
         leaderboardsPanel.add(lBackButton);
 
