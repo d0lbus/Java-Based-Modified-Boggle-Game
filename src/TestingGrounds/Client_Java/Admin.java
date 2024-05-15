@@ -1,9 +1,6 @@
 package TestingGrounds.Client_Java;
 
-import TestingGrounds.GameSystem.CallbackInterface;
-import TestingGrounds.GameSystem.CallbackInterfaceHelper;
-import TestingGrounds.GameSystem.GameServer;
-import TestingGrounds.GameSystem.GameServerHelper;
+import TestingGrounds.GameSystem.*;
 import TestingGrounds.ImplementationClass.GameClientCallbackImpl;
 import TestingGrounds.ReferenceClasses.User;
 import TestingGrounds.Utilities.DataAccessObjects.UserDAO;
@@ -63,7 +60,14 @@ public class Admin {
             public void actionPerformed(ActionEvent e) {
                 username = registration.getUsernameLoginTextfield().getText();
                 password = new String(registration.getLoginPasswordField().getPassword());
-                boolean loginSuccessful = gameServerImp.login(username, password, sessionToken, callbackRef);
+                boolean loginSuccessful = false;
+                try {
+                    loginSuccessful = gameServerImp.login(username, password, sessionToken, callbackRef);
+                } catch (InvalidCredentials ex) {
+                    throw new RuntimeException(ex);
+                } catch (AlreadyLoggedIn ex) {
+                    throw new RuntimeException(ex);
+                }
                 if (loginSuccessful) {
                     System.out.println("Login for " + username + " is successful. Session token: " + sessionToken.value);
                     startGame();

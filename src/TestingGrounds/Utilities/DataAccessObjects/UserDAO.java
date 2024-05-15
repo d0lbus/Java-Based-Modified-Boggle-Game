@@ -2,10 +2,7 @@ package TestingGrounds.Utilities.DataAccessObjects;
 
 import TestingGrounds.ReferenceClasses.User;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class UserDAO {
     public User getUserByUsername(String username) throws SQLException {

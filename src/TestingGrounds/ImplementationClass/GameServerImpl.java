@@ -10,7 +10,6 @@ import TestingGrounds.Utilities.DataAccessObjects.UserDAO;
 import TestingGrounds.Utilities.TokenGenerator;
 import TestingGrounds.Utilities.WordValidator;
 
-import View.EnterCodeFrame;
 import org.omg.CORBA.*;
 import org.omg.CORBA.Object;
 
@@ -102,7 +101,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
      * */
 
     @Override
-    public String hostGame(String sessionToken, CallbackInterface cbi) throws SQLException {
+    public String hostGame(String sessionToken, CallbackInterface cbi) throws SQLException{
         if (cbi == null) {
             throw new RuntimeException("Callback interface cannot be null.");
         }
@@ -121,7 +120,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
         return newGameSession.getSessionId();
     }
     @Override
-    public String joinRandomGame(String sessionToken, CallbackInterface gci) throws SQLException {
+    public String joinRandomGame(String sessionToken, CallbackInterface gci) throws SQLException, NoWaitingGames {
         if (!validateSessionToken(sessionToken)) {
             System.out.println("Invalid session token");
         }
@@ -132,6 +131,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
 
         if (availableSessions.isEmpty()) {
             System.out.println("No available game sessions to join");
+            throw new NoWaitingGames();
         }
 
         int randomIndex = new Random().nextInt(availableSessions.size());
@@ -144,7 +144,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
         return selectedSession.getSessionId();
     }
     @Override
-    public String joinGame(String sessionToken, String gameId) throws SQLException {
+    public String joinGame(String sessionToken, String gameId) throws SQLException, InvalidGameCode {
         if (!validateSessionToken(sessionToken)) {
             System.out.println("Invalid session token");
         }
@@ -156,7 +156,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
 
         if (!optionalSession.isPresent()) {
             System.out.println("No available game session with the specified ID to join");
-            return null; // or throw an exception if appropriate
+            throw new InvalidGameCode();
         }
 
         GameSession selectedSession = optionalSession.get();
@@ -169,7 +169,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
     }
 
     @Override
-    public boolean startGame(String sessionToken, String gameToken) throws SQLException {
+    public boolean startGame(String sessionToken, String gameToken) throws SQLException{
         GameSession session = activeGameLobbies.get(gameToken);
         if (session == null) {
             System.out.println("Invalid game session token.");
@@ -237,7 +237,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
         return true;
     }
     @Override
-    public void submitWord(String sessionToken, String gameToken, String word) throws SQLException {
+    public void submitWord(String sessionToken, String gameToken, String word) throws SQLException, InvalidWord {
         GameSession session = activeGameLobbies.get(gameToken);
         String playerWhoGuessed = retrievePlayerFromSessionToken(sessionToken);
         if (session == null) {
@@ -321,6 +321,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
                 }
             }
             System.out.println("Invalid word: " + word);
+            throw new InvalidWord("Invalid word: " + word);
         }
 
         gameSessionDAO.saveGameSession(session);
@@ -621,7 +622,22 @@ public class GameServerImpl extends GameServerPOA implements Object {
     }
 
 
+    @Override
+    public boolean ping() {
+        return true;
+    }
 
+    public boolean isServerConnected() throws lossConnection {
+        try {
+            // Perform a dummy operation to check server connectivity
+            ping(); // Assuming a ping method exists on the server
+            return true; // Server is reachable
+        } catch (Exception e) {
+            // Catch any exception that might occur during the connectivity check
+            // Then, throw the lossConnection exception with appropriate context
+            throw new lossConnection();
+        }
+    }
     /**
      *
      * ADMIN RELATED METHODS

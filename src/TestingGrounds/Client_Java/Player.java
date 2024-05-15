@@ -2,7 +2,7 @@ package TestingGrounds.Client_Java;
 
 import TestingGrounds.GameSystem.*;
 import TestingGrounds.ImplementationClass.GameClientCallbackImpl;
-import TestingGrounds.ImplementationClass.GameServerImpl;
+import TestingGrounds.GameSystem.lossConnection;
 import TestingGrounds.ReferenceClasses.User;
 import TestingGrounds.Utilities.DataAccessObjects.UserDAO;
 import View.ClientGUIFrame;
@@ -52,8 +52,45 @@ public class Player {
             rootpoa.activate_object(cbi);
             org.omg.CORBA.Object ref = rootpoa.servant_to_reference(cbi);
             callbackRef = CallbackInterfaceHelper.narrow(ref);
-
             startLogin();
+
+            while (true) {
+                // Check if the server is still running
+                boolean serverRunning = checkServerStatus();
+
+                if (!serverRunning) {
+                    System.out.println("Server has terminated. Exiting...");
+                    JOptionPane.showMessageDialog(null, "No Server Connection. Exiting...", "Connection Lost", JOptionPane.WARNING_MESSAGE,
+                            null);
+
+//                    boolean logoutSuccessful = gameServerImp.logout(sessionToken.value);
+//                    if (logoutSuccessful) {
+//                        System.out.println("Logout for " + username + " is successful.");
+//                    } else {
+//                        System.out.println("Logout for " + username + " failed");
+//                    }
+                    orb.shutdown(false); // Shutdown ORB without waiting for pending requests
+
+                    // Clean up GUI resources before exiting
+                    clientGUIFrame.dispose();
+                    enterCodeFrame.dispose();
+                    registration.dispose();
+
+
+                    System.exit(0); // Exit the application
+                }
+
+                // Add a delay before checking again
+                try {
+                    Thread.sleep(1000); // Sleep for 1 second (1000 milliseconds)
+                } catch (InterruptedException e) {
+                    // Handle interruption if needed
+                    e.printStackTrace();
+                }
+            }
+        } catch (lossConnection e) {
+            System.err.println("Lost connection to the server.");
+            // Handle the loss of connection gracefully
         } catch (Exception e) {
             System.err.println("CORBA initialization failed: " + e.toString());
             e.printStackTrace();
@@ -68,7 +105,14 @@ public class Player {
                 username = registration.getUsernameLoginTextfield().getText();
                 password = new String(registration.getLoginPasswordField().getPassword());
 
-                boolean loginSuccessful = gameServerImp.login(username, password, sessionToken, callbackRef);
+                boolean loginSuccessful = false;
+                try {
+                    loginSuccessful = gameServerImp.login(username, password, sessionToken, callbackRef);
+                } catch (AlreadyLoggedIn ex) {
+                    System.err.println("User is already logged in: " + ex.getMessage());
+                } catch (InvalidCredentials ex) {
+                    System.err.println("Invalid credentials: " + ex.getMessage());
+                }
 
                 if (loginSuccessful) {
                     System.out.println("Login for " + username + " is successful. Session token: " + sessionToken.value);
@@ -167,6 +211,10 @@ public class Player {
             public void actionPerformed(ActionEvent e) {
                 try {
                     gameToken = gameServerImp.joinRandomGame(sessionToken.value, callbackRef);
+                } catch (NoWaitingGames ex) {
+                    System.err.println("No waiting games available: " + ex.getMessage());
+                    // Inform the user
+                    JOptionPane.showMessageDialog(null, "No waiting games available. Please try again later.", "Game Error", JOptionPane.ERROR_MESSAGE);
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -198,6 +246,8 @@ public class Player {
                 String word = clientGUIFrame.getInputTextField().getText();
                 try {
                     gameServerImp.submitWord(sessionToken.value, gameToken, word);
+                } catch (InvalidWord ex) {
+                    System.err.println("Invalid word: " + ex.getMessage());
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);
                 }
@@ -221,8 +271,14 @@ public class Player {
 
                         try {
                             gameServerImp.joinGame(sessionToken.value, gameCode);
+                        } catch (InvalidGameCode ex) {
+                            System.err.println("Invalid game code: " + ex.getMessage());
+                            JOptionPane.showMessageDialog(null, "Invalid game code. Please enter a valid one.", "Error", JOptionPane.ERROR_MESSAGE);
+                            throw new RuntimeException("Invalid game code: " + ex.getMessage(), ex);
                         } catch (SQLException ex) {
                             throw new RuntimeException(ex);
+                        } catch (GameAlreadyActive ex) {
+                            System.err.println("Game is already active: " + ex.getMessage());
                         }
                         if (gameToken != null) {
                             clientGUIFrame.getLayeredPane().removeAll();
@@ -242,7 +298,8 @@ public class Player {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Call the logout method from GameServerImpl
-                boolean logoutSuccessful = gameServerImp.logout(sessionToken.value);
+                boolean logoutSuccessful = false;
+                logoutSuccessful = gameServerImp.logout(sessionToken.value);
                 if (logoutSuccessful) {
 
                     System.out.println("Logout for " + username + " is successful.");
@@ -257,7 +314,8 @@ public class Player {
             @Override
             public void windowClosing(WindowEvent e) {
                 // Call the logout method from GameServerImpl
-                boolean logoutSuccessful = gameServerImp.logout(sessionToken.value);
+                boolean logoutSuccessful = false;
+                logoutSuccessful = gameServerImp.logout(sessionToken.value);
                 if (logoutSuccessful) {
                     System.out.println("Logout for " + username + " is successful.");
                     System.exit(0); // Exit the application after successful logout
@@ -291,4 +349,18 @@ public class Player {
         System.out.println("Account settings updated successfully!");
     }
 
+    private static boolean checkServerStatus() throws lossConnection {
+        try {
+            boolean serverConnected = gameServerImp.isServerConnected();
+            return serverConnected;
+        } catch (lossConnection e) {
+            // If lossConnection exception is thrown, rethrow it to handle it in the main method
+            throw e;
+        } catch (Exception e) {
+            // Handle any other exceptions that may occur while checking the server status
+            System.err.println("Error checking server status: " + e.toString());
+            e.printStackTrace();
+            return false;
+        }
+    }
 }

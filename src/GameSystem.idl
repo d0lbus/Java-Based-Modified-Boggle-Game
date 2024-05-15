@@ -1,64 +1,57 @@
-module GameSystem {
-struct PlayerInfo {
-        string sessionToken;
-        string username;
-        long position;
-        long score;
+module TestingGrounds {
+    module GameSystem {
+        exception InvalidCredentials{};
+        exception AlreadyLoggedIn{};
+        exception InvalidWord{};
+        exception GameTimeExpired{};
+        exception LobbyTimeExpired{};
+        exception GameAlreadyActive{};
+        exception NoWaitingGames{};
+        exception InvalidGameCode{};
+        exception lossConnection{};
+
+        struct PlayerInfo {
+            string sessionToken;
+            string username;
+            long position;
+            long score;
+        };
+
+        typedef sequence<PlayerInfo> PlayerInfoList;
+        typedef sequence<char> CharList;
+        typedef sequence<boolean> ReadyStatusList;
+
+        interface CallbackInterface {
+            void CreateLobGUI( in string username, in string gameId);
+            void UpdateLobGUI( in PlayerInfoList playerData, in string gameToken);
+            void startGameGUI( in PlayerInfoList playerData, in CharList charArrayList);
+            void updatePlayerReadyStatus(in PlayerInfoList playerData, in ReadyStatusList readyStatus);
+            void startLobbyTimer(in long durationSeconds);
+            void startRoundTimer(in long durationSeconds);
+            void broadcastGuessedWord ( in PlayerInfoList playerData, in string word, in string username);
+            void displayRoundWinner(in string winnerName);
+            void displayOverallWinner( in string winnerName);
+            void displayTie();
+            void ReadyStateException();
+            void wordHasBeenGuessed(in string word);
+            void wordIsValid(in string word);
+            void wordIsInvalid(in string word);
+            void startRoundDelayTimer(in long delaySeconds);
+            void updateWaitingTimeLabel(in long newSeconds);
+        };
+
+        interface GameServer {
+            boolean login(in string username, in string password, out string sessionToken, in CallbackInterface cbi) raises (InvalidCredentials, AlreadyLoggedIn);
+            boolean logout(in string sessionToken);
+            string hostGame(in string sessionToken, in CallbackInterface cbi) ;
+            string joinRandomGame(in string sessionToken, in CallbackInterface cbi) raises (NoWaitingGames);
+            string joinGame(in string sessionToken, in string gameId) raises (InvalidGameCode,GameAlreadyActive);
+            boolean startGame(in string sessionToken, in string gameId)  ;
+            void submitWord(in string sessionToken, in string gameId, in string word) raises (InvalidWord);
+            string getLetters(in string sessionToken, in string gameId);
+            void updateSecondsPerWaiting(in long newSeconds);
+            boolean ping();
+            boolean isServerConnected() raises (lossConnection);
+        };
     };
-
-typedef sequence<PlayerInfo> PlayerInfoList;
-typedef sequence<char> CharList;
-typedef sequence<boolean> ReadyStatusList;
-
-interface CallbackInterface {
-    void CreateLobGUI( in string username, in string gameId);
-    void UpdateLobGUI( in PlayerInfoList playerData, in string gameToken);
-    void startGameGUI( in PlayerInfoList playerData, in CharList charArrayList);
-    void updatePlayerReadyStatus(in PlayerInfoList playerData, in ReadyStatusList readyStatus);
-    void startLobbyTimer(in long durationSeconds);
-    void startRoundTimer(in long durationSeconds);
-    void broadcastGuessedWord ( in PlayerInfoList playerData, in string word, in string username);
-    void displayRoundWinner(in string winnerName);
-    void displayOverallWinner( in string winnerName);
-    void displayTie();
-    void ReadyStateException();
-    void wordHasBeenGuessed(in string word);
-    void wordIsValid(in string word);
-    void wordIsInvalid(in string word);
-    void startRoundDelayTimer(in long delaySeconds);
-    void updateWaitingTimeLabel(in long newSeconds);
-    };
-
-
-    interface GameServer {
-        boolean login(in string username, in string password, out string sessionToken, in CallbackInterface cbi);
-        boolean logout(in string sessionToken);
-        string hostGame(in string sessionToken, in CallbackInterface cbi);
-        string joinRandomGame(in string sessionToken, in CallbackInterface cbi);
-        string joinGame(in string sessionToken, in string gameId);
-        boolean startGame(in string sessionToken, in string gameId);
-        void submitWord(in string sessionToken, in string gameId, in string word);
-        string getLetters(in string sessionToken, in string gameId);
-        void updateSecondsPerWaiting(in long newSeconds);
-
-    };
-
-    exception InvalidCredentials{};
-
-    exception AlreadyLoggedIn{};
-
-    exception InvalidWord{};
-
-    exception GameTimeExpired{};
-
-    exception LobbyTimeExpired{};
-
-    exception GameAlreadyActive{};
-
-    exception NoWaitingGames{};
-
-    exception InvalidGameCode{};
-
-    exception lossConnection{};
-
 };
