@@ -506,6 +506,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
             session.incrementRoundWinCount(roundWinner);
             session.resetScoresForNextRound();
             notifyRoundWinnerToPlayers(session, roundWinner);
+            addRoundsToUserDB(roundWinner);
         } else {
             System.out.println("No winner declared for the round due to a tie.");
             session.resetScoresForNextRound();
@@ -530,6 +531,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
                     }
                 }
             });
+
 
             // Reset scores for the next round
             session.resetScoresForNextRound();
@@ -622,6 +624,14 @@ public class GameServerImpl extends GameServerPOA implements Object {
     }
     public String retrievePlayerFromSessionToken(String sessionToken) {
         return sessionTokens.get(sessionToken);
+    }
+
+    public void addRoundsToUserDB(String sessionToken) throws SQLException{
+        if (sessionToken != null) {
+            userDAO.updateOverallRoundsWon(sessionToken, 1);
+        } else {
+            System.err.println("No username found for session token: " + sessionToken);
+        }
     }
 
 

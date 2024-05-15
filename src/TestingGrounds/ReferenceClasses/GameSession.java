@@ -29,15 +29,11 @@ public class GameSession {
     private int DURATION_PER_ROUNDS;
     private int DELAY_PER_ROUNDS;
 
-    private UserDAO userDAO;
 
     public enum GameStatus {
         WAITING, ACTIVE, COMPLETED, CANCELLED
     }
 
-    public GameSession(UserDAO userDAO) {
-        this.userDAO = userDAO;
-    }
 
     public GameSession(String gameToken) throws SQLException {
         this.gameToken = gameToken;
@@ -317,17 +313,6 @@ public class GameSession {
         return null;
     }
 
-    private int fetchRoundsToWin() {
-        GameSettingsDAO settingsDAO = new GameSettingsDAO();
-        int roundsToWin;
-        try {
-            roundsToWin = settingsDAO.fetchRoundsToWin();
-        } catch (SQLException e) {
-            System.err.println("Error fetching rounds to win: " + e.getMessage());
-            roundsToWin = 3; // default
-        }
-        return roundsToWin;
-    }
 
     public void resetScoresForNextRound() {
         playerScores.replaceAll((key, value) -> 0);

@@ -34,20 +34,6 @@ public class UserDAO {
         return null; // Return null if no matching user is found
     }
 
-    public String getUsernameBySessionToken(String sessionToken) throws SQLException {
-        Connection connection = DBConnection.getConnection();
-        String sql = "SELECT u.username FROM users u INNER JOIN sessions s ON u.user_id = s.user_id WHERE s.session_token = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setString(1, sessionToken);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getString("username");
-                }
-            }
-        }
-        return null; // No user found for this session token
-    }
-
 
     public boolean validatePassword(User user, String password) throws SQLException {
         String sql = "SELECT password FROM users WHERE username = ?";
@@ -147,23 +133,23 @@ public class UserDAO {
         return null;
     }
 
-    public void updateOverallRoundsWon(String username, int roundsToAdd) throws SQLException {
-        String sql = "UPDATE users SET overall_rounds_won = overall_rounds_won + ? WHERE username = ?";
+    public void updateOverallRoundsWon(String sessionToken, int roundsToAdd) {
+        String sql = "UPDATE users SET overall_rounds_won = COALESCE(overall_rounds_won, 0) + ? WHERE sessionToken = ?";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, roundsToAdd);
-            pstmt.setString(2, username);
+            pstmt.setString(2, sessionToken);
             int affectedRows = pstmt.executeUpdate();
-
-            // Check if the update was successful
             if (affectedRows == 0) {
-                throw new SQLException("Updating overall rounds won failed, no rows affected.");
+                System.err.println("No rows affected, check if session token is correct: " + sessionToken);
+            } else {
+                System.out.println("Updated rounds won for session token: " + sessionToken);
             }
         } catch (SQLException e) {
-            System.err.println("SQL Error: " + e.getMessage());
-            throw e;  // Re-throw the exception to handle it in the calling method
+            System.err.println("Failed to update rounds won for sessionToken: " + sessionToken + ", Error: " + e.getMessage());
         }
     }
+
 
 }
