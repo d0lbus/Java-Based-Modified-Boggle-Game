@@ -38,6 +38,7 @@ public class ClientGUIFrame extends JFrame {
     private JTextPane announcementTextpane;
     private Font rankingFont, leaderboardsFont;
     private WindowListener windowListener;
+    private JLabel player1RoundsWonInGame, player2RoundsWonInGame, player3RoundsWonInGame, player4RoundsWonInGame;
 
     /**
      * Launch the application.
@@ -308,6 +309,10 @@ public class ClientGUIFrame extends JFrame {
         });
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                layeredPane.removeAll();
+                layeredPane.add(gamePanel);
+                layeredPane.repaint();
+                layeredPane.revalidate();
             }
         });
         startButton.setBounds(556, 550, 105, 38);
@@ -512,6 +517,29 @@ public class ClientGUIFrame extends JFrame {
         player4gamePoints.setFont(new Font("Franklin Gothic Book", Font.PLAIN, 20));
         player4gamePoints.setBounds(184, 573, 123, 30);
         gamePanel.add(player4gamePoints);
+
+
+
+        player1RoundsWonInGame = new JLabel("Rounds Won:");
+        player1RoundsWonInGame.setFont(new Font("Franklin Gothic Book", Font.PLAIN, 20));
+        player1RoundsWonInGame.setBounds(184, 125, 140, 30);
+        gamePanel.add(player1RoundsWonInGame);
+
+        player2RoundsWonInGame = new JLabel("Rounds Won:");
+        player2RoundsWonInGame.setFont(new Font("Franklin Gothic Book", Font.PLAIN, 20));
+        player2RoundsWonInGame.setBounds(184, 288, 140, 30);
+        gamePanel.add(player2RoundsWonInGame);
+
+        player3RoundsWonInGame = new JLabel("Rounds Won:");
+        player3RoundsWonInGame.setFont(new Font("Franklin Gothic Book", Font.PLAIN, 20));
+        player3RoundsWonInGame.setBounds(184, 448, 140, 30);
+        gamePanel.add(player3RoundsWonInGame);
+
+        player4RoundsWonInGame = new JLabel("Rounds Won:");
+        player4RoundsWonInGame.setFont(new Font("Franklin Gothic Book", Font.PLAIN, 20));
+        player4RoundsWonInGame.setBounds(184, 614, 140, 30);
+        gamePanel.add(player4RoundsWonInGame);
+
 
         inputTextField = new JTextField();
         inputTextField.addKeyListener(new KeyAdapter() {

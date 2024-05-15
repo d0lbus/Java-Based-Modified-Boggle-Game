@@ -10,7 +10,7 @@ public class DBConnection {
 
     public static Connection getConnection() throws SQLException {
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/boggled", "root", "password");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/boggled", "root", "");
         } catch (Exception e) {
             System.out.println("Database connection failed.");
             throw e;
