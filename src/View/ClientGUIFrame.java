@@ -1782,7 +1782,7 @@ public class ClientGUIFrame extends JFrame {
     public JLabel getPlayer4roundsWon() {
         return player4roundsWon;
     }
-
+    
     
     public JLabel getPlayer1RoundsWonInGame() {
         return player1RoundsWonInGame;
@@ -1815,7 +1815,7 @@ public class ClientGUIFrame extends JFrame {
     public void setPlayer4RoundsWonInGame(JLabel player4RoundsWonInGame) {
         this.player4RoundsWonInGame = player4RoundsWonInGame;
     }
-
+    
 }
 
 
