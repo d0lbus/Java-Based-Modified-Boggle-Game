@@ -10,6 +10,15 @@ module TestingGrounds {
         exception InvalidGameCode{};
         exception lossConnection{};
 
+        struct Users {
+                string playerId;
+                string username;
+                string sessionToken;
+                boolean inGame;
+                long roundsWon;
+                string currentGameToken;
+            };
+
         struct PlayerInfo {
             string sessionToken;
             string username;
@@ -18,9 +27,12 @@ module TestingGrounds {
             long roundsWon;
         };
 
+
+
         typedef sequence<PlayerInfo> PlayerInfoList;
         typedef sequence<char> CharList;
         typedef sequence<boolean> ReadyStatusList;
+        typedef sequence<Users> TopFiveUsers;
 
         interface CallbackInterface {
             void CreateLobGUI( in string username, in string gameId);
@@ -32,6 +44,7 @@ module TestingGrounds {
             void broadcastGuessedWord ( in PlayerInfoList playerData, in string word, in string username);
             void displayRoundWinner(in PlayerInfoList playerData, in string winnerName);
             void displayOverallWinner( in string winnerName);
+            void updateLeaderBoardGUI (in TopFiveUsers playerData);
             void displayTie();
             void ReadyStateException();
             void wordHasBeenGuessed(in string word);

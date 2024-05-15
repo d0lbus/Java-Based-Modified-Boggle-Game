@@ -2,6 +2,7 @@ package TestingGrounds.ImplementationClass;
 
 import TestingGrounds.GameSystem.CallbackInterfacePOA;
 import TestingGrounds.GameSystem.PlayerInfo;
+import TestingGrounds.GameSystem.Users;
 import View.AdminGUIFrame;
 import View.ClientGUIFrame;
 
@@ -390,6 +391,44 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
     public void displayTie() {
         SwingUtilities.invokeLater(() -> {
             JOptionPane.showMessageDialog(gui, "No winner declared for the round due to a tie.", "Round Tie", JOptionPane.INFORMATION_MESSAGE);
+        });
+    }
+
+    @Override
+    public void updateLeaderBoardGUI(Users[] users) {
+        SwingUtilities.invokeLater(() -> {
+            gui.getLfirstUsername().setText("N/A");
+            gui.getLsecondUsername().setText("N/A");
+            gui.getLthirdUsername().setText("N/A");
+            gui.getLfourthUsername().setText("N/A");
+            gui.getLfifthUsername().setText("N/A");
+            gui.getLpoint1().setText("0");
+            gui.getLpoint2().setText("0");
+            gui.getLpoint3().setText("0");
+            gui.getLpoint4().setText("0");
+            gui.getLpoint5().setText("0");
+
+            // Update labels with user data if available
+            if (users.length > 0 && users[0] != null) {
+                gui.getLfirstUsername().setText(users[0].username);
+                gui.getLpoint1().setText(String.valueOf(users[0].roundsWon));
+            }
+            if (users.length > 1 && users[1] != null) {
+                gui.getLsecondUsername().setText(users[1].username);
+                gui.getLpoint2().setText(String.valueOf(users[1].roundsWon));
+            }
+            if (users.length > 2 && users[2] != null) {
+                gui.getLthirdUsername().setText(users[2].username);
+                gui.getLpoint3().setText(String.valueOf(users[2].roundsWon));
+            }
+            if (users.length > 3 && users[3] != null) {
+                gui.getLfourthUsername().setText(users[3].username);
+                gui.getLpoint4().setText(String.valueOf(users[3].roundsWon));
+            }
+            if (users.length > 4 && users[4] != null) {
+                gui.getLfifthUsername().setText(users[4].username);
+                gui.getLpoint5().setText(String.valueOf(users[4].roundsWon));
+            }
         });
     }
 

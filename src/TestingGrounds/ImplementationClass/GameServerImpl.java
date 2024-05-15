@@ -9,6 +9,7 @@ import TestingGrounds.Utilities.DataAccessObjects.GameSettingsDAO;
 import TestingGrounds.Utilities.DataAccessObjects.UserDAO;
 import TestingGrounds.Utilities.TokenGenerator;
 import TestingGrounds.Utilities.WordValidator;
+import TestingGrounds.ReferenceClasses.User;
 
 import org.omg.CORBA.*;
 import org.omg.CORBA.Object;
@@ -35,7 +36,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
     private int durationPerWaiting;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private final ScheduledExecutorService roundScheduler = Executors.newScheduledThreadPool(1);
-
     private GameSessionDAO gameSessionDAO = new GameSessionDAO(DBConnection.getConnection());
 
     public GameServerImpl() throws SQLException {
@@ -70,6 +70,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
             sessionTokens.put(token, username);
             sessionCallbacks.put(token, cbi);
 
+            updateLeaderboards();
             System.out.println("Callback registered for " + username + " with token: " + token);
             return true;
         } catch (SQLException | InvalidCredentials | AlreadyLoggedIn e) {
@@ -507,6 +508,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
             session.resetScoresForNextRound();
             notifyRoundWinnerToPlayers(session, roundWinner);
             addRoundsToUserDB(roundWinner);
+            updateLeaderboards();
         } else {
             System.out.println("No winner declared for the round due to a tie.");
             session.resetScoresForNextRound();
@@ -533,6 +535,11 @@ public class GameServerImpl extends GameServerPOA implements Object {
             });
 
 
+
+
+
+
+
             // Reset scores for the next round
             session.resetScoresForNextRound();
             notifyPlayersAboutChanges(session);
@@ -548,6 +555,53 @@ public class GameServerImpl extends GameServerPOA implements Object {
             }, session.getDELAY_PER_ROUNDS(), TimeUnit.SECONDS);
         }
     }
+
+    private void updateLeaderboards() {
+        try {
+            List<TestingGrounds.ReferenceClasses.User> topPlayers = userDAO.getTopPlayersByRoundsWon();
+            System.out.println("Top Players List:");
+            for (TestingGrounds.ReferenceClasses.User user : topPlayers) {
+                System.out.println("PlayerId: " + user.getPlayerId() + ", Username: " + user.getUsername() +
+                        ", SessionToken: " + user.getSessionToken() + ", InGame: " + user.isInGame() +
+                        ", Score: " + user.getScore() + ", CurrentGameToken: " + user.getCurrentGameToken());
+            }
+
+            TestingGrounds.GameSystem.Users[] topPlayersArray = convertListToUsersArray(topPlayers);
+
+            System.out.println("Top Players Array:");
+            for (TestingGrounds.GameSystem.Users user : topPlayersArray) {
+                System.out.println("PlayerId: " + user.playerId + ", Username: " + user.username +
+                        ", SessionToken: " + user.sessionToken + ", InGame: " + user.inGame +
+                        ", Score: " + user.roundsWon + ", CurrentGameToken: " + user.currentGameToken);
+            }
+            for (Map.Entry<String, CallbackInterface> entry : sessionCallbacks.entrySet()) {
+                CallbackInterface callback = entry.getValue();
+                if (callback != null) {
+                    callback.updateLeaderBoardGUI(topPlayersArray);
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Failed to fetch top players for leaderboard update: " + e.getMessage());
+        }
+    }
+
+    private TestingGrounds.GameSystem.Users[] convertListToUsersArray(List<TestingGrounds.ReferenceClasses.User> topPlayers) {
+        TestingGrounds.GameSystem.Users[] usersArray = new TestingGrounds.GameSystem.Users[topPlayers.size()];
+        for (int i = 0; i < topPlayers.size(); i++) {
+            TestingGrounds.ReferenceClasses.User refUser = topPlayers.get(i);
+            TestingGrounds.GameSystem.Users user = new TestingGrounds.GameSystem.Users();
+            user.playerId = refUser.getPlayerId() == null ? "defaultId" : refUser.getPlayerId();
+            user.username = refUser.getUsername() == null ? "defaultUsername" : refUser.getUsername();
+            user.sessionToken = refUser.getSessionToken() == null ? "defaultSessionToken" : refUser.getSessionToken();
+            user.inGame = refUser.isInGame();
+            user.roundsWon = refUser.getScore();
+            user.currentGameToken = refUser.getCurrentGameToken() == null ? "defaultGameToken" : refUser.getCurrentGameToken();
+            usersArray[i] = user;
+        }
+        return usersArray;
+    }
+
+
     private void startNextRound(GameSession session) throws SQLException {
         char[] charArrayList = generateRandomCharArray();
         session.setRandomLetters(charArrayList);

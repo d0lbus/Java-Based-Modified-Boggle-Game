@@ -3,6 +3,8 @@ package TestingGrounds.Utilities.DataAccessObjects;
 import TestingGrounds.ReferenceClasses.User;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDAO {
     public User getUserByUsername(String username) throws SQLException {
@@ -135,7 +137,6 @@ public class UserDAO {
 
     public void updateOverallRoundsWon(String sessionToken, int roundsToAdd) {
         String sql = "UPDATE users SET overall_rounds_won = COALESCE(overall_rounds_won, 0) + ? WHERE sessionToken = ?";
-
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, roundsToAdd);
@@ -151,5 +152,30 @@ public class UserDAO {
         }
     }
 
+    public List<User> getTopPlayersByRoundsWon() throws SQLException {
+        List<User> topPlayers = new ArrayList<>();
+        String sql = "SELECT * FROM users ORDER BY overall_rounds_won DESC LIMIT 5";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                User user = new User(
+                        rs.getString("playerId"),
+                        rs.getString("username"),
+                        rs.getString("sessionToken"),
+                        rs.getBoolean("inGame"),
+                        rs.getInt("overall_rounds_won"),
+                        rs.getString("currentGameToken")
+                );
+                topPlayers.add(user);
+            }
+        } catch (SQLException e) {
+            System.err.println("SQL Error during fetching top players: " + e.getMessage());
+            throw e;
+        }
+        return topPlayers;
+    }
 
 }
