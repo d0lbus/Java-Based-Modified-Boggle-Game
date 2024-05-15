@@ -26,7 +26,7 @@ public class ClientGUIFrame extends JFrame {
     private Clip clip;
     private JSlider volumeSlider;
     private JLabel player1pic, player2pic, player3pic, player4pic, player1Ready, player2Ready, player3Ready, player4Ready, player1picRanking, player2picRanking, player3picRanking, player4picRanking, waitingTimeLabel, usernameLabel;
-    private JLabel player1username, player2username, player3username, player4username, player1usernameRanking,
+    private JLabel player1username, player2username, player3username, player4username, player1usernameRanking, roundsWonLabel, player1roundsWon, player2roundsWon, player3roundsWon, player4roundsWon,
             player2usernameRanking, player3usernameRanking, player4usernameRanking, inputJLabel;
     private JButton randomButton, quitButton, leaveButton, createLobbyButton, joinButton, startButton;
     private JButton button1, button2, button3, button4, button5, button6, button7, button8, button9, button10,
@@ -958,6 +958,12 @@ public class ClientGUIFrame extends JFrame {
         titleLabel.setForeground(new Color(7, 120, 218));
         titleLabel.setBounds(0, 50, 1280, 100);
 
+        roundsWonLabel = new JLabel("ROUNDS WON", SwingConstants.CENTER);
+        roundsWonLabel.setFont(new Font("Arial", Font.PLAIN, 20));
+        roundsWonLabel.setForeground(Color.BLACK);
+        roundsWonLabel.setBounds(882, 50 + 68 + 10, 200, 30);
+        rankingPanel.add(roundsWonLabel);
+
         usernameLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
         int startY = titleLabel.getY() + titleLabel.getHeight() + 20;
@@ -976,6 +982,12 @@ public class ClientGUIFrame extends JFrame {
         player1usernameRanking.setBounds(centerX - 110, startY, 300, 70);
         rankingPanel.add(player1usernameRanking);
 
+        player1roundsWon = new JLabel("p1 rounds", SwingConstants.CENTER);
+        player1roundsWon.setFont(new Font("Arial", Font.PLAIN, 15));
+        player1roundsWon.setForeground(Color.BLACK);
+        player1roundsWon.setBounds(832, startY, 300, 70);
+        rankingPanel.add(player1roundsWon);
+
         player2picRanking = new JLabel(frogIcon);
         player2picRanking.setBackground(Color.GRAY);
         player2picRanking.setBounds(centerX - 190, startY + 85, 70, 70);
@@ -988,6 +1000,12 @@ public class ClientGUIFrame extends JFrame {
         player2usernameRanking.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
         player2usernameRanking.setBounds(centerX - 110, startY + 85, 300, 70);
         rankingPanel.add(player2usernameRanking);
+
+        player2roundsWon = new JLabel("p2 rounds", SwingConstants.CENTER);
+        player2roundsWon.setFont(new Font("Arial", Font.PLAIN, 15));
+        player2roundsWon.setForeground(Color.BLACK);
+        player2roundsWon.setBounds(832, startY + 85, 300, 70);
+        rankingPanel.add(player2roundsWon);
 
         ImageIcon chicIcon = new ImageIcon("src/Icons/CHIC.gif");
         player3picRanking = new JLabel(chicIcon);
@@ -1003,6 +1021,12 @@ public class ClientGUIFrame extends JFrame {
         player3usernameRanking.setBounds(centerX - 110, startY + 170, 300, 70);
         rankingPanel.add(player3usernameRanking);
 
+        player3roundsWon = new JLabel("p3 rounds", SwingConstants.CENTER);
+        player3roundsWon.setFont(new Font("Arial", Font.PLAIN, 15));
+        player3roundsWon.setForeground(Color.BLACK);
+        player3roundsWon.setBounds(832, startY + 170, 300, 70);
+        rankingPanel.add(player3roundsWon);
+
         ImageIcon owlIcon = new ImageIcon("src/Icons/OWL.gif");
         player4picRanking = new JLabel(owlIcon);
         player4picRanking.setBackground(Color.GRAY);
@@ -1016,6 +1040,12 @@ public class ClientGUIFrame extends JFrame {
         player4usernameRanking.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
         player4usernameRanking.setBounds(centerX - 110, startY + 255, 300, 70);
         rankingPanel.add(player4usernameRanking);
+
+        player4roundsWon = new JLabel("p4 rounds", SwingConstants.CENTER);
+        player4roundsWon.setFont(new Font("Arial", Font.PLAIN, 15));
+        player4roundsWon.setForeground(Color.BLACK);
+        player4roundsWon.setBounds(832, startY + 255, 300, 70);
+        rankingPanel.add(player4roundsWon);
 
         int buttonsY = Math.max(player4usernameRanking.getY() + player4usernameRanking.getHeight(), player4picRanking.getY() + player4picRanking.getHeight()) + 50;
 
