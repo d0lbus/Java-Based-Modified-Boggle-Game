@@ -82,6 +82,8 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
             gui.getPlayer3pic().setIcon(defaultPositions.get(3).equals("Empty") ? null : assignIcon(defaultPositions.get(3)));
             gui.getPlayer4pic().setIcon(defaultPositions.get(4).equals("Empty") ? null : assignIcon(defaultPositions.get(4)));
 
+
+
         });
     }
 
@@ -108,6 +110,7 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
 
             Map<Integer, String> defaultPositions = new HashMap<>();
             Map<Integer, Integer> defaultScores = new HashMap<>();
+            Map<Integer, Integer> defaultRoundsWon = new HashMap<>();
 
             defaultPositions.put(1, "Empty");
             defaultPositions.put(2, "Empty");
@@ -119,9 +122,16 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
             defaultScores.put(3, 0);
             defaultScores.put(4, 0);
 
+            defaultRoundsWon.put(1, 0);
+            defaultRoundsWon.put(2, 0);
+            defaultRoundsWon.put(3, 0);
+            defaultRoundsWon.put(4, 0);
+
             for (PlayerInfo info : playerData) {
+
                 defaultPositions.put((int) info.position, info.username);
                 defaultScores.put((int) info.position, info.score);
+                defaultRoundsWon.put((int) info.position, info.roundsWon);
             }
 
             gui.getPlayer1gameUsername().setText(defaultPositions.get(1));
@@ -133,6 +143,11 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
             gui.getPlayer2gamePoints().setText(String.valueOf(defaultScores.get(2)));
             gui.getPlayer3gamePoints().setText(String.valueOf(defaultScores.get(3)));
             gui.getPlayer4gamePoints().setText(String.valueOf(defaultScores.get(4)));
+
+            gui.getPlayer1RoundsWonInGame().setText("Rounds Won: " + defaultRoundsWon.get(1));
+            gui.getPlayer2RoundsWonInGame().setText("Rounds Won: " + defaultRoundsWon.get(2));
+            gui.getPlayer3RoundsWonInGame().setText("Rounds Won: " + defaultRoundsWon.get(3));
+            gui.getPlayer4RoundsWonInGame().setText("Rounds Won: " + defaultRoundsWon.get(4));
 
             gui.getPlayer1gamePic().setIcon(defaultPositions.get(1).equals("Empty") ? null : assignIcon(defaultPositions.get(1)));
             gui.getPlayer2gamePic().setIcon(defaultPositions.get(2).equals("Empty") ? null : assignIcon(defaultPositions.get(2)));
@@ -288,7 +303,7 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
     }
 
     @Override
-    public void displayRoundWinner(String winnerName) {
+    public void displayRoundWinner(PlayerInfo[] playerData, String winnerName) {
         SwingUtilities.invokeLater(() -> {
             JOptionPane.showMessageDialog(gui, "Round winner: " + winnerName, "Round Winner", JOptionPane.INFORMATION_MESSAGE);
         });

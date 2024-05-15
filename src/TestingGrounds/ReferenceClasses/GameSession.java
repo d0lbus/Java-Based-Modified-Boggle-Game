@@ -3,6 +3,7 @@ package TestingGrounds.ReferenceClasses;
 import TestingGrounds.Utilities.DataAccessObjects.DBConnection;
 import TestingGrounds.Utilities.DataAccessObjects.GameSessionDAO;
 import TestingGrounds.Utilities.DataAccessObjects.GameSettingsDAO;
+import TestingGrounds.Utilities.DataAccessObjects.UserDAO;
 
 import java.sql.SQLException;
 import java.util.*;
@@ -28,8 +29,14 @@ public class GameSession {
     private int DURATION_PER_ROUNDS;
     private int DELAY_PER_ROUNDS;
 
+    private UserDAO userDAO;
+
     public enum GameStatus {
         WAITING, ACTIVE, COMPLETED, CANCELLED
+    }
+
+    public GameSession(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
     public GameSession(String gameToken) throws SQLException {
@@ -74,7 +81,6 @@ public class GameSession {
             e.printStackTrace();
         }
     }
-
 
     public void addPlayer(String sessionToken) {
         if (status != GameStatus.WAITING) {
@@ -242,8 +248,6 @@ public class GameSession {
         this.hostPosition = hostPosition;
     }
 
-
-
     public void addGuessedWord(String word) {
         if (!guessedWords.contains(word)) {
             guessedWords.add(word);
@@ -253,6 +257,22 @@ public class GameSession {
     public void updatePlayerScore(String sessionToken, int points) {
         playerScores.put(sessionToken, playerScores.getOrDefault(sessionToken, 0) + points);
     }
+
+    public void incrementRoundWinCount(String sessionToken) {
+        playerRoundsWon.put(sessionToken, playerRoundsWon.getOrDefault(sessionToken, 0) + 1);
+        try {
+            String username = userDAO.getUsernameBySessionToken(sessionToken);
+            if (username != null) {
+                userDAO.updateOverallRoundsWon(username, 1);
+                System.out.println("Successfully updated overall rounds won for user: " + username);
+            } else {
+                System.err.println("No user found with the provided session token: " + sessionToken);
+            }
+        } catch (SQLException e) {
+            System.err.println("Failed to update overall rounds won for user. Error: " + e.getMessage());
+        }
+    }
+
 
     public int getPlayerScore(String sessionToken) {
         return playerScores.getOrDefault(sessionToken, 0);
@@ -297,9 +317,7 @@ public class GameSession {
         return sortedScores.get(0).getKey();
     }
 
-    public void incrementRoundWinCount(String sessionToken) {
-        playerRoundsWon.put(sessionToken, playerRoundsWon.getOrDefault(sessionToken, 0) + 1);
-    }
+
 
     public String determineOverallWinner() {
         WINNING_ROUNDS = getWINNING_ROUNDS();
@@ -327,8 +345,6 @@ public class GameSession {
         playerScores.replaceAll((key, value) -> 0);
         guessedWords.clear();
     }
-
-
 
 
 

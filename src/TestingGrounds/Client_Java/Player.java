@@ -293,7 +293,6 @@ public class Player {
             }
         });
 
-
         clientGUIFrame.getQuitButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

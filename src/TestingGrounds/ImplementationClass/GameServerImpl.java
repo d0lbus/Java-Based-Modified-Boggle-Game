@@ -371,10 +371,12 @@ public class GameServerImpl extends GameServerPOA implements Object {
         session.getPlayers().forEach((token, position) -> {
             String username = retrievePlayerFromSessionToken(token);
             int score = session.getPlayerScore(token);
-            playerData.add(new PlayerInfo(token, username, position, score));
+            int roundsWon = session.getPlayerRoundsWon().getOrDefault(token, 0); // Get rounds won from the map
+            playerData.add(new PlayerInfo(token, username, position, score, roundsWon));
         });
         return playerData;
     }
+
     private void updateReadyStatusForPlayers(GameSession session) {
         List<PlayerInfo> playerData = collectPlayerData(session);
         boolean[] readyStatus = new boolean[playerData.size()];
@@ -451,11 +453,12 @@ public class GameServerImpl extends GameServerPOA implements Object {
     }
     private void notifyRoundWinnerToPlayers(GameSession session, String winnerToken) {
         String winnerName = retrievePlayerFromSessionToken(winnerToken);
+        List<PlayerInfo> playerData = collectPlayerData(session);
         session.getPlayers().forEach((token, position) -> {
             CallbackInterface callback = sessionCallbacks.get(token);
             if (callback != null) {
                 try {
-                    callback.displayRoundWinner(winnerName);
+                    callback.displayRoundWinner(playerData.toArray(new PlayerInfo[0]), winnerName);
                 } catch (Exception e) {
                     System.err.println("Error notifying round winner for token: " + token);
                     e.printStackTrace();
@@ -605,7 +608,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
     private String generateSecureToken() {
         return UUID.randomUUID().toString();
     }
-
     private String generateGameToken() throws SQLException {
         String token;
         do {

@@ -1782,6 +1782,38 @@ public class ClientGUIFrame extends JFrame {
     public JLabel getPlayer4roundsWon() {
         return player4roundsWon;
     }
+
+    public JLabel getPlayer1RoundsWonInGame() {
+        return player1RoundsWonInGame;
+    }
+
+    public void setPlayer1RoundsWonInGame(JLabel player1RoundsWonInGame) {
+        this.player1RoundsWonInGame = player1RoundsWonInGame;
+    }
+
+    public JLabel getPlayer2RoundsWonInGame() {
+        return player2RoundsWonInGame;
+    }
+
+    public void setPlayer2RoundsWonInGame(JLabel player2RoundsWonInGame) {
+        this.player2RoundsWonInGame = player2RoundsWonInGame;
+    }
+
+    public JLabel getPlayer3RoundsWonInGame() {
+        return player3RoundsWonInGame;
+    }
+
+    public void setPlayer3RoundsWonInGame(JLabel player3RoundsWonInGame) {
+        this.player3RoundsWonInGame = player3RoundsWonInGame;
+    }
+
+    public JLabel getPlayer4RoundsWonInGame() {
+        return player4RoundsWonInGame;
+    }
+
+    public void setPlayer4RoundsWonInGame(JLabel player4RoundsWonInGame) {
+        this.player4RoundsWonInGame = player4RoundsWonInGame;
+    }
 }
 
 
