@@ -15,6 +15,7 @@ module TestingGrounds {
             string username;
             long position;
             long score;
+            long roundsWon;
         };
 
         typedef sequence<PlayerInfo> PlayerInfoList;
@@ -29,7 +30,7 @@ module TestingGrounds {
             void startLobbyTimer(in long durationSeconds);
             void startRoundTimer(in long durationSeconds);
             void broadcastGuessedWord ( in PlayerInfoList playerData, in string word, in string username);
-            void displayRoundWinner(in string winnerName);
+            void displayRoundWinner(in PlayerInfoList playerData, in string winnerName);
             void displayOverallWinner( in string winnerName);
             void displayTie();
             void ReadyStateException();

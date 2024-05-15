@@ -20,7 +20,7 @@ public class UserDAO {
                             rs.getString("username"),
                             rs.getString("sessionToken"),
                             rs.getBoolean("inGame"),
-                            rs.getInt("score"),
+                            rs.getInt("overall_rounds_won"),
                             rs.getString("currentGameToken")
                     );
                 } else {

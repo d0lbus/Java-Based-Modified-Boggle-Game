@@ -502,11 +502,13 @@ public class GameServerImpl extends GameServerPOA implements Object {
     private void completeRound(GameSession session) throws SQLException {
         String roundWinner = session.determineRoundWinner();
         if (roundWinner != null) {
-            session.incrementRoundWinCount(roundWinner);
             System.out.println("Round winner is: " + retrievePlayerFromSessionToken(roundWinner));
+            session.incrementRoundWinCount(roundWinner);
+            session.resetScoresForNextRound();
             notifyRoundWinnerToPlayers(session, roundWinner);
         } else {
             System.out.println("No winner declared for the round due to a tie.");
+            session.resetScoresForNextRound();
             notifyTieToPlayers(session);
         }
 
@@ -517,7 +519,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
             session.setStatus(GameSession.GameStatus.COMPLETED);
         } else {
             notifyPlayersAboutChanges(session);
-
             session.getPlayers().forEach((token, position) -> {
                 CallbackInterface callback = sessionCallbacks.get(token);
                 if (callback != null) {

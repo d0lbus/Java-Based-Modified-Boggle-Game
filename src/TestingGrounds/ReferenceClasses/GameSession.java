@@ -96,6 +96,7 @@ public class GameSession {
         players.put(sessionToken, position);
         readyPlayers.put(sessionToken, false);
         playerRoundsWon.put(sessionToken, 0);
+        playerScores.put(sessionToken, 0);
         currentPlayerCount = players.size();
         if (players.size() == 1) {
             hostPosition.set(position);
@@ -260,17 +261,6 @@ public class GameSession {
 
     public void incrementRoundWinCount(String sessionToken) {
         playerRoundsWon.put(sessionToken, playerRoundsWon.getOrDefault(sessionToken, 0) + 1);
-        try {
-            String username = userDAO.getUsernameBySessionToken(sessionToken);
-            if (username != null) {
-                userDAO.updateOverallRoundsWon(username, 1);
-                System.out.println("Successfully updated overall rounds won for user: " + username);
-            } else {
-                System.err.println("No user found with the provided session token: " + sessionToken);
-            }
-        } catch (SQLException e) {
-            System.err.println("Failed to update overall rounds won for user. Error: " + e.getMessage());
-        }
     }
 
 
@@ -310,13 +300,11 @@ public class GameSession {
         List<Map.Entry<String, Integer>> sortedScores = new ArrayList<>(playerScores.entrySet());
         sortedScores.sort((a, b) -> Integer.compare(b.getValue(), a.getValue()));
 
-        if (sortedScores.isEmpty() || sortedScores.size() < 2 || sortedScores.get(0).getValue() == sortedScores.get(1).getValue()) {
-            return null; // No clear winner
+        if (sortedScores.size() < 2 || sortedScores.get(0).getValue() != sortedScores.get(1).getValue()) {
+            return sortedScores.get(0).getKey();
         }
-
-        return sortedScores.get(0).getKey();
+        return null; // No clear winner
     }
-
 
 
     public String determineOverallWinner() {

@@ -309,10 +309,7 @@ public class ClientGUIFrame extends JFrame {
         });
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                layeredPane.removeAll();
-                layeredPane.add(gamePanel);
-                layeredPane.repaint();
-                layeredPane.revalidate();
+
             }
         });
         startButton.setBounds(556, 550, 105, 38);
