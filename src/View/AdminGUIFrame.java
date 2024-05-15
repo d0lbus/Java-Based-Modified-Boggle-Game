@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class AdminGUIFrame extends JFrame {
 
-    private JPanel contentPane, homePanel, viewPanel, editPanel, hPanel, vPanel, ePanel, accountPanel, aPanel;
+    private JPanel contentPane, homePanel, editPanel, hPanel, ePanel, accountPanel, aPanel;
     private JTable table;
     private JTextField textField;
     private JButton editTimerButton, deleteTimerButton, viewTimerButton, viewPlayersButton, editPlayersButton, editRoundsButton;
@@ -92,39 +92,9 @@ public class AdminGUIFrame extends JFrame {
         homeLabel.setFont(new Font("Tahoma", Font.BOLD, 19));
         homeLabel.setIcon(new ImageIcon("src/Icons/Home.png"));
 
-        viewPanel = new JPanel();
-        viewPanel.setBackground(new Color(206, 212, 218));
-        viewPanel.setBounds(0, 92, 234, 47);
-        menuPanel.add(viewPanel);
-        viewPanel.setLayout(null);
-
-        JLabel viewLabel = new JLabel("View Players");
-        viewLabel.setBounds(10, 0, 224, 47);
-        viewPanel.add(viewLabel);
-        viewLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                layeredPane.removeAll();
-                layeredPane.add(vPanel);
-                layeredPane.repaint();
-                layeredPane.revalidate();
-            }
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                viewPanel.setBackground(new Color(233, 236, 239));
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-                viewPanel.setBackground(new Color(206, 212, 218));
-            }
-        });
-        viewLabel.setIcon(new ImageIcon("src/Icons/Binoculars.png"));
-        viewLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        viewLabel.setFont(new Font("Tahoma", Font.BOLD, 19));
-
         editPanel = new JPanel();
         editPanel.setBackground(new Color(206, 212, 218));
-        editPanel.setBounds(0, 139, 234, 47);
+        editPanel.setBounds(0, 92, 234, 47);
         menuPanel.add(editPanel);
         editPanel.setLayout(null);
 
@@ -228,41 +198,6 @@ public class AdminGUIFrame extends JFrame {
         tablePanel.add(scrollPane, BorderLayout.CENTER);
 
         ePanel.add(tablePanel, BorderLayout.CENTER);
-
-        vPanel = new JPanel();
-        vPanel.setBackground(Color.PINK);
-        layeredPane.add(vPanel);
-
-        JLabel viewPlayersLabel = new JLabel("PLAYERS");
-        viewPlayersLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
-        viewPlayersLabel.setBounds(305, 84, 200, 20);
-        vPanel.add(viewPlayersLabel);
-        vPanel.setLayout(null);
-
-        table = new JTable();
-        table.setSelectionBackground(new Color(243, 50, 118));
-        table.setBackground(new Color(255, 111, 139));
-        table.setBorder(null);
-        table.setModel(new DefaultTableModel(
-                new Object[][] {
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                        {null, null},
-                },
-                new String[] {
-                        "Player Name", ""
-                }
-
-        ));
-        table.setBounds(41, 125, 668, 548);
-        vPanel.add(table);
-
 
         aPanel = new JPanel();
         aPanel.setBackground(Color.WHITE);
