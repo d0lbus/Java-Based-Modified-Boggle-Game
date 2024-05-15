@@ -334,7 +334,7 @@ public class ClientGUIFrame extends JFrame {
                 layeredPane.revalidate();
             }
         });
-        exitLobbyButton.setBounds(585, 615, 105, 38);
+        exitLobbyButton.setBounds(556, 615, 105, 38); //556, 550, 105, 38
         lobbyPanel.add(exitLobbyButton);
 
         JPanel lobbyTimerBackground = new JPanel();
