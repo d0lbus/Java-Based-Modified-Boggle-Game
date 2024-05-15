@@ -263,7 +263,6 @@ public class Player {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         gameToken = enterCodeFrame.getCodeTextField().getText();
-
                         if (gameToken.isEmpty()){
                             JOptionPane.showMessageDialog(enterCodeFrame, "Please type a Game Code", "Join Game Failed", JOptionPane.ERROR_MESSAGE);
                             return;
