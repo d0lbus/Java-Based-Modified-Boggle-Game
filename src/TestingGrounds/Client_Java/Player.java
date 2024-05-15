@@ -262,15 +262,15 @@ public class Player {
                 enterCodeFrame.getJoinButton().addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        String gameCode = enterCodeFrame.getCodeTextField().getText();
+                        gameToken = enterCodeFrame.getCodeTextField().getText();
 
-                        if (gameCode.isEmpty()){
+                        if (gameToken.isEmpty()){
                             JOptionPane.showMessageDialog(enterCodeFrame, "Please type a Game Code", "Join Game Failed", JOptionPane.ERROR_MESSAGE);
                             return;
                         }
 
                         try {
-                            gameServerImp.joinGame(sessionToken.value, gameCode);
+                            gameServerImp.joinGame(sessionToken.value, gameToken);
                         } catch (InvalidGameCode ex) {
                             System.err.println("Invalid game code: " + ex.getMessage());
                             JOptionPane.showMessageDialog(null, "Invalid game code. Please enter a valid one.", "Error", JOptionPane.ERROR_MESSAGE);
@@ -285,6 +285,7 @@ public class Player {
                             clientGUIFrame.getLayeredPane().add(clientGUIFrame.getLobbyPanel());
                             clientGUIFrame.getLayeredPane().repaint();
                             clientGUIFrame.getLayeredPane().revalidate();
+                            enterCodeFrame.setVisible(false);
                         } else {
                             System.out.println("No game found or unable to join.");
                         }
