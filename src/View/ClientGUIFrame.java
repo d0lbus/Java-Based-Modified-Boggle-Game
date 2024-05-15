@@ -1729,6 +1729,26 @@ public class ClientGUIFrame extends JFrame {
     public void setUsernameLabel(JLabel usernameLabel) {
         this.usernameLabel = usernameLabel;
     }
+
+    public JLabel getRoundsWonLabel() {
+        return roundsWonLabel;
+    }
+
+    public JLabel getPlayer1roundsWon() {
+        return player1roundsWon;
+    }
+
+    public JLabel getPlayer2roundsWon() {
+        return player2roundsWon;
+    }
+
+    public JLabel getPlayer3roundsWon() {
+        return player3roundsWon;
+    }
+
+    public JLabel getPlayer4roundsWon() {
+        return player4roundsWon;
+    }
 }
 
 
