@@ -363,14 +363,14 @@ public class _GameServerStub extends org.omg.CORBA.portable.ObjectImpl implement
             }
   } // editNumRounds
 
-  public void viewPlayers (String name)
+  public String[] viewPlayers (String name)
   {
             org.omg.CORBA.portable.InputStream $in = null;
             try {
                 org.omg.CORBA.portable.OutputStream $out = _request ("viewPlayers", true);
                 $out.write_string (name);
                 $in = _invoke ($out);
-                return;
+                return null;
             } catch (org.omg.CORBA.portable.ApplicationException $ex) {
                 $in = $ex.getInputStream ();
                 String _id = $ex.getId ();
@@ -380,6 +380,7 @@ public class _GameServerStub extends org.omg.CORBA.portable.ObjectImpl implement
             } finally {
                 _releaseReply ($in);
             }
+      return null;
   } // viewPlayers
 
   public boolean ping ()
