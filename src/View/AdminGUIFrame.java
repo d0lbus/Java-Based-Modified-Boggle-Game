@@ -272,39 +272,79 @@ public class AdminGUIFrame extends JFrame {
         return editTimerButton;
     }
 
+    public void setEditTimerButton(JButton editTimerButton) {
+        this.editTimerButton = editTimerButton;
+    }
+
     public JButton getEditPlayersButton() {
         return editPlayersButton;
+    }
+
+    public void setEditPlayersButton(JButton editPlayersButton) {
+        this.editPlayersButton = editPlayersButton;
     }
 
     public JButton getDeleteTimerButton() {
         return deleteTimerButton;
     }
 
+    public void setDeleteTimerButton(JButton deleteTimerButton) {
+        this.deleteTimerButton = deleteTimerButton;
+    }
+
     public JButton getViewTimerButton() {
         return viewTimerButton;
+    }
+
+    public void setViewTimerButton(JButton viewTimerButton) {
+        this.viewTimerButton = viewTimerButton;
     }
 
     public JButton getEditRoundsButton() {
         return editRoundsButton;
     }
 
+    public void setEditRoundsButton(JButton editRoundsButton) {
+        this.editRoundsButton = editRoundsButton;
+    }
+
     public JButton getViewPlayersButton() {
         return viewPlayersButton;
+    }
+
+    public void setViewPlayersButton(JButton viewPlayersButton) {
+        this.viewPlayersButton = viewPlayersButton;
     }
 
     public JButton getViewUserButton() {
         return viewUserButton;
     }
 
+    public void setViewUserButton(JButton viewUserButton) {
+        this.viewUserButton = viewUserButton;
+    }
+
     public JButton getBanUserButton() {
         return banUserButton;
+    }
+
+    public void setBanUserButton(JButton banUserButton) {
+        this.banUserButton = banUserButton;
     }
 
     public JTextField getTextField() {
         return textField;
     }
+
+    public void setTextField(JTextField textField) {
+        this.textField = textField;
+    }
     
     public JTable getTable() {
         return table;
+    }
+
+    public void setTable(JTable table) {
+        this.table = table;
     }
 }
