@@ -16,6 +16,7 @@ public class AdminGUIFrame extends JFrame {
     private JTextField textField;
     private JButton editTimerButton, deleteTimerButton, viewTimerButton, viewPlayersButton, editPlayersButton, editRoundsButton;
 
+    private JButton viewUserButton, banUserButton;
 
     public static void main(String[] args) {
         try {
@@ -179,11 +180,11 @@ public class AdminGUIFrame extends JFrame {
         editTimerButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
         buttonPanel.add(editTimerButton);
 
-        JButton editRoundsButton = new JButton("Edit Rounds");
+        editRoundsButton = new JButton("Edit Rounds");
         editRoundsButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
         buttonPanel.add(editRoundsButton);
 
-        JButton viewPlayersButton = new JButton("View Players");
+        viewPlayersButton = new JButton("View Players");
         viewPlayersButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
         buttonPanel.add(viewPlayersButton);
 
@@ -201,8 +202,39 @@ public class AdminGUIFrame extends JFrame {
 
         aPanel = new JPanel();
         aPanel.setBackground(Color.WHITE);
+        aPanel.setLayout(new BorderLayout());
         layeredPane.add(aPanel);
-        aPanel.setLayout(null);
+
+        JPanel topPanel = new JPanel();
+        topPanel.setBackground(Color.WHITE);
+        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+        aPanel.add(topPanel, BorderLayout.NORTH);
+
+        JPanel topButtonPanel = new JPanel();
+        topButtonPanel.setBackground(Color.WHITE);
+        topButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 20));
+        topPanel.add(topButtonPanel);
+
+        viewUserButton = new JButton("View User");
+        viewUserButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        topButtonPanel.add(viewUserButton);
+
+        banUserButton = new JButton("Ban User");
+        banUserButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        topButtonPanel.add(banUserButton);
+
+        JPanel searchPanel = new JPanel();
+        searchPanel.setBackground(Color.WHITE);
+        searchPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        topPanel.add(searchPanel);
+
+        JLabel lblNewLabel = new JLabel("Search User");
+        lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 13));
+        searchPanel.add(lblNewLabel);
+
+        textField = new JTextField();
+        searchPanel.add(textField);
+        textField.setColumns(10);
 
         table = new JTable();
         table.setSelectionBackground(new Color(104, 215, 211));
@@ -219,55 +251,100 @@ public class AdminGUIFrame extends JFrame {
                         {null, null, null, null, null},
                         {null, null, null, null, null},
                         {null, null, null, null, null},
+                        {null, null, null, null, null},
+                        {null, null, null, null, null},
+                        {null, null, null, null, null},
+                        {null, null, null, null, null},
+                        {null, null, null, null, null},
+                        {null, null, null, null, null},
                 },
                 new String[] {
                         "User ID", "First Name", "Last Name", "Username", "Password"
                 }
 
         ));
-        table.setBounds(41, 125, 668, 548);
-        aPanel.add(table);
+        JScrollPane accountScrollPane = new JScrollPane(table);
+        aPanel.add(accountScrollPane, BorderLayout.CENTER);
 
-        JLabel lblNewLabel = new JLabel("Search User");
-        lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 13));
-        lblNewLabel.setBounds(41, 84, 77, 16);
-        aPanel.add(lblNewLabel);
-
-        textField = new JTextField();
-        textField.setBounds(118, 83, 181, 20);
-        aPanel.add(textField);
-        textField.setColumns(10);
     }
 
     public JButton getEditTimerButton() {
         return editTimerButton;
     }
 
+    public void setEditTimerButton(JButton editTimerButton) {
+        this.editTimerButton = editTimerButton;
+    }
+
     public JButton getEditPlayersButton() {
         return editPlayersButton;
+    }
+
+    public void setEditPlayersButton(JButton editPlayersButton) {
+        this.editPlayersButton = editPlayersButton;
     }
 
     public JButton getDeleteTimerButton() {
         return deleteTimerButton;
     }
 
+    public void setDeleteTimerButton(JButton deleteTimerButton) {
+        this.deleteTimerButton = deleteTimerButton;
+    }
+
     public JButton getViewTimerButton() {
         return viewTimerButton;
+    }
+
+    public void setViewTimerButton(JButton viewTimerButton) {
+        this.viewTimerButton = viewTimerButton;
     }
 
     public JButton getEditRoundsButton() {
         return editRoundsButton;
     }
 
+    public void setEditRoundsButton(JButton editRoundsButton) {
+        this.editRoundsButton = editRoundsButton;
+    }
+
     public JButton getViewPlayersButton() {
         return viewPlayersButton;
     }
 
-    public JTextField textField() {
+    public void setViewPlayersButton(JButton viewPlayersButton) {
+        this.viewPlayersButton = viewPlayersButton;
+    }
+
+    public JButton getViewUserButton() {
+        return viewUserButton;
+    }
+
+    public void setViewUserButton(JButton viewUserButton) {
+        this.viewUserButton = viewUserButton;
+    }
+
+    public JButton getBanUserButton() {
+        return banUserButton;
+    }
+
+    public void setBanUserButton(JButton banUserButton) {
+        this.banUserButton = banUserButton;
+    }
+
+    public JTextField getTextField() {
         return textField;
+    }
+
+    public void setTextField(JTextField textField) {
+        this.textField = textField;
     }
     
     public JTable getTable() {
         return table;
+    }
+
+    public void setTable(JTable table) {
+        this.table = table;
     }
 }

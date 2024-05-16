@@ -309,7 +309,10 @@ public class ClientGUIFrame extends JFrame {
         });
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+                //layeredPane.removeAll();
+                //layeredPane.add(gamePanel);
+                //layeredPane.repaint();
+                //layeredPane.revalidate();
             }
         });
         startButton.setBounds(556, 550, 105, 38);
@@ -609,14 +612,11 @@ public class ClientGUIFrame extends JFrame {
         gamePanel.add(buttonPanel);
         buttonPanel.setLayout(new GridLayout(0, 5, 0, 0));
 
-        button1 = new JButton("Back");
+        button1 = new JButton("New Button");
+        button1.setFont(button1.getFont().deriveFont(35f));
         button1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                layeredPane.removeAll();
-                layeredPane.add(homePanel);
-                layeredPane.repaint();
-                layeredPane.revalidate();
             }
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -631,6 +631,7 @@ public class ClientGUIFrame extends JFrame {
         buttonPanel.add(button1);
 
         button2 = new JButton("New button");
+        button2.setFont(button2.getFont().deriveFont(35f));
         button2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -648,6 +649,7 @@ public class ClientGUIFrame extends JFrame {
         buttonPanel.add(button2);
 
         button3 = new JButton("New button");
+        button3.setFont(button3.getFont().deriveFont(35f));
         button3.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -665,6 +667,7 @@ public class ClientGUIFrame extends JFrame {
         buttonPanel.add(button3);
 
         button4 = new JButton("New button");
+        button4.setFont(button4.getFont().deriveFont(35f));
         button4.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -682,6 +685,7 @@ public class ClientGUIFrame extends JFrame {
         buttonPanel.add(button4);
 
         button5 = new JButton("New button");
+        button5.setFont(button5.getFont().deriveFont(35f));
         button5.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -699,6 +703,7 @@ public class ClientGUIFrame extends JFrame {
         buttonPanel.add(button5);
 
         button6 = new JButton("New button");
+        button6.setFont(button6.getFont().deriveFont(35f));
         button6.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -716,6 +721,7 @@ public class ClientGUIFrame extends JFrame {
         buttonPanel.add(button6);
 
         button7 = new JButton("New button");
+        button7.setFont(button7.getFont().deriveFont(35f));
         button7.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -733,6 +739,7 @@ public class ClientGUIFrame extends JFrame {
         buttonPanel.add(button7);
 
         button8 = new JButton("New button");
+        button8.setFont(button8.getFont().deriveFont(35f));
         button8.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -750,6 +757,7 @@ public class ClientGUIFrame extends JFrame {
         buttonPanel.add(button8);
 
         button9 = new JButton("New button");
+        button9.setFont(button9.getFont().deriveFont(35f));
         button9.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -767,6 +775,7 @@ public class ClientGUIFrame extends JFrame {
         buttonPanel.add(button9);
 
         button10 = new JButton("New button");
+        button10.setFont(button10.getFont().deriveFont(35f));
         button10.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -784,6 +793,7 @@ public class ClientGUIFrame extends JFrame {
         buttonPanel.add(button10);
 
         button11 = new JButton("New button");
+        button11.setFont(button11.getFont().deriveFont(35f));
         button11.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -801,6 +811,7 @@ public class ClientGUIFrame extends JFrame {
         buttonPanel.add(button11);
 
         button12 = new JButton("New button");
+        button12.setFont(button12.getFont().deriveFont(35f));
         button12.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -818,6 +829,7 @@ public class ClientGUIFrame extends JFrame {
         buttonPanel.add(button12);
 
         button13 = new JButton("New button");
+        button13.setFont(button13.getFont().deriveFont(35f));
         button13.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -835,6 +847,7 @@ public class ClientGUIFrame extends JFrame {
         buttonPanel.add(button13);
 
         button14 = new JButton("New button");
+        button14.setFont(button14.getFont().deriveFont(35f));
         button14.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -852,6 +865,7 @@ public class ClientGUIFrame extends JFrame {
         buttonPanel.add(button14);
 
         button15 = new JButton("New button");
+        button15.setFont(button15.getFont().deriveFont(35f));
         button15.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -869,6 +883,7 @@ public class ClientGUIFrame extends JFrame {
         buttonPanel.add(button15);
 
         button16 = new JButton("New button");
+        button16.setFont(button16.getFont().deriveFont(35f));
         button16.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -886,6 +901,7 @@ public class ClientGUIFrame extends JFrame {
         buttonPanel.add(button16);
 
         button17 = new JButton("New button");
+        button17.setFont(button17.getFont().deriveFont(35f));
         button17.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -903,6 +919,7 @@ public class ClientGUIFrame extends JFrame {
         buttonPanel.add(button17);
 
         button18 = new JButton("New button");
+        button18.setFont(button18.getFont().deriveFont(35f));
         button18.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -920,6 +937,7 @@ public class ClientGUIFrame extends JFrame {
         buttonPanel.add(button18);
 
         button19 = new JButton("New button");
+        button19.setFont(button19.getFont().deriveFont(35f));
         button19.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -937,6 +955,7 @@ public class ClientGUIFrame extends JFrame {
         buttonPanel.add(button19);
 
         button20 = new JButton("New button");
+        button20.setFont(button20.getFont().deriveFont(35f));
         button20.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
