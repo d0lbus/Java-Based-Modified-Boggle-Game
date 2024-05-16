@@ -292,7 +292,15 @@ public class AdminGUIFrame extends JFrame {
         return viewPlayersButton;
     }
 
-    public JTextField textField() {
+    public JButton getViewUserButton() {
+        return viewUserButton;
+    }
+
+    public JButton getBanUserButton() {
+        return banUserButton;
+    }
+
+    public JTextField getTextField() {
         return textField;
     }
     
