@@ -79,7 +79,6 @@ public class Player {
                 try {
                     Thread.sleep(1000); // Sleep for 1 second (1000 milliseconds)
                 } catch (InterruptedException e) {
-                    // Handle interruption if needed
                     e.printStackTrace();
                 }
             }

@@ -308,6 +308,11 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
     }
 
     @Override
+    public void broadcastDisconnection(String username) {
+        appendToAnnouncement(gui.getAnnouncementTextpane(), username + " has disconnected" + "\n");
+    }
+
+    @Override
     public void displayRoundWinner(PlayerInfo[] playerData, String winnerName) {
         SwingUtilities.invokeLater(() -> {
             JOptionPane.showMessageDialog(gui, "Round winner: " + winnerName, "Round Winner", JOptionPane.INFORMATION_MESSAGE);

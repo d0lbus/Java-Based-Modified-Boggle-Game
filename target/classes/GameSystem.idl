@@ -65,6 +65,7 @@ module TestingGrounds {
             void updateWaitingTimeLabel(in long newSeconds);
             void updateGameSessions(in GameSessionList sessions);
             void showHomeScreen();
+             void broadcastDisconnection(in string username);
         };
 
         interface GameServer {

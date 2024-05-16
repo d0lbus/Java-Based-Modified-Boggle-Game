@@ -107,7 +107,6 @@ public class UserDAO {
     }
     public static boolean doesUsernameExist(String username) throws SQLException {
         String sqlCheckUsername = "SELECT * FROM users WHERE username = ?";
-
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement psCheckUsername = conn.prepareStatement(sqlCheckUsername)) {
             psCheckUsername.setString(1, username);
@@ -115,6 +114,20 @@ public class UserDAO {
                 return rs.next(); // If rs.next() returns true, the username exists
             }
         }
+    }
+
+    public String getUserNameBySessionToken(String sessionToken) throws SQLException {
+        Connection connection = DBConnection.getConnection();
+        String sql = "SELECT username FROM users WHERE sessionToken = ?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, sessionToken);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return resultSet.getString("username");
+                }
+            }
+        }
+        return null;  // Return null if the username is not found
     }
 
     public static void clearSessionToken(String sessionToken) throws SQLException {
