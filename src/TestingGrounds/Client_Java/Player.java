@@ -91,6 +91,7 @@ public class Player {
         } catch (lossConnection e) {
             System.err.println("Lost connection to the server.");
             // Handle the loss of connection gracefully
+            JOptionPane.showMessageDialog(null, "Lost connection to the server. Please check your network connection and try again.", "Connection Error", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
             System.err.println("CORBA initialization failed: " + e.toString());
             e.printStackTrace();
@@ -110,8 +111,10 @@ public class Player {
                     loginSuccessful = gameServerImp.login(username, password, sessionToken, callbackRef);
                 } catch (AlreadyLoggedIn ex) {
                     System.err.println("User is already logged in: " + ex.getMessage());
+                    JOptionPane.showMessageDialog(registration, "User is already logged in! Try Another Account. " , "Login Error", JOptionPane.ERROR_MESSAGE);
                 } catch (InvalidCredentials ex) {
                     System.err.println("Invalid credentials: " + ex.getMessage());
+                    JOptionPane.showMessageDialog(registration, "Invalid credentials! Please Try Again. " , "Login Error", JOptionPane.ERROR_MESSAGE);
                 }
 
                 if (loginSuccessful) {
@@ -170,7 +173,7 @@ public class Player {
                     // Set other user properties as needed
 
                     // Call createUser method to insert user into the database
-                    UserDAO.createUser(user, firstNameCapitalized, lastNameCapitalized, password,null,null,null,null);
+                    UserDAO.createUser(user, firstNameCapitalized, lastNameCapitalized, password,null,null,null,null,null);
 
                     JOptionPane.showMessageDialog(registration, "Registration successful! Welcome to Boggled, " + username);
 
@@ -201,6 +204,7 @@ public class Player {
                 try {
                     gameToken = gameServerImp.hostGame(sessionToken.value, callbackRef);
                 } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
                     throw new RuntimeException(ex);
                 }
             }
@@ -210,21 +214,26 @@ public class Player {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    gameToken = gameServerImp.joinRandomGame(sessionToken.value, callbackRef);
+                    String newGameToken = gameServerImp.joinRandomGame(sessionToken.value, callbackRef);
+                    if (newGameToken != null) {
+                        // Move to lobby only if a game token is obtained
+                        gameToken = newGameToken;
+                        clientGUIFrame.getLayeredPane().removeAll();
+                        clientGUIFrame.getLayeredPane().add(clientGUIFrame.getLobbyPanel());
+                        clientGUIFrame.getLayeredPane().repaint();
+                        clientGUIFrame.getLayeredPane().revalidate();
+                    } else {
+                        // No game token obtained, no game found or unable to join
+                        System.out.println("No game found or unable to join.");
+                    }
                 } catch (NoWaitingGames ex) {
-                    System.err.println("No waiting games available: " + ex.getMessage());
-                    // Inform the user
+                    // Handle no waiting games available
+                    System.err.println("No waiting games available! Try Again Later. ");
                     JOptionPane.showMessageDialog(null, "No waiting games available. Please try again later.", "Game Error", JOptionPane.ERROR_MESSAGE);
                 } catch (SQLException ex) {
+                    // Handle SQL exception
+                    JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
                     throw new RuntimeException(ex);
-                }
-                if (gameToken != null) {
-                    clientGUIFrame.getLayeredPane().removeAll();
-                    clientGUIFrame.getLayeredPane().add(clientGUIFrame.getLobbyPanel());
-                    clientGUIFrame.getLayeredPane().repaint();
-                    clientGUIFrame.getLayeredPane().revalidate();
-                } else {
-                    System.out.println("No game found or unable to join.");
                 }
             }
         });
@@ -235,6 +244,11 @@ public class Player {
                 try {
                     gameServerImp.startGame(sessionToken.value, gameToken);
                 } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+                    throw new RuntimeException(ex);
+                } catch (LobbyTimeExpired ex) {
+                    System.err.println("Lobby Time Expired.  ");
+                    JOptionPane.showMessageDialog(null, "Lobby Time Expired", "Expired Time", JOptionPane.ERROR_MESSAGE);
                     throw new RuntimeException(ex);
                 }
             }
@@ -247,8 +261,9 @@ public class Player {
                 try {
                     gameServerImp.submitWord(sessionToken.value, gameToken, word);
                 } catch (InvalidWord ex) {
-                    System.err.println("Invalid word: " + ex.getMessage());
+                    System.err.println("Invalid word " );
                 } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
                     throw new RuntimeException(ex);
                 }
                 clientGUIFrame.getInputTextField().setText("");
@@ -275,6 +290,7 @@ public class Player {
                             JOptionPane.showMessageDialog(null, "Invalid game code. Please enter a valid one.", "Error", JOptionPane.ERROR_MESSAGE);
                             throw new RuntimeException("Invalid game code: " + ex.getMessage(), ex);
                         } catch (SQLException ex) {
+                            JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
                             throw new RuntimeException(ex);
                         } catch (GameAlreadyActive ex) {
                             System.err.println("Game is already active: " + ex.getMessage());

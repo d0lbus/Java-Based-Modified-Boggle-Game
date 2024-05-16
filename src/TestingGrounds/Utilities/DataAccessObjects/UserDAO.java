@@ -61,9 +61,9 @@ public class UserDAO {
         }
     }
 
-    public static void createUser(User user, String firstName, String lastName, String password, String sessionToken, Boolean inGame, Integer score, String currentGameToken) throws SQLException {
+    public static void createUser(User user, String firstName, String lastName, String password, String sessionToken, Boolean inGame, Integer overall_rounds_won, Integer score, String currentGameToken) throws SQLException {
         String sqlGetLastPlayerId = "SELECT playerId FROM users ORDER BY playerId DESC LIMIT 1";
-        String sqlInsertUser = "INSERT INTO users (playerId, username, firstName, lastName, password, sessionToken, inGame, score, currentGameToken) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sqlInsertUser = "INSERT INTO users (playerId, username, firstName, lastName, password, sessionToken,overall_rounds_won, inGame, score, currentGameToken) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement psGetLastPlayerId = conn.prepareStatement(sqlGetLastPlayerId);
@@ -84,17 +84,22 @@ public class UserDAO {
                 psInsertUser.setString(4, lastName);  // Set last name
                 psInsertUser.setString(5, password);
                 psInsertUser.setString(6, sessionToken); // Set sessionToken
-                if (inGame != null) {
-                    psInsertUser.setBoolean(7, inGame); // Set inGame
+                if (overall_rounds_won != null) {
+                    psInsertUser.setInt(7, overall_rounds_won); // Set overall rounds won
                 } else {
-                    psInsertUser.setNull(7, Types.BOOLEAN); // Set inGame as null
+                    psInsertUser.setNull(7, Types.INTEGER); // Set overall rounds won as null
+                }
+                if (inGame != null) {
+                    psInsertUser.setBoolean(8, inGame); // Set inGame
+                } else {
+                    psInsertUser.setNull(8, Types.BOOLEAN); // Set inGame as null
                 }
                 if (score != null) {
-                    psInsertUser.setInt(8, score); // Set score
+                    psInsertUser.setInt(9, score); // Set score
                 } else {
-                    psInsertUser.setNull(8, Types.INTEGER); // Set score as null
+                    psInsertUser.setNull(9, Types.INTEGER); // Set score as null
                 }
-                psInsertUser.setString(9, currentGameToken); // Set currentGameToken
+                psInsertUser.setString(10, currentGameToken); // Set currentGameToken
 
                 psInsertUser.executeUpdate();
             }

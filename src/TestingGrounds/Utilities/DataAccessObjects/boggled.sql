@@ -88,6 +88,7 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `sessionToken` varchar(36) DEFAULT NULL,
   `inGame` tinyint(1) DEFAULT NULL,
+   `overall_rounds_won` int DEFAULT NULL,
   `score` int DEFAULT NULL,
   `currentGameToken` varchar(36) DEFAULT NULL,
   `lastName` varchar(50) DEFAULT NULL,
@@ -104,7 +105,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('0','dolbus','123',NULL,NULL,NULL,NULL,'John','Doe'),('1','fresk','password',NULL,NULL,NULL,NULL,'Maria','DB'),('2','ju','admin',NULL,NULL,NULL,NULL,'E','Bike');
+INSERT INTO `users` VALUES ('0','dolbus','123',NULL,NULL,NULL,NULL,NULL,'John','Doe'),('1','fresk','password',NULL,NULL,NULL,NULL,NULL,'Maria','DB'),('2','ju','admin',NULL,NULL,NULL,NULL,NULL,'E','Bike');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 

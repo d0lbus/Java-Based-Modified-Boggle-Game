@@ -60,7 +60,7 @@ module TestingGrounds {
             string hostGame(in string sessionToken, in CallbackInterface cbi) ;
             string joinRandomGame(in string sessionToken, in CallbackInterface cbi) raises (NoWaitingGames);
             string joinGame(in string sessionToken, in string gameId) raises (InvalidGameCode,GameAlreadyActive);
-            boolean startGame(in string sessionToken, in string gameId)  ;
+            boolean startGame(in string sessionToken, in string gameId) raises (LobbyTimeExpired) ;
             void submitWord(in string sessionToken, in string gameId, in string word) raises (InvalidWord);
             string getLetters(in string sessionToken, in string gameId);
             void updateSecondsPerWaiting(in long newSeconds);

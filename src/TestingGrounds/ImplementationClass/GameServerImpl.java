@@ -14,6 +14,7 @@ import TestingGrounds.ReferenceClasses.User;
 import org.omg.CORBA.*;
 import org.omg.CORBA.Object;
 
+import javax.swing.*;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -43,7 +44,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
 
 
     @Override
-    public boolean login(String username, String password, org.omg.CORBA.StringHolder sessionToken, CallbackInterface cbi) {
+    public boolean login(String username, String password, org.omg.CORBA.StringHolder sessionToken, CallbackInterface cbi)throws InvalidCredentials, AlreadyLoggedIn {
         try {
             User user = userDAO.getUserByUsername(username);
 
@@ -73,8 +74,8 @@ public class GameServerImpl extends GameServerPOA implements Object {
             updateLeaderboards();
             System.out.println("Callback registered for " + username + " with token: " + token);
             return true;
-        } catch (SQLException | InvalidCredentials | AlreadyLoggedIn e) {
-            System.err.println("Login error: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("SQL error during login: " + e.getMessage());
             return false;
         }
     }
@@ -170,11 +171,14 @@ public class GameServerImpl extends GameServerPOA implements Object {
     }
 
     @Override
-    public boolean startGame(String sessionToken, String gameToken) throws SQLException{
+    public boolean startGame(String sessionToken, String gameToken) throws SQLException, LobbyTimeExpired{
         GameSession session = activeGameLobbies.get(gameToken);
         if (session == null) {
             System.out.println("Invalid game session token.");
             return false;
+        }
+        if (session.getLobbyTimeRemaining() <= 0) {
+            throw new LobbyTimeExpired();
         }
 
         if (session.isHost(sessionToken)) {
@@ -533,12 +537,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
                     }
                 }
             });
-
-
-
-
-
-
 
             // Reset scores for the next round
             session.resetScoresForNextRound();

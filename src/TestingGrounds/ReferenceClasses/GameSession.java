@@ -28,6 +28,7 @@ public class GameSession {
     private int LOBBY_WAITING_TIME;
     private int DURATION_PER_ROUNDS;
     private int DELAY_PER_ROUNDS;
+    private long lobbyStartTime;
 
 
     public enum GameStatus {
@@ -56,6 +57,7 @@ public class GameSession {
                 this.guessedWords = loadedSession.getGuessedWords();
                 this.timerRunning.set(loadedSession.getTimerRunning().get());
                 this.hostPosition.set(loadedSession.getHostPosition().get());
+                this.lobbyStartTime = System.currentTimeMillis();
             } else {
                 this.WINNING_ROUNDS = 3;
                 this.LOBBY_WAITING_TIME = 10;
@@ -71,6 +73,7 @@ public class GameSession {
                 this.guessedWords = new ArrayList<>();
                 this.timerRunning = new AtomicBoolean(false);
                 this.hostPosition = new AtomicInteger(0);
+                this.lobbyStartTime = System.currentTimeMillis();
             }
         } catch (SQLException e) {
             System.err.println("Failed to load game session from database: " + e.getMessage());
@@ -320,5 +323,13 @@ public class GameSession {
     }
 
 
+    public long getLobbyTimeRemaining() {
+        // Assuming LOBBY_WAITING_TIME is a constant representing the maximum lobby waiting time
+        long elapsedTime = System.currentTimeMillis() - lobbyStartTime;
+        long remainingTime = LOBBY_WAITING_TIME - (elapsedTime / 1000); // Convert milliseconds to seconds
+
+        // Ensure the remaining time is non-negative
+        return Math.max(0, remainingTime);
+    }
 
 }
