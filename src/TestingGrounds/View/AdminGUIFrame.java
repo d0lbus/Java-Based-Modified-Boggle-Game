@@ -428,7 +428,7 @@ public class AdminGUIFrame extends JFrame {
     }
 
     public JButton getEditNumOfRoundsButton() {
-        return getEditNumOfRoundsButton();
+        return editNumOfRoundsButton;
     }
 
     public JButton getNumOfRoundsButton() {

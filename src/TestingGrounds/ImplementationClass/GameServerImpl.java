@@ -896,6 +896,59 @@ public class GameServerImpl extends GameServerPOA implements Object {
         }
     }
 
+    @Override
+    public void editRoundTime(int newSeconds) {
+        try {
+            gameSessionDAO.updateDurationPerRoundForWaitingLobbies(newSeconds);
+            sessionCallbacks.forEach((token, callback) -> {
+                if (callback != null) {
+                    try {
+                        callback.updateWaitingTimeLabel(newSeconds);
+                    } catch (Exception e) {
+                        System.err.println("Error updating Round time label for token: " + token);
+                        e.printStackTrace();
+                    }
+                } else {
+                    System.err.println("No callback registered for token: " + token);
+                }
+            });
+
+            updateLobbiesList();
+        } catch (SQLException e) {
+            System.err.println("Error fetching seconds per round: " + e.getMessage());
+            durationPerRound  = 60;
+        }
+    }
+
+    @Override
+    public void editNumRounds(int newSeconds) {
+        try {
+            gameSessionDAO.updateWinningRoundsForWaitingLobbies(newSeconds);
+            sessionCallbacks.forEach((token, callback) -> {
+                if (callback != null) {
+                    try {
+                        callback.updateWaitingTimeLabel(newSeconds);
+                    } catch (Exception e) {
+                        System.err.println("Error updating waiting Number of rounds for token: " + token);
+                        e.printStackTrace();
+                    }
+                } else {
+                    System.err.println("No callback registered for token: " + token);
+                }
+            });
+
+            updateLobbiesList();
+        } catch (SQLException e) {
+            System.err.println("Error fetching seconds per round: " + e.getMessage());
+            durationPerRound  = 60;
+        }
+    }
+
+    @Override
+    public void viewPlayers(String name) {
+
+    }
+
     private void updateLobbiesList() {
         try{
             List<GameSession> lobbies = gameSessionDAO.getAllGameSessions();

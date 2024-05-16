@@ -106,6 +106,56 @@ public class Admin {
             }
         });
 
+        adminGUIFrame.getEditRoundsButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Create a spinner with a minimum value of 30 seconds
+                SpinnerNumberModel spinnerModel = new SpinnerNumberModel(30, 30, 600, 1);
+                JSpinner timerSpinner = new JSpinner(spinnerModel);
+
+                // Display the spinner in an input dialog
+                int option = JOptionPane.showOptionDialog(adminGUIFrame, timerSpinner, "Edit Round Timer Duration",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+                if (option == JOptionPane.OK_OPTION) {
+                    int newSecondsWaiting = (int) timerSpinner.getValue();
+                    try {
+                        gameServerImp.editRoundTime(newSecondsWaiting);
+                        JOptionPane.showMessageDialog(adminGUIFrame, "Timer duration updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    } catch (Exception ex) {
+                        System.err.println("Error updating timer duration: " + ex.getMessage());
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(adminGUIFrame, "Error updating timer duration: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        });
+
+        adminGUIFrame.getEditNumOfRoundsButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Create a spinner with a minimum value of 10
+                SpinnerNumberModel spinnerModel = new SpinnerNumberModel(3, 3, 10, 1);
+                JSpinner timerSpinner = new JSpinner(spinnerModel);
+
+                // Display the spinner in an input dialog
+                int option = JOptionPane.showOptionDialog(adminGUIFrame, timerSpinner, "Edit Number of Rounds to WIN",
+                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+                if (option == JOptionPane.OK_OPTION) {
+                    int newSecondsWaiting = (int) timerSpinner.getValue();
+                    try {
+                        gameServerImp.editNumRounds(newSecondsWaiting);
+                        JOptionPane.showMessageDialog(adminGUIFrame, "Number of Rounds updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    } catch (Exception ex) {
+                        System.err.println("Error updating Number of Rounds: " + ex.getMessage());
+                        ex.printStackTrace();
+                        JOptionPane.showMessageDialog(adminGUIFrame, "Error updating Number of Rounds: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            }
+        });
+
 
 
     }
