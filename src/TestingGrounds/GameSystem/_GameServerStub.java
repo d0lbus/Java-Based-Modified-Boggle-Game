@@ -363,21 +363,20 @@ public class _GameServerStub extends org.omg.CORBA.portable.ObjectImpl implement
             }
   } // editNumRounds
 
-  public String[] viewPlayers (String name)
+  public void viewPlayers (String name)
   {
             org.omg.CORBA.portable.InputStream $in = null;
             try {
                 org.omg.CORBA.portable.OutputStream $out = _request ("viewPlayers", true);
                 $out.write_string (name);
                 $in = _invoke ($out);
-                String $result[] = TestingGrounds.GameSystem.PlayerNameListHelper.read ($in);
-                return $result;
+                return;
             } catch (org.omg.CORBA.portable.ApplicationException $ex) {
                 $in = $ex.getInputStream ();
                 String _id = $ex.getId ();
                 throw new org.omg.CORBA.MARSHAL (_id);
             } catch (org.omg.CORBA.portable.RemarshalException $rm) {
-                return viewPlayers (name        );
+                viewPlayers (name        );
             } finally {
                 _releaseReply ($in);
             }
@@ -436,7 +435,6 @@ public class _GameServerStub extends org.omg.CORBA.portable.ObjectImpl implement
   private void readObject (java.io.ObjectInputStream s) throws java.io.IOException
   {
      String str = s.readUTF ();
-     com.sun.corba.se.impl.orbutil.IORCheckImpl.check(str, "TestingGrounds.GameSystem._GameServerStub");
      String[] args = null;
      java.util.Properties props = null;
      org.omg.CORBA.ORB orb = org.omg.CORBA.ORB.init (args, props);

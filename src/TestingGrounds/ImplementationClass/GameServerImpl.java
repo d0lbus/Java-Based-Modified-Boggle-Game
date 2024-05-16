@@ -443,12 +443,30 @@ public class GameServerImpl extends GameServerPOA implements Object {
 
         // Remove the player from the game session
         gameSession.removePlayer(sessionToken);
-        System.out.println("Player left the game session");
+
+        try {
+            String username = userDAO.getUserNameBySessionToken(sessionToken);
+            gameSession.getPlayers().forEach((token, position) -> {
+                CallbackInterface callback = sessionCallbacks.get(token);
+                if (callback != null) {
+                    try {
+                        callback.broadcastDisconnection(username);
+                    } catch (Exception e) {
+                        System.err.println("Error updating GUI for token: " + token);
+                        e.printStackTrace();
+                    }
+                } else {
+                    System.err.println("No callback registered for token: " + token);
+                }
+            });
+
+        } catch (SQLException e){
+            System.err.println(e);
+        }
 
         notifyPlayersAboutChanges(gameSession);
         backToHomeScreen(sessionToken);
     }
-
     @Override
     public void leaveLobby(String sessionToken, String gameId) {
         GameSession gameSession = activeGameLobbies.get(gameId);
@@ -496,7 +514,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
             System.err.println("No callback found for session token: " + sessionToken);
         }
     }
-
 
     private void cancelGameSession(String gameId) throws SQLException {
         // Retrieve the game session using the provided game ID
