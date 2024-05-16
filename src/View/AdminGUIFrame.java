@@ -16,7 +16,7 @@ public class AdminGUIFrame extends JFrame {
     private JTextField textField;
     private JButton editTimerButton, deleteTimerButton, viewTimerButton, viewPlayersButton, editPlayersButton, editRoundsButton;
 
-    private JButton viewUserButton, banUserButton;
+    private JButton viewUserButton, banUserButton, unbanUserButton;
 
     public static void main(String[] args) {
         try {
@@ -222,6 +222,10 @@ public class AdminGUIFrame extends JFrame {
         banUserButton = new JButton("Ban User");
         banUserButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
         topButtonPanel.add(banUserButton);
+
+        unbanUserButton = new JButton("Unban User");
+        unbanUserButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        topButtonPanel.add(unbanUserButton);
 
         JPanel searchPanel = new JPanel();
         searchPanel.setBackground(Color.WHITE);
