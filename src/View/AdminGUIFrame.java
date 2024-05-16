@@ -12,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
 public class AdminGUIFrame extends JFrame {
 
     private JPanel contentPane, homePanel, editPanel, hPanel, ePanel, accountPanel, aPanel;
-    private JTable table;
+    private JTable table, table1;
     private JTextField textField;
     private JButton editTimerButton, deleteTimerButton, viewTimerButton, viewPlayersButton, editPlayersButton, editRoundsButton, editNumOfRoundsButton;
     private JButton viewUserButton, banUserButton, unbanUserButton;
@@ -243,11 +243,11 @@ public class AdminGUIFrame extends JFrame {
         searchPanel.add(textField);
         textField.setColumns(10);
 
-        table = new JTable();
-        table.setSelectionBackground(new Color(104, 215, 211));
-        table.setBackground(new Color(240, 240, 240));
-        table.setBorder(null);
-        table.setModel(new DefaultTableModel(
+        table1 = new JTable();
+        table1.setSelectionBackground(new Color(104, 215, 211));
+        table1.setBackground(new Color(240, 240, 240));
+        table1.setBorder(null);
+        table1.setModel(new DefaultTableModel(
                 new Object[][] {
                         {null, null, null, null, null, null, null},
                         {null, null, null, null, null, null, null},
@@ -270,7 +270,7 @@ public class AdminGUIFrame extends JFrame {
                 }
 
         ));
-        JScrollPane accountScrollPane = new JScrollPane(table);
+        JScrollPane accountScrollPane = new JScrollPane(table1);
         aPanel.add(accountScrollPane, BorderLayout.CENTER);
 
     }
@@ -353,6 +353,14 @@ public class AdminGUIFrame extends JFrame {
 
     public void setTable(JTable table) {
         this.table = table;
+    }
+
+    public JTable getTable1() {
+        return table1;
+    }
+
+    public void setTable1(JTable table1) {
+        this.table1 = table1;
     }
 
      public JButton getEditNumOfRoundsButton() {
