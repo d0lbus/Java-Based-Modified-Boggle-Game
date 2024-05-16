@@ -1050,6 +1050,7 @@ public class ClientGUIFrame extends JFrame {
         player2roundsWon.setBounds(732, startY + 85, 300, 70);
         rankingPanel.add(player2roundsWon);
 
+        ImageIcon chicIcon = new ImageIcon("src/Icons/CHIC.gif");
         player3picRanking = new JLabel(chicIcon);
         player3picRanking.setBackground(Color.GRAY);
         player3picRanking.setBounds(centerX - 300, startY + 170, 70, 70);
@@ -1069,6 +1070,7 @@ public class ClientGUIFrame extends JFrame {
         player3roundsWon.setBounds(732, startY + 170, 300, 70);
         rankingPanel.add(player3roundsWon);
 
+        ImageIcon owlIcon = new ImageIcon("src/Icons/OWL.gif");
         player4picRanking = new JLabel(owlIcon);
         player4picRanking.setBackground(Color.GRAY);
         player4picRanking.setBounds(centerX - 300, startY + 255, 70, 70);
