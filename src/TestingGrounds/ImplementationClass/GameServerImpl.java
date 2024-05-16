@@ -1,12 +1,10 @@
 package TestingGrounds.ImplementationClass;
 
 import TestingGrounds.GameSystem.*;
+import TestingGrounds.ReferenceClasses.Admin;
 import TestingGrounds.ReferenceClasses.GameSession;
 import TestingGrounds.ReferenceClasses.User;
-import TestingGrounds.Utilities.DataAccessObjects.DBConnection;
-import TestingGrounds.Utilities.DataAccessObjects.GameSessionDAO;
-import TestingGrounds.Utilities.DataAccessObjects.GameSettingsDAO;
-import TestingGrounds.Utilities.DataAccessObjects.UserDAO;
+import TestingGrounds.Utilities.DataAccessObjects.*;
 import TestingGrounds.Utilities.TokenGenerator;
 import TestingGrounds.Utilities.WordValidator;
 import TestingGrounds.ReferenceClasses.User;
@@ -27,11 +25,13 @@ public class GameServerImpl extends GameServerPOA implements Object {
     private Map<String, String> sessionTokens = new ConcurrentHashMap<>();
     private Map<String, GameSession> activeGameLobbies = new ConcurrentHashMap<>();
     private Map<String, CallbackInterface> sessionCallbacks = new ConcurrentHashMap<>();
+    private Map<String, CallbackInterface> adminSessionCallbacks = new ConcurrentHashMap<>();
     private static final char[] CONSONANTS = "BCDFGHJKLMNPQRSTVWXYZ".toCharArray();
     private static final char[] VOWELS = "AEIOU".toCharArray();
     private static final int NUM_CONSONANTS = 13;
     private static final int NUM_VOWELS = 7;
     private UserDAO userDAO = new UserDAO();
+    private AdminDAO adminDAO = new AdminDAO();
     private final Random random = new Random();
     private int durationPerRound;
     private int durationPerWaiting;
@@ -99,13 +99,13 @@ public class GameServerImpl extends GameServerPOA implements Object {
     @Override
     public boolean adminLogin(String username, String password, org.omg.CORBA.StringHolder sessionToken, CallbackInterface cbi)throws InvalidCredentials, AlreadyLoggedIn {
         try {
-            User user = userDAO.getUserByUsername(username);
+            Admin admin = adminDAO.getUserByUsername(username);
 
-            if (user == null || !userDAO.validatePassword(user, password)) {
+            if (admin == null || !adminDAO.validatePassword(admin, password)) {
                 throw new InvalidCredentials();
             }
 
-            String storedToken = UserDAO.getSessionTokenByUsername(username);
+            String storedToken = adminDAO.getSessionTokenByUsername(username);
 
             // Check if the session token is not null, meaning the user is already logged in
             if (storedToken != null) {
@@ -118,11 +118,11 @@ public class GameServerImpl extends GameServerPOA implements Object {
             sessionToken.value = token;
 
             // Update user session in the database
-            user.setSessionToken(token);
-            userDAO.updateSessionToken(user, token);
+            admin.setSessionToken(token);
+            adminDAO.updateSessionToken(admin, token);
 
             sessionTokens.put(token, username);
-            sessionCallbacks.put(token, cbi);
+            adminSessionCallbacks.put(token, cbi);
 
             updateLeaderboards();
             System.out.println("Callback registered for " + username + " with token: " + token);
@@ -139,7 +139,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
             sessionTokens.remove(sessionToken);
 
             // Clear the session token in the database using the provided session token
-            userDAO.clearSessionToken(sessionToken);
+            adminDAO.clearSessionToken(sessionToken);
 
             return true; // Return true if the operation was successful
         } catch (SQLException ex) {

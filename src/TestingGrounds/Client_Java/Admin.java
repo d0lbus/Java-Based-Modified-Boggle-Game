@@ -63,7 +63,7 @@ public class Admin {
                 password = new String(registration.getLoginPasswordField().getPassword());
                 boolean loginSuccessful = false;
                 try {
-                    loginSuccessful = gameServerImp.login(username, password, sessionToken, callbackRef);
+                    loginSuccessful = gameServerImp.adminLogin(username, password, sessionToken, callbackRef);
                 } catch (InvalidCredentials ex) {
                     throw new RuntimeException(ex);
                 } catch (AlreadyLoggedIn ex) {

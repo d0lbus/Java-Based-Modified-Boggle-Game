@@ -37,7 +37,7 @@ public class AdminDAO {
 
 
     public boolean validatePassword(Admin admin, String password) throws SQLException {
-        String sql = "SELECT password FROM admin WHERE username = ?";
+        String sql = "SELECT password FROM admins WHERE username = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, admin.getUsername());
@@ -51,12 +51,35 @@ public class AdminDAO {
     }
 
     public void updateSessionToken(Admin admin, String sessionToken) throws SQLException {
-        String sql = "UPDATE admin SET sessionToken = ? WHERE username = ?";
+        String sql = "UPDATE admins SET sessionToken = ? WHERE username = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, sessionToken);
             ps.setString(2, admin.getUsername());
             ps.executeUpdate();
         }
+    }
+
+    public static void clearSessionToken(String sessionToken) throws SQLException {
+        String sql = "UPDATE admins SET sessionToken = NULL WHERE sessionToken = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, sessionToken);
+            ps.executeUpdate();
+        }
+    }
+
+    public static String getSessionTokenByUsername(String username) throws SQLException {
+        String sql = "SELECT sessionToken FROM admins WHERE username = ?";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("sessionToken");
+                }
+            }
+        }
+        return null;
     }
 }
