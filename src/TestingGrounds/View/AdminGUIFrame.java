@@ -11,11 +11,12 @@ import javax.swing.table.DefaultTableModel;
 
 public class AdminGUIFrame extends JFrame {
 
-    private JPanel contentPane, homePanel, editPanel, hPanel, ePanel, accountPanel, aPanel;
+    private JPanel contentPane, homePanel, editPanel, hPanel, ePanel, accountPanel, aPanel, lobbiesPanel;
     private JTable table, table1;
     private JTextField textField;
     private JButton editTimerButton, deleteTimerButton, viewTimerButton, viewPlayersButton, editPlayersButton, editRoundsButton, editNumOfRoundsButton;
     private JButton viewUserButton, banUserButton, unbanUserButton;
+    private JLabel lobbiesResult, rwonResults, rplayersResult;
 
     public static void main(String[] args) {
         try {
@@ -160,6 +161,69 @@ public class AdminGUIFrame extends JFrame {
         hPanel.setBackground(Color.WHITE);
         layeredPane.add(hPanel);
         hPanel.setLayout(null);
+
+        lobbiesPanel = new JPanel();
+        lobbiesPanel.setBounds(39, 67, 673, 167);
+        hPanel.add(lobbiesPanel);
+        lobbiesPanel.setLayout(null);
+
+        JLabel lIcon = new JLabel("");
+        lIcon.setIcon(new ImageIcon("src/Icons/Game Controller.png"));
+        lIcon.setBounds(10, 38, 96, 75);
+        lobbiesPanel.add(lIcon);
+
+        JLabel lcreatedLabel = new JLabel("Lobbies Created");
+        lcreatedLabel.setFont(new Font("Tahoma", Font.PLAIN, 25));
+        lcreatedLabel.setBounds(116, 50, 235, 63);
+        lobbiesPanel.add(lcreatedLabel);
+
+        lobbiesResult = new JLabel("");
+        lobbiesResult.setHorizontalAlignment(SwingConstants.CENTER);
+        lobbiesResult.setFont(new Font("Tahoma", Font.PLAIN, 50));
+        lobbiesResult.setBounds(531, 41, 117, 89);
+        lobbiesPanel.add(lobbiesResult);
+
+        JPanel rplayersPanel = new JPanel();
+        rplayersPanel.setBounds(39, 286, 673, 167);
+        hPanel.add(rplayersPanel);
+        rplayersPanel.setLayout(null);
+
+        JLabel rpIcon = new JLabel("");
+        rpIcon.setIcon(new ImageIcon("src/Icons/MySpace.png"));
+        rpIcon.setBounds(0, 43, 108, 83);
+        rplayersPanel.add(rpIcon);
+
+        JLabel rpLabel = new JLabel("Registered Players");
+        rpLabel.setFont(new Font("Tahoma", Font.PLAIN, 25));
+        rpLabel.setBounds(118, 57, 256, 62);
+        rplayersPanel.add(rpLabel);
+
+        rplayersResult = new JLabel("");
+        rplayersResult.setHorizontalAlignment(SwingConstants.CENTER);
+        rplayersResult.setFont(new Font("Tahoma", Font.PLAIN, 50));
+        rplayersResult.setBounds(529, 37, 117, 89);
+        rplayersPanel.add(rplayersResult);
+
+        JPanel rwonPanel = new JPanel();
+        rwonPanel.setBounds(39, 507, 673, 167);
+        hPanel.add(rwonPanel);
+        rwonPanel.setLayout(null);
+
+        JLabel checkIcon = new JLabel();
+        checkIcon.setIcon(new ImageIcon("src/Icons/Done.png"));
+        checkIcon.setBounds(0, 33, 117, 89);
+        rwonPanel.add(checkIcon);
+
+        JLabel lblRoundsWon = new JLabel("Rounds Won");
+        lblRoundsWon.setFont(new Font("Tahoma", Font.PLAIN, 25));
+        lblRoundsWon.setBounds(127, 50, 256, 62);
+        rwonPanel.add(lblRoundsWon);
+
+        rwonResults = new JLabel("");
+        rwonResults.setHorizontalAlignment(SwingConstants.CENTER);
+        rwonResults.setFont(new Font("Tahoma", Font.PLAIN, 50));
+        rwonResults.setBounds(520, 33, 117, 89);
+        rwonPanel.add(rwonResults);
 
         ePanel = new JPanel();
         ePanel.setBackground(Color.WHITE);
@@ -346,7 +410,7 @@ public class AdminGUIFrame extends JFrame {
     public void setTextField(JTextField textField) {
         this.textField = textField;
     }
-    
+
     public JTable getTable() {
         return table;
     }
@@ -363,7 +427,7 @@ public class AdminGUIFrame extends JFrame {
         this.table1 = table1;
     }
 
-     public JButton getEditNumOfRoundsButton() {
+    public JButton getEditNumOfRoundsButton() {
         return getEditNumOfRoundsButton();
     }
 
@@ -377,5 +441,21 @@ public class AdminGUIFrame extends JFrame {
 
     public JButton getNumOfUsersButton() {
         return getNumOfUsersButton();
+    }
+
+    public JButton getUnbanUserButton() {
+        return unbanUserButton;
+    }
+
+    public JLabel getLobbiesResult() {
+        return lobbiesResult;
+    }
+
+    public JLabel getRwonResults() {
+        return rwonResults;
+    }
+
+    public JLabel getRplayersResult() {
+        return rplayersResult;
     }
 }
