@@ -116,13 +116,45 @@ public class GameSession {
     }
 
     public void removePlayer(String sessionToken) {
+        if (!players.containsKey(sessionToken)) {
+            System.out.println("Player not found in the game session.");
+            return;
+        }
+
+        // Check if the leaving player is the host
+        boolean isHost = isHost(sessionToken);
+
+        // Remove the player
         players.remove(sessionToken);
         readyPlayers.remove(sessionToken);
         playerRoundsWon.remove(sessionToken);
+        playerScores.remove(sessionToken);
         currentPlayerCount = players.size();
-        if (players.size() < 2 && status == GameStatus.ACTIVE) {
+
+        // If no players are left, the game should end
+        if (currentPlayerCount == 0) {
             endGame();
+            return;
         }
+
+        // Reassign positions
+        int position = 1;
+        for (String key : new HashSet<>(players.keySet())) { // Create a copy to modify the original during iteration
+            players.put(key, position++);
+        }
+
+        // Assign new host if necessary
+        if (isHost) {
+            assignNewHost();
+        }
+
+        System.out.println("Player removed and positions adjusted.");
+    }
+
+    private void assignNewHost() {
+        String newHostSessionToken = Collections.min(players.keySet());
+        hostPosition.set(players.get(newHostSessionToken));
+        System.out.println("New host assigned: " + newHostSessionToken);
     }
 
     public void cancelGameSession(String gameToken) {
@@ -322,6 +354,8 @@ public class GameSession {
     public boolean isHost(String sessionToken) {
         return players.get(sessionToken) == hostPosition.get();
     }
+
+
 
     public String determineRoundWinner() {
         List<Map.Entry<String, Integer>> sortedScores = new ArrayList<>(playerScores.entrySet());

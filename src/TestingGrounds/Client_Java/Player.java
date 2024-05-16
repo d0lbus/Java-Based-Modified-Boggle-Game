@@ -290,15 +290,6 @@ public class Player {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gameServerImp.leaveGame(sessionToken.value,gameToken);
-
-                if (gameToken != null) {
-                    clientGUIFrame.getLayeredPane().removeAll();
-                    clientGUIFrame.getLayeredPane().add(clientGUIFrame.getHomePanel());
-                    clientGUIFrame.getLayeredPane().repaint();
-                    clientGUIFrame.getLayeredPane().revalidate();
-                    clientGUIFrame.getHomePanel().setVisible(true);
-                }
-
             }
         });
 
@@ -306,13 +297,6 @@ public class Player {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gameServerImp.leaveLobby(sessionToken.value,gameToken);
-                if (gameToken != null) {
-                    clientGUIFrame.getLayeredPane().removeAll();
-                    clientGUIFrame.getLayeredPane().add(clientGUIFrame.getHomePanel());
-                    clientGUIFrame.getLayeredPane().repaint();
-                    clientGUIFrame.getLayeredPane().revalidate();
-                    clientGUIFrame.getHomePanel().setVisible(true);
-                }
             }
         });
 
@@ -347,6 +331,13 @@ public class Player {
             }
         });
 
+
+        clientGUIFrame.getBackToHomeButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                gameServerImp.backToHomeScreen(sessionToken.value);
+            }
+        });
 
     }
 

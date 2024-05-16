@@ -39,7 +39,6 @@ module TestingGrounds {
                 };
 
 
-
         typedef sequence<PlayerInfo> PlayerInfoList;
         typedef sequence<char> CharList;
         typedef sequence<boolean> ReadyStatusList;
@@ -65,6 +64,7 @@ module TestingGrounds {
             void startRoundDelayTimer(in long delaySeconds);
             void updateWaitingTimeLabel(in long newSeconds);
             void updateGameSessions(in GameSessionList sessions);
+            void showHomeScreen();
         };
 
         interface GameServer {
@@ -80,7 +80,11 @@ module TestingGrounds {
             void leaveGame(in string sessionToken, in string gameId);
             void leaveLobby(in string sessionToken, in string gameId);
             string getLetters(in string sessionToken, in string gameId);
+            void backToHomeScreen(in string sessionToken);
             void updateSecondsPerWaiting(in long newSeconds);
+            void editRoundTime(in long newSeconds);
+            void editNumRounds(in long newSeconds);
+            void viewPlayers(in string name);
             boolean ping();
             boolean isServerConnected() raises (lossConnection);
         };

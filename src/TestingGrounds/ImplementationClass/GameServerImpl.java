@@ -445,16 +445,14 @@ public class GameServerImpl extends GameServerPOA implements Object {
         gameSession.removePlayer(sessionToken);
         System.out.println("Player left the game session");
 
-        // Notify other players about the changes in the game session
         notifyPlayersAboutChanges(gameSession);
+        backToHomeScreen(sessionToken);
     }
 
     @Override
     public void leaveLobby(String sessionToken, String gameId) {
-        // Retrieve the game session using the provided game ID
         GameSession gameSession = activeGameLobbies.get(gameId);
 
-        // Check if the game session exists
         if (gameSession == null) {
             System.out.println("Invalid game session ID");
             return;
@@ -464,25 +462,41 @@ public class GameServerImpl extends GameServerPOA implements Object {
         gameSession.removePlayer(sessionToken);
         System.out.println("Player left the game session");
 
-        if (gameSession.isHost(sessionToken) && gameSession.getPlayers().isEmpty()) {
+        // If the game session has no players left, it is cancelled
+        if (gameSession.getCurrentPlayerCount() == 0) {
+            activeGameLobbies.remove(gameId);
+            gameSession.setStatus(GameSession.GameStatus.CANCELLED);
+            System.out.println("Game session canceled as no players are left.");
             try {
-                cancelGameSession(gameId);
-            } catch (SQLException e){
-                System.err.println(e);
+                gameSessionDAO.saveGameSession(gameSession);
+            } catch (SQLException e) {
+                System.err.println("Error deleting game session: " + e.getMessage());
+            }
+        } else {
+            // Save updates to the database
+            try {
+                gameSessionDAO.saveGameSession(gameSession);
+            } catch (SQLException e) {
+                System.err.println("Error saving game session: " + e.getMessage());
             }
 
+
+            notifyPlayersAboutChanges(gameSession);
+            backToHomeScreen(sessionToken);
         }
-
-        try {
-            gameSessionDAO.saveGameSession(gameSession);
-        } catch (SQLException e){
-            System.err.println(e);
-        }
-        // Notify the players about the changes in the lobby
-
-        notifyPlayersAboutChanges(gameSession);
-
     }
+
+    @Override
+    public void backToHomeScreen(String sessionToken) {
+        CallbackInterface callback = sessionCallbacks.get(sessionToken);
+        if (callback != null) {
+            SwingUtilities.invokeLater(callback::showHomeScreen);
+        } else {
+            // Handle the case where no callback is found for the session token
+            System.err.println("No callback found for session token: " + sessionToken);
+        }
+    }
+
 
     private void cancelGameSession(String gameId) throws SQLException {
         // Retrieve the game session using the provided game ID
@@ -511,6 +525,12 @@ public class GameServerImpl extends GameServerPOA implements Object {
 
     public void notifyPlayersAboutChanges(GameSession session) {
         List<PlayerInfo> playerData = collectPlayerData(session);
+
+        System.out.println("Player data list:");
+        for (PlayerInfo info : playerData) {
+            System.out.println(info);  // This calls the toString() method of PlayerInfo
+        }
+
         String gameToken = session.getGameToken();
         session.getPlayers().forEach((token, position) -> {
             CallbackInterface callback = sessionCallbacks.get(token);
@@ -526,6 +546,9 @@ public class GameServerImpl extends GameServerPOA implements Object {
             }
         });
     }
+
+
+
     public void startTimerForGui(GameSession session, int seconds){
         List<PlayerInfo> playerData = collectPlayerData(session);
         session.getPlayers().forEach((token, position) -> {
@@ -944,10 +967,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
         }
     }
 
-    @Override
-    public void viewPlayers(String name) {
-
-    }
 
     private void updateLobbiesList() {
         try{
@@ -991,6 +1010,11 @@ public class GameServerImpl extends GameServerPOA implements Object {
     }
 
 
+
+    @Override
+    public void viewPlayers(String name) {
+
+    }
 
 
     @Override

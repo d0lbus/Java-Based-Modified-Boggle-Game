@@ -491,6 +491,16 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         });
     }
 
+    @Override
+    public void showHomeScreen(){
+        SwingUtilities.invokeLater(() -> {
+            gui.getLayeredPane().removeAll();
+            gui.getLayeredPane().add(gui.getHomePanel());
+            gui.getLayeredPane().repaint();
+            gui.getLayeredPane().revalidate();
+        });
+    }
+
     private void loadAvailableIcons() {
         File iconDirectory = new File(ICONS_PATH);
         if (!iconDirectory.exists() || !iconDirectory.isDirectory()) {
