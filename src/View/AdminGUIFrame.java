@@ -16,7 +16,7 @@ public class AdminGUIFrame extends JFrame {
     private JTextField textField;
     private JButton editTimerButton, deleteTimerButton, viewTimerButton, viewPlayersButton, editPlayersButton, editRoundsButton, editNumOfRoundsButton;
 
-    private JButton viewUserButton, banUserButton;
+    private JButton viewUserButton, banUserButton, unbanUserButton;
 
     public static void main(String[] args) {
         try {
