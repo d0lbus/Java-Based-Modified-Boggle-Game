@@ -197,12 +197,7 @@ public class Player {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Session Token: " + sessionToken.value);
-                try {
-                    gameToken = gameServerImp.hostGame(sessionToken.value, callbackRef);
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-                    throw new RuntimeException(ex);
-                }
+                gameToken = gameServerImp.hostGame(sessionToken.value, callbackRef);
             }
         });
 
@@ -226,10 +221,6 @@ public class Player {
                     // Handle no waiting games available
                     System.err.println("No waiting games available! Try Again Later. ");
                     JOptionPane.showMessageDialog(null, "No waiting games available. Please try again later.", "Game Error", JOptionPane.ERROR_MESSAGE);
-                } catch (SQLException ex) {
-                    // Handle SQL exception
-                    JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-                    throw new RuntimeException(ex);
                 }
             }
         });
@@ -239,9 +230,6 @@ public class Player {
             public void actionPerformed(ActionEvent e) {
                 try {
                     gameServerImp.startGame(sessionToken.value, gameToken);
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-                    throw new RuntimeException(ex);
                 } catch (LobbyTimeExpired ex) {
                     System.err.println("Lobby Time Expired.  ");
                     JOptionPane.showMessageDialog(null, "Lobby Time Expired", "Expired Time", JOptionPane.ERROR_MESSAGE);
@@ -258,9 +246,6 @@ public class Player {
                     gameServerImp.submitWord(sessionToken.value, gameToken, word);
                 } catch (InvalidWord ex) {
                     System.err.println("Invalid word " );
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-                    throw new RuntimeException(ex);
                 }
                 clientGUIFrame.getInputTextField().setText("");
             }
@@ -285,9 +270,6 @@ public class Player {
                             System.err.println("Invalid game code: " + ex.getMessage());
                             JOptionPane.showMessageDialog(null, "Invalid game code. Please enter a valid one.", "Error", JOptionPane.ERROR_MESSAGE);
                             throw new RuntimeException("Invalid game code: " + ex.getMessage(), ex);
-                        } catch (SQLException ex) {
-                            JOptionPane.showMessageDialog(null, "Database error: " + ex.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
-                            throw new RuntimeException(ex);
                         } catch (GameAlreadyActive ex) {
                             System.err.println("Game is already active: " + ex.getMessage());
                         }
@@ -308,11 +290,7 @@ public class Player {
         clientGUIFrame.getLeaveButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    gameServerImp.leaveGame(sessionToken.value,gameToken);
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
+                gameServerImp.leaveGame(sessionToken.value,gameToken);
 
                 if (gameToken != null) {
                     clientGUIFrame.getLayeredPane().removeAll();
@@ -328,11 +306,7 @@ public class Player {
         clientGUIFrame.getexitLobbyButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try {
-                    gameServerImp.leaveLobby(sessionToken.value,gameToken);
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
-                }
+                gameServerImp.leaveLobby(sessionToken.value,gameToken);
                 if (gameToken != null) {
                     clientGUIFrame.getLayeredPane().removeAll();
                     clientGUIFrame.getLayeredPane().add(clientGUIFrame.getHomePanel());
