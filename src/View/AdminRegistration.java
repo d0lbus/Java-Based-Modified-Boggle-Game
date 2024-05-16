@@ -1,5 +1,7 @@
-package View.Design;
+package View;
 
+import View.Design.LetterCube;
+import View.Design.RoundBorder;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 import javax.swing.*;

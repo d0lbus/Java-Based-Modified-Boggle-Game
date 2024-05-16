@@ -57,6 +57,8 @@ module TestingGrounds {
         interface GameServer {
             boolean login(in string username, in string password, out string sessionToken, in CallbackInterface cbi) raises (InvalidCredentials, AlreadyLoggedIn);
             boolean logout(in string sessionToken);
+            boolean adminLogin(in string username, in string password, out string sessionToken, in CallbackInterface cbi) raises (InvalidCredentials, AlreadyLoggedIn);
+            boolean adminLogout(in string sessionToken);
             string hostGame(in string sessionToken, in CallbackInterface cbi) ;
             string joinRandomGame(in string sessionToken, in CallbackInterface cbi) raises (NoWaitingGames);
             string joinGame(in string sessionToken, in string gameId) raises (InvalidGameCode,GameAlreadyActive);

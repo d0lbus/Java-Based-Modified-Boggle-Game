@@ -96,6 +96,59 @@ public class GameServerImpl extends GameServerPOA implements Object {
         }
     }
 
+    @Override
+    public boolean adminLogin(String username, String password, org.omg.CORBA.StringHolder sessionToken, CallbackInterface cbi)throws InvalidCredentials, AlreadyLoggedIn {
+        try {
+            User user = userDAO.getUserByUsername(username);
+
+            if (user == null || !userDAO.validatePassword(user, password)) {
+                throw new InvalidCredentials();
+            }
+
+            String storedToken = UserDAO.getSessionTokenByUsername(username);
+
+            // Check if the session token is not null, meaning the user is already logged in
+            if (storedToken != null) {
+                System.err.println("User " + username + " is already logged in.");
+                throw new AlreadyLoggedIn("User " + username + " is already logged in.");
+            }
+
+
+            String token = generateSecureToken();
+            sessionToken.value = token;
+
+            // Update user session in the database
+            user.setSessionToken(token);
+            userDAO.updateSessionToken(user, token);
+
+            sessionTokens.put(token, username);
+            sessionCallbacks.put(token, cbi);
+
+            updateLeaderboards();
+            System.out.println("Callback registered for " + username + " with token: " + token);
+            return true;
+        } catch (SQLException e) {
+            System.err.println("SQL error during login: " + e.getMessage());
+            return false;
+        }
+    }
+    @Override
+    public boolean adminLogout(String sessionToken) {
+        try {
+            // Always attempt to remove the session token from the sessionTokens map
+            sessionTokens.remove(sessionToken);
+
+            // Clear the session token in the database using the provided session token
+            userDAO.clearSessionToken(sessionToken);
+
+            return true; // Return true if the operation was successful
+        } catch (SQLException ex) {
+            // Log any database-related errors
+            System.err.println("Error clearing session token: " + ex.getMessage());
+            return false; // Return false if an exception occurred
+        }
+    }
+
     /**
      *
      * PLAYER FUNCTIONALITIES
@@ -103,7 +156,9 @@ public class GameServerImpl extends GameServerPOA implements Object {
      * */
 
     @Override
-    public String hostGame(String sessionToken, CallbackInterface cbi) throws SQLException{
+    public String hostGame(String sessionToken, CallbackInterface cbi) {
+        GameSession newGameSession = new GameSession();
+        
         if (cbi == null) {
             throw new RuntimeException("Callback interface cannot be null.");
         }
@@ -111,18 +166,23 @@ public class GameServerImpl extends GameServerPOA implements Object {
         if (!validateSessionToken(sessionToken)) {
             System.out.println("Invalid session token");
         }
-        GameSession newGameSession = new GameSession(generateGameToken());
-        activeGameLobbies.put(newGameSession.getSessionId(), newGameSession);
-        System.out.println("Game session created with ID: " + newGameSession.getSessionId());
+        try {
 
-        newGameSession.addPlayer(sessionToken);
+            newGameSession = new GameSession(generateGameToken());
+            activeGameLobbies.put(newGameSession.getSessionId(), newGameSession);
+            System.out.println("Game session created with ID: " + newGameSession.getSessionId());
 
-        gameSessionDAO.saveGameSession(newGameSession);
-        notifyPlayersAboutChanges(newGameSession);
+            newGameSession.addPlayer(sessionToken);
+
+            gameSessionDAO.saveGameSession(newGameSession);
+            notifyPlayersAboutChanges(newGameSession);
+        } catch (SQLException E){
+            System.err.println(E);
+        }
         return newGameSession.getSessionId();
     }
     @Override
-    public String joinRandomGame(String sessionToken, CallbackInterface gci) throws SQLException, NoWaitingGames {
+    public String joinRandomGame(String sessionToken, CallbackInterface gci) throws NoWaitingGames {
         if (!validateSessionToken(sessionToken)) {
             System.out.println("Invalid session token");
         }
@@ -140,13 +200,17 @@ public class GameServerImpl extends GameServerPOA implements Object {
         GameSession selectedSession = availableSessions.get(randomIndex);
         selectedSession.addPlayer(sessionToken);
         System.out.println("Player added to game " + selectedSession.getSessionId());
+        try {
+            gameSessionDAO.saveGameSession(selectedSession);
+        } catch (SQLException e){
+            System.err.println(e);
+        }
 
-        gameSessionDAO.saveGameSession(selectedSession);
         notifyPlayersAboutChanges(selectedSession);
         return selectedSession.getSessionId();
     }
     @Override
-    public String joinGame(String sessionToken, String gameId) throws SQLException, InvalidGameCode {
+    public String joinGame(String sessionToken, String gameId) throws InvalidGameCode {
         if (!validateSessionToken(sessionToken)) {
             System.out.println("Invalid session token");
         }
@@ -164,14 +228,17 @@ public class GameServerImpl extends GameServerPOA implements Object {
         GameSession selectedSession = optionalSession.get();
         selectedSession.addPlayer(sessionToken);
         System.out.println("Player added to game " + selectedSession.getSessionId());
-
-        gameSessionDAO.saveGameSession(selectedSession);
+        try {
+            gameSessionDAO.saveGameSession(selectedSession);
+        } catch (SQLException e){
+            System.err.println(e);
+        }
         notifyPlayersAboutChanges(selectedSession);
         return selectedSession.getSessionId();
     }
 
     @Override
-    public boolean startGame(String sessionToken, String gameToken) throws SQLException, LobbyTimeExpired{
+    public boolean startGame(String sessionToken, String gameToken) throws LobbyTimeExpired{
         GameSession session = activeGameLobbies.get(gameToken);
         if (session == null) {
             System.out.println("Invalid game session token.");
@@ -230,19 +297,27 @@ public class GameServerImpl extends GameServerPOA implements Object {
                 System.out.println("Player marked as ready: " + sessionToken);
                 updateReadyStatusForPlayers(session);
                 if (session.allPlayersReady() && session.getStatus() != GameSession.GameStatus.ACTIVE) {
-                    startGameSession(session);
+                    try {
+                        startGameSession(session);
+                    } catch (SQLException e){
+                        System.err.println(e);
+                    }
                 }
             } else {
                 System.out.println("Timer is not running. Cannot mark player as ready.");
             }
         }
+        try {
+            gameSessionDAO.saveGameSession(session);
+        } catch (SQLException e){
+            System.err.println(e);
+        }
 
-        gameSessionDAO.saveGameSession(session);
         notifyPlayersAboutChanges(session);
         return true;
     }
     @Override
-    public void submitWord(String sessionToken, String gameToken, String word) throws SQLException, InvalidWord {
+    public void submitWord(String sessionToken, String gameToken, String word) throws InvalidWord {
         GameSession session = activeGameLobbies.get(gameToken);
         String playerWhoGuessed = retrievePlayerFromSessionToken(sessionToken);
         if (session == null) {
@@ -329,11 +404,15 @@ public class GameServerImpl extends GameServerPOA implements Object {
             throw new InvalidWord("Invalid word: " + word);
         }
 
-        gameSessionDAO.saveGameSession(session);
+        try {
+            gameSessionDAO.saveGameSession(session);
+        } catch (SQLException e){
+            System.err.println(e);
+        };
     }
 
     @Override
-    public void leaveGame(String sessionToken, String gameId) throws SQLException {
+    public void leaveGame(String sessionToken, String gameId) {
         // Check if the session token is valid
         if (!validateSessionToken(sessionToken)) {
             System.out.println("Invalid session token");
@@ -357,7 +436,11 @@ public class GameServerImpl extends GameServerPOA implements Object {
 
         // If the player leaving is the host and there are no more players, cancel the game session
         if (gameSession.isHost(sessionToken) && gameSession.getPlayers().isEmpty()) {
-            cancelGameSession(gameId);
+            try {
+                cancelGameSession(gameId);
+            } catch (SQLException e){
+                System.err.println(e);
+            }
         }
 
         // Remove the player from the game session
@@ -366,12 +449,10 @@ public class GameServerImpl extends GameServerPOA implements Object {
 
         // Notify other players about the changes in the game session
         notifyPlayersAboutChanges(gameSession);
-
-
     }
 
     @Override
-    public void leaveLobby(String sessionToken, String gameId) throws SQLException {
+    public void leaveLobby(String sessionToken, String gameId) {
         // Retrieve the game session using the provided game ID
         GameSession gameSession = activeGameLobbies.get(gameId);
 
@@ -386,11 +467,21 @@ public class GameServerImpl extends GameServerPOA implements Object {
         System.out.println("Player left the game session");
 
         if (gameSession.isHost(sessionToken) && gameSession.getPlayers().isEmpty()) {
-            cancelGameSession(gameId);
+            try {
+                cancelGameSession(gameId);
+            } catch (SQLException e){
+                System.err.println(e);
+            }
+
         }
 
+        try {
+            gameSessionDAO.saveGameSession(gameSession);
+        } catch (SQLException e){
+            System.err.println(e);
+        }
         // Notify the players about the changes in the lobby
-        gameSessionDAO.saveGameSession(gameSession);
+
         notifyPlayersAboutChanges(gameSession);
 
     }

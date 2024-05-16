@@ -36,6 +36,9 @@ public class GameSession {
     }
 
 
+    public GameSession(){
+
+    }
     public GameSession(String gameToken) throws SQLException {
         this.gameToken = gameToken;
         GameSessionDAO dao = new GameSessionDAO(DBConnection.getConnection());

@@ -5,6 +5,7 @@ import TestingGrounds.ImplementationClass.GameClientCallbackImpl;
 import TestingGrounds.ReferenceClasses.User;
 import TestingGrounds.Utilities.DataAccessObjects.UserDAO;
 import View.AdminGUIFrame;
+import View.AdminRegistration;
 import View.ClientGUIFrame;
 import View.Registration;
 import org.omg.CORBA.ORB;
@@ -28,7 +29,7 @@ public class Admin {
     static GameClientCallbackImpl cbi;
     static CallbackInterface callbackRef;
     static AdminGUIFrame adminGUIFrame = new AdminGUIFrame();
-    static Registration registration = new Registration();
+    static AdminRegistration registration = new AdminRegistration();
     public static void main(String[] args) {
         try {
             cbi = new GameClientCallbackImpl(adminGUIFrame);
@@ -70,7 +71,7 @@ public class Admin {
                 }
                 if (loginSuccessful) {
                     System.out.println("Login for " + username + " is successful. Session token: " + sessionToken.value);
-                    startGame();
+                    startAdminDashboard();
                     registration.setVisible(false);
                 } else {
                     System.out.println("Login failed.");
@@ -78,73 +79,8 @@ public class Admin {
             }
         });
 
-
-//        registration.getDoneButton().addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent e) {
-//                String firstName = registration.getFirstNameTextfield().getText();
-//                String lastName = registration.getLastNameTextfield().getText();
-//                String username = registration.getUsernameRegisterTextfield().getText();
-//                char[] passwordChars = registration.getSignUpPasswordField().getPassword();
-//                String password = new String(passwordChars);
-//                char[] confirmPasswordChars = registration.getConfirmPasswordField().getPassword();
-//                String confirmPassword = new String(confirmPasswordChars);
-//
-//                if (firstName.isEmpty() || lastName.isEmpty() || username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-//                    JOptionPane.showMessageDialog(registration, "All fields need to be filled up", "Signup Failed", JOptionPane.ERROR_MESSAGE);
-//                    return;
-//                }
-//
-//                if (!password.equals(confirmPassword)) {
-//                    JOptionPane.showMessageDialog(registration, "Passwords do not match", "Signup Failed", JOptionPane.ERROR_MESSAGE);
-//                    return;
-//                }
-//                try {
-//                    if (UserDAO.doesUsernameExist(username)) {
-//                        JOptionPane.showMessageDialog(registration, "Username is already taken. Please choose a different one.", "Signup Failed", JOptionPane.ERROR_MESSAGE);
-//                        return;
-//                    }
-//                } catch (SQLException ex) {
-//                    System.err.println("Error checking username existence: " + ex.getMessage());
-//                    JOptionPane.showMessageDialog(registration, "Error checking username existence: " + ex.getMessage(), "Signup Failed", JOptionPane.ERROR_MESSAGE);
-//                    return;
-//                }
-//
-//                // Insert user into the database
-//                try {
-//                    // Capitalize the first letter of first name and last name
-//                    String firstNameCapitalized = firstName.substring(0, 1).toUpperCase() + firstName.substring(1).toLowerCase();
-//                    String lastNameCapitalized = lastName.substring(0, 1).toUpperCase() + lastName.substring(1).toLowerCase();
-//
-//                    // Create a User object
-//                    User user = new User(null, username, null, false, 0, null);
-//                    user.setFirstName(firstNameCapitalized);
-//                    user.setLastName(lastNameCapitalized);
-//                    user.setUsername(username);
-//                    // Set other user properties as needed
-//
-//                    // Call createUser method to insert user into the database
-//                //    UserDAO.createUser(user, firstNameCapitalized, lastNameCapitalized, password, null, null, null, null,null);
-//
-//                    JOptionPane.showMessageDialog(registration, "Registration successful! Welcome to Boggled, " + username);
-//
-//                    // Clear the text fields after successful registration
-//                    registration.getFirstNameTextfield().setText("");
-//                    registration.getLastNameTextfield().setText("");
-//                    registration.getUsernameRegisterTextfield().setText("");
-//                    registration.getSignUpPasswordField().setText("");
-//                    registration.getConfirmPasswordField().setText("");
-//
-//                    registration.setVisible(true);
-//
-//                } catch (SQLException ex) {
-//                    System.err.println("Error executing SQL query: " + ex.getMessage());
-//                    JOptionPane.showMessageDialog(registration, "Error: " + ex.getMessage(), "Signup Failed", JOptionPane.ERROR_MESSAGE);
-//                }
-//            }
-//        });
     }
-    public static void startGame() {
+    public static void startAdminDashboard() {
         if (gameServerImp == null) {
             System.err.println("GameServer implementation is not initialized.");
             return;
