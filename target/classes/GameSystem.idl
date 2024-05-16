@@ -27,12 +27,24 @@ module TestingGrounds {
             long roundsWon;
         };
 
+        struct Lobbies {
+                    string gameToken;
+                    long maxPlayers;
+                    long winningRounds;
+                    long lobbyWaitingTime;
+                    long durationPerRound;
+                    long delayPerRound;
+                    string status;
+                    long playerCount;
+                };
+
 
 
         typedef sequence<PlayerInfo> PlayerInfoList;
         typedef sequence<char> CharList;
         typedef sequence<boolean> ReadyStatusList;
         typedef sequence<Users> TopFiveUsers;
+        typedef sequence<Lobbies> GameSessionList;
 
         interface CallbackInterface {
             void CreateLobGUI( in string username, in string gameId);
@@ -52,6 +64,7 @@ module TestingGrounds {
             void wordIsInvalid(in string word);
             void startRoundDelayTimer(in long delaySeconds);
             void updateWaitingTimeLabel(in long newSeconds);
+            void updateGameSessions(in GameSessionList sessions);
         };
 
         interface GameServer {

@@ -1,7 +1,6 @@
-package View;
+package TestingGrounds.View;
 
-import TestingGrounds.Client_Java.Player;
-import View.Design.*;
+import TestingGrounds.View.Design.*;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -206,32 +205,32 @@ public class ClientGUIFrame extends JFrame {
         quitButton.setBackground(new Color(240, 128, 128));
         quitButton.setBounds(593, 570, 100, 40);
         homePanel.add(quitButton);
-        LetterCube cubeB = new LetterCube("B", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
+        LetterCube cubeB = new LetterCube("B", "src/TestingGrounds.View/Design/Fonts/gomarice_bubble_head.ttf");
         cubeB.setBounds(200, 100, 150, 150);
         homePanel.add(cubeB);
 
 
-        LetterCube cubeO = new LetterCube("O", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
+        LetterCube cubeO = new LetterCube("O", "src/TestingGrounds.View/Design/Fonts/gomarice_bubble_head.ttf");
         cubeO.setBounds(320, 150, 150, 150);
         homePanel.add(cubeO);
 
-        LetterCube cubeG = new LetterCube("G", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
+        LetterCube cubeG = new LetterCube("G", "src/TestingGrounds.View/Design/Fonts/gomarice_bubble_head.ttf");
         cubeG.setBounds(440, 100, 150, 150);
         homePanel.add(cubeG);
 
-        LetterCube cubeG2 = new LetterCube("G", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
+        LetterCube cubeG2 = new LetterCube("G", "src/TestingGrounds.View/Design/Fonts/gomarice_bubble_head.ttf");
         cubeG2.setBounds(560, 150, 150, 150);
         homePanel.add(cubeG2);
 
-        LetterCube cubeL = new LetterCube("L", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
+        LetterCube cubeL = new LetterCube("L", "src/TestingGrounds.View/Design/Fonts/gomarice_bubble_head.ttf");
         cubeL.setBounds(680, 100, 150, 150);
         homePanel.add(cubeL);
 
-        LetterCube cubeE = new LetterCube("E", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
+        LetterCube cubeE = new LetterCube("E", "src/TestingGrounds.View/Design/Fonts/gomarice_bubble_head.ttf");
         cubeE.setBounds(800, 150, 150, 150);
         homePanel.add(cubeE);
 
-        LetterCube cubeD = new LetterCube("D", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
+        LetterCube cubeD = new LetterCube("D", "src/TestingGrounds.View/Design/Fonts/gomarice_bubble_head.ttf");
         cubeD.setBounds(920, 100, 150, 150);
         homePanel.add(cubeD);
 
@@ -990,7 +989,7 @@ public class ClientGUIFrame extends JFrame {
 
         JLabel titleLabel = new JLabel("RANKING", SwingConstants.CENTER);
         try {
-            rankingFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/View/Design/Fonts/Wedges.ttf")).deriveFont(Font.BOLD, 50);
+            rankingFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/TestingGrounds.View/Design/Fonts/Wedges.ttf")).deriveFont(Font.BOLD, 50);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(rankingFont);
         } catch (IOException | FontFormatException e) {
@@ -1144,7 +1143,7 @@ public class ClientGUIFrame extends JFrame {
 
         JLabel lLabel = new JLabel("LEADERBOARDS", SwingConstants.CENTER);
         try {
-            leaderboardsFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/View/Design/Fonts/Wedges.ttf")).deriveFont(Font.BOLD, 50);
+            leaderboardsFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/TestingGrounds.View/Design/Fonts/Wedges.ttf")).deriveFont(Font.BOLD, 50);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(leaderboardsFont);
         } catch (IOException | FontFormatException e) {

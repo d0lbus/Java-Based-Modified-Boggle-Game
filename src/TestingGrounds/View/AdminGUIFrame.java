@@ -1,4 +1,4 @@
-package View;
+package TestingGrounds.View;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
@@ -187,7 +187,7 @@ public class AdminGUIFrame extends JFrame {
         editNumOfRoundsButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
         buttonPanel.add(editNumOfRoundsButton);
 
-        viewPlayersButton = new JButton("View Players");
+        viewPlayersButton = new JButton("TestingGrounds.View Players");
         viewPlayersButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
         buttonPanel.add(viewPlayersButton);
 
@@ -218,7 +218,7 @@ public class AdminGUIFrame extends JFrame {
         topButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 20));
         topPanel.add(topButtonPanel);
 
-        viewUserButton = new JButton("View User");
+        viewUserButton = new JButton("TestingGrounds.View User");
         viewUserButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
         topButtonPanel.add(viewUserButton);
 

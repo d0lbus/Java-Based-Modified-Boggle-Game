@@ -1,13 +1,17 @@
 package TestingGrounds.ImplementationClass;
 
+
 import TestingGrounds.GameSystem.CallbackInterfacePOA;
+import TestingGrounds.GameSystem.Lobbies;
 import TestingGrounds.GameSystem.PlayerInfo;
 import TestingGrounds.GameSystem.Users;
-import View.AdminGUIFrame;
-import View.ClientGUIFrame;
+import TestingGrounds.View.AdminGUIFrame;
+import TestingGrounds.View.ClientGUIFrame;
+
 
 import javax.swing.*;
 import javax.swing.Timer;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.StyledDocument;
 import java.awt.*;
@@ -428,6 +432,24 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
             if (users.length > 4 && users[4] != null) {
                 gui.getLfifthUsername().setText(users[4].username);
                 gui.getLpoint5().setText(String.valueOf(users[4].roundsWon));
+            }
+        });
+    }
+
+    @Override
+    public void updateGameSessions(TestingGrounds.GameSystem.Lobbies[] lobbiesArray) {
+        SwingUtilities.invokeLater(() -> {
+            DefaultTableModel model = (DefaultTableModel) guiAdmin.getTable().getModel();
+            model.setRowCount(0); // Clear existing data
+
+            for (TestingGrounds.GameSystem.Lobbies lobby : lobbiesArray) {
+                Object[] row = new Object[5];
+                row[0] = lobby.gameToken;
+                row[1] = lobby.playerCount;
+                row[2] = lobby.durationPerRound;
+                row[3] = lobby.winningRounds;
+                row[4] = lobby.status;
+                model.addRow(row);
             }
         });
     }

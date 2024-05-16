@@ -1,4 +1,4 @@
-package View.Design;
+package TestingGrounds.View.Design;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class SmallFallingLettersPanel extends JPanel {
-    private static final int LETTER_SIZE = 30;
+public class FallingLettersPanel extends JPanel {
+    private static final int LETTER_SIZE = 60;
     private static final int MAX_LETTERS = 20;
     private static final int FALLING_SPEED = 3;
     private static final int LETTER_DISTANCE = 80;
@@ -19,10 +19,10 @@ public class SmallFallingLettersPanel extends JPanel {
     private Timer timer;
     private Font customFont;
 
-    public SmallFallingLettersPanel() {
+    public FallingLettersPanel() {
         fallingLetters = new ArrayList<>();
         try {
-            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/View/Design/Fonts/Wedges.ttf")).deriveFont(Font.BOLD, LETTER_SIZE);
+            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/TestingGrounds.View/Design/Fonts/Wedges.ttf")).deriveFont(Font.BOLD, LETTER_SIZE);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(customFont);
         } catch (IOException | FontFormatException e) {

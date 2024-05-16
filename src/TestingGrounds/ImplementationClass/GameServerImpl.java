@@ -124,7 +124,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
             sessionTokens.put(token, username);
             adminSessionCallbacks.put(token, cbi);
 
-            updateLeaderboards();
+            updateLobbiesList();
             System.out.println("Callback registered for " + username + " with token: " + token);
             return true;
         } catch (SQLException e) {
@@ -726,7 +726,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
             }, session.getDELAY_PER_ROUNDS(), TimeUnit.SECONDS);
         }
     }
-
     private void updateLeaderboards() {
         List<User> topPlayers = userDAO.getTopPlayersByRoundsWon();
         System.out.println("Top Players List:");
@@ -751,7 +750,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
             }
         }
     }
-
     private TestingGrounds.GameSystem.Users[] convertListToUsersArray(List<TestingGrounds.ReferenceClasses.User> topPlayers) {
         TestingGrounds.GameSystem.Users[] usersArray = new TestingGrounds.GameSystem.Users[topPlayers.size()];
         for (int i = 0; i < topPlayers.size(); i++) {
@@ -767,7 +765,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
         }
         return usersArray;
     }
-
 
     private void startNextRound(GameSession session) throws SQLException {
         char[] charArrayList = generateRandomCharArray();
@@ -839,14 +836,12 @@ public class GameServerImpl extends GameServerPOA implements Object {
         } while (!gameSessionDAO.isTokenUnique(token));
         return token;
     }
-
     private boolean validateSessionToken(String sessionToken) {
         return sessionTokens.containsKey(sessionToken);
     }
     public String retrievePlayerFromSessionToken(String sessionToken) {
         return sessionTokens.get(sessionToken);
     }
-
     public void addRoundsToUserDB(String sessionToken) throws SQLException{
         if (sessionToken != null) {
             userDAO.updateOverallRoundsWon(sessionToken, 1);
@@ -900,6 +895,50 @@ public class GameServerImpl extends GameServerPOA implements Object {
             durationPerRound  = 10;
         }
     }
+
+    private void updateLobbiesList() {
+        try{
+            List<GameSession> lobbies = gameSessionDAO.getAllGameSessions();
+            Lobbies[] lobbiesArray = convertListToArray(lobbies);
+            for (Map.Entry<String, CallbackInterface> entry : adminSessionCallbacks.entrySet()) {
+                CallbackInterface callback = entry.getValue();
+                if (callback != null) {
+                    callback.updateGameSessions(lobbiesArray);
+                }
+            }
+        } catch (SQLException e){
+            System.err.println(e);
+        }
+    }
+
+    private TestingGrounds.GameSystem.Lobbies[] convertListToArray(List<TestingGrounds.ReferenceClasses.GameSession> sessions) {
+        // Create an array of Lobbies to hold the converted GameSession data
+        TestingGrounds.GameSystem.Lobbies[] lobbiesArray = new TestingGrounds.GameSystem.Lobbies[sessions.size()];
+
+        for (int i = 0; i < sessions.size(); i++) {
+            TestingGrounds.ReferenceClasses.GameSession session = sessions.get(i);
+
+            // Instantiate a new Lobbies object
+            TestingGrounds.GameSystem.Lobbies lobby = new TestingGrounds.GameSystem.Lobbies();
+
+            // Map the properties from GameSession to Lobbies
+            lobby.gameToken = session.getGameToken() != null ? session.getGameToken() : "defaultGameToken";
+            lobby.maxPlayers = session.getMAX_PLAYERS(); // Assuming getMAX_PLAYERS always returns a valid int
+            lobby.winningRounds = session.getWINNING_ROUNDS(); // Assuming getWINNING_ROUNDS always returns a valid int
+            lobby.lobbyWaitingTime = session.getLOBBY_WAITING_TIME(); // Assuming getLOBBY_WAITING_TIME always returns a valid int
+            lobby.durationPerRound = session.getDURATION_PER_ROUNDS(); // Assuming getDURATION_PER_ROUNDS always returns a valid int
+            lobby.delayPerRound = session.getDELAY_PER_ROUNDS(); // Assuming getDELAY_PER_ROUNDS always returns a valid int
+            lobby.status = session.getStatus() != null ? session.getStatus().toString() : "UNKNOWN"; // Properly converting enum to string if needed
+            lobby.playerCount = session.getCurrentPlayerCount(); // Assuming getCurrentPlayerCount always returns a valid int
+
+            lobbiesArray[i] = lobby;
+        }
+
+        return lobbiesArray;
+    }
+
+
+
 
     @Override
     public String getLetters(String sessionToken, String gameId) {

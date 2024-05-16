@@ -1,4 +1,4 @@
-package View.Design;
+package TestingGrounds.View.Design;
 
 import javax.swing.border.AbstractBorder;
 import java.awt.*;

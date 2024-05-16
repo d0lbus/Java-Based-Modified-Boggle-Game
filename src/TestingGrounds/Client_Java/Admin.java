@@ -2,12 +2,8 @@ package TestingGrounds.Client_Java;
 
 import TestingGrounds.GameSystem.*;
 import TestingGrounds.ImplementationClass.GameClientCallbackImpl;
-import TestingGrounds.ReferenceClasses.User;
-import TestingGrounds.Utilities.DataAccessObjects.UserDAO;
-import View.AdminGUIFrame;
-import View.AdminRegistration;
-import View.ClientGUIFrame;
-import View.Registration;
+import TestingGrounds.View.AdminGUIFrame;
+import TestingGrounds.View.AdminRegistration;
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.StringHolder;
 import org.omg.CosNaming.NamingContextExt;
@@ -18,12 +14,10 @@ import org.omg.PortableServer.POAHelper;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 public class Admin {
     private static String username = "";
     private static String password = "";
-    private static String gameToken = "";
     private static org.omg.CORBA.StringHolder sessionToken = new StringHolder();
     static GameServer gameServerImp;
     static GameClientCallbackImpl cbi;

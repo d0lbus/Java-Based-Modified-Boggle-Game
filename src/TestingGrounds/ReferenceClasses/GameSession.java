@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class GameSession {
-    private final int MAX_PLAYERS = 4;
+    private int MAX_PLAYERS = 4;
     private String gameToken;
     private ConcurrentHashMap<String, Integer> players;
     private ConcurrentHashMap<String, Integer> playerScores;
@@ -39,6 +39,18 @@ public class GameSession {
     public GameSession(){
 
     }
+
+    public GameSession(String gameToken, int MAX_PLAYERS, int WINNING_ROUNDS, int LOBBY_WAITING_TIME, int DURATION_PER_ROUNDS, int DELAY_PER_ROUNDS, String status, int currentPlayerCount){
+        this.gameToken = gameToken;
+        this.MAX_PLAYERS = MAX_PLAYERS;
+        this.WINNING_ROUNDS = WINNING_ROUNDS;
+        this.LOBBY_WAITING_TIME = LOBBY_WAITING_TIME;
+        this.DURATION_PER_ROUNDS = DURATION_PER_ROUNDS;
+        this.DELAY_PER_ROUNDS = DELAY_PER_ROUNDS;
+        this.status = GameStatus.valueOf(status); // Assuming status is an enum
+        this.currentPlayerCount = currentPlayerCount;
+    }
+
     public GameSession(String gameToken) throws SQLException {
         this.gameToken = gameToken;
         GameSessionDAO dao = new GameSessionDAO(DBConnection.getConnection());
@@ -335,4 +347,12 @@ public class GameSession {
         return Math.max(0, remainingTime);
     }
 
+
+    public long getLobbyStartTime() {
+        return lobbyStartTime;
+    }
+
+    public void setLobbyStartTime(long lobbyStartTime) {
+        this.lobbyStartTime = lobbyStartTime;
+    }
 }

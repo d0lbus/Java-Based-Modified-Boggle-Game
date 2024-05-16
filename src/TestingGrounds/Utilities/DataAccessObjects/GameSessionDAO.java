@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameSessionDAO {
 
@@ -70,6 +72,27 @@ public class GameSessionDAO {
             }
         }
         return false;
+    }
+
+    public List<GameSession> getAllGameSessions() throws SQLException {
+        List<GameSession> sessions = new ArrayList<>();
+        Connection connection = DBConnection.getConnection();
+        String sql = "SELECT game_token, max_players, winning_rounds, lobby_waiting_time, duration_per_round, delay_per_round, status, player_count FROM game_sessions";
+        try (PreparedStatement stmt = connection.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                sessions.add(new GameSession(
+                        rs.getString("game_token"),
+                        rs.getInt("max_players"),
+                        rs.getInt("winning_rounds"),
+                        rs.getInt("lobby_waiting_time"),
+                        rs.getInt("duration_per_round"),
+                        rs.getInt("delay_per_round"),
+                        rs.getString("status"),
+                        (Integer) rs.getObject("player_count") // Handles potential NULL values
+                ));
+            }
+        }
+        return sessions;
     }
 }
 

@@ -1,6 +1,5 @@
-package View.Design;
+package TestingGrounds.View.Design;
 import java.awt.*;
-import javax.swing.*;
 import javax.swing.border.AbstractBorder;
 public class ShadowBorder extends AbstractBorder {
     private static final int SHADOW_SIZE = 12;

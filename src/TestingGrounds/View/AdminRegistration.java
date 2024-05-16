@@ -1,7 +1,7 @@
-package View;
+package TestingGrounds.View;
 
-import View.Design.LetterCube;
-import View.Design.RoundBorder;
+import TestingGrounds.View.Design.LetterCube;
+import TestingGrounds.View.Design.RoundBorder;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 import javax.swing.*;
@@ -258,49 +258,49 @@ public class AdminRegistration extends JFrame {
         signupPanel.add(backToLoginLabel);
 
 
-        LetterCube cubeB = new LetterCube("B", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
+        LetterCube cubeB = new LetterCube("B", "src/TestingGrounds/View/Design/Fonts/gomarice_bubble_head.ttf");
         cubeB.setBounds(40, 200, 60, 60);
         contentPane.add(cubeB);
         cubeB.setOpaque(false);
         cubeB.setBorder(new RoundBorder(40));
         cubeB.setFontSize(25);
 
-        LetterCube cubeO = new LetterCube("O", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
+        LetterCube cubeO = new LetterCube("O", "src/TestingGrounds/View/Design/Fonts/gomarice_bubble_head.ttf");
         cubeO.setBounds(85, 220, 60, 60);
         contentPane.add(cubeO);
         cubeO.setOpaque(false);
         cubeO.setBorder(new RoundBorder(40));
         cubeO.setFontSize(25);
 
-        LetterCube cubeG = new LetterCube("G", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
+        LetterCube cubeG = new LetterCube("G", "src/TestingGrounds/View/Design/Fonts/gomarice_bubble_head.ttf");
         cubeG.setBounds(130, 200, 60, 60);
         contentPane.add(cubeG);
         cubeG.setOpaque(false);
         cubeG.setBorder(new RoundBorder(40));
         cubeG.setFontSize(25);
 
-        LetterCube cubeG2 = new LetterCube("G", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
+        LetterCube cubeG2 = new LetterCube("G", "src/TestingGrounds/View/Design/Fonts/gomarice_bubble_head.ttf");
         cubeG2.setBounds(175, 220, 60, 60);
         contentPane.add(cubeG2);
         cubeG2.setOpaque(false);
         cubeG2.setBorder(new RoundBorder(40));
         cubeG2.setFontSize(25);
 
-        LetterCube cubeL = new LetterCube("L", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
+        LetterCube cubeL = new LetterCube("L", "src/TestingGrounds/View/Design/Fonts/gomarice_bubble_head.ttf");
         cubeL.setBounds(220, 200, 60, 60);
         contentPane.add(cubeL);
         cubeL.setOpaque(false);
         cubeL.setBorder(new RoundBorder(40));
         cubeL.setFontSize(25);
 
-        LetterCube cubeE = new LetterCube("E", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
+        LetterCube cubeE = new LetterCube("E", "src/TestingGrounds/View/Design/Fonts/gomarice_bubble_head.ttf");
         cubeE.setBounds(265, 220, 60, 60);
         contentPane.add(cubeE);
         cubeE.setOpaque(false);
         cubeE.setBorder(new RoundBorder(40));
         cubeE.setFontSize(25);
 
-        LetterCube cubeD = new LetterCube("D", "src/View/Design/Fonts/gomarice_bubble_head.ttf");
+        LetterCube cubeD = new LetterCube("D", "src/TestingGrounds/View/Design/Fonts/gomarice_bubble_head.ttf");
         cubeD.setBounds(310, 200, 60, 60);
         contentPane.add(cubeD);
         cubeD.setOpaque(false);
