@@ -22,7 +22,7 @@ public class FallingLettersPanel extends JPanel {
     public FallingLettersPanel() {
         fallingLetters = new ArrayList<>();
         try {
-            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/TestingGrounds.View/Design/Fonts/Wedges.ttf")).deriveFont(Font.BOLD, LETTER_SIZE);
+            customFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/TestingGrounds/View/Design/Fonts/Wedges.ttf")).deriveFont(Font.BOLD, LETTER_SIZE);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(customFont);
         } catch (IOException | FontFormatException e) {

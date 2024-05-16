@@ -244,9 +244,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
             System.out.println("Invalid game session token.");
             return false;
         }
-        if (session.getLobbyTimeRemaining() <= 0) {
-            throw new LobbyTimeExpired();
-        }
+
 
         if (session.isHost(sessionToken)) {
             // Check if there are fewer than two players
@@ -648,11 +646,12 @@ public class GameServerImpl extends GameServerPOA implements Object {
     }
     private void notifyGameWinner(GameSession session, String winnerToken) {
         String winnerName = retrievePlayerFromSessionToken(winnerToken);
+        List<PlayerInfo> playerData = collectPlayerData(session);
         session.getPlayers().forEach((token, position) -> {
             CallbackInterface callback = sessionCallbacks.get(token);
             if (callback != null) {
                 try {
-                    callback.displayOverallWinner(winnerName);
+                    callback.displayOverallWinner(playerData.toArray(new PlayerInfo[0]), winnerName);
                 } catch (Exception e) {
                     System.err.println("Error notifying overall winner for token: " + token);
                     e.printStackTrace();

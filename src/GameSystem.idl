@@ -55,7 +55,7 @@ module TestingGrounds {
             void startRoundTimer(in long durationSeconds);
             void broadcastGuessedWord ( in PlayerInfoList playerData, in string word, in string username);
             void displayRoundWinner(in PlayerInfoList playerData, in string winnerName);
-            void displayOverallWinner( in string winnerName);
+            void displayOverallWinner( in PlayerInfoList playerData, in string winnerName);
             void updateLeaderBoardGUI (in TopFiveUsers playerData);
             void displayTie();
             void ReadyStateException();

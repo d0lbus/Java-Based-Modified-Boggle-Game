@@ -357,10 +357,46 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
     }
 
     @Override
-    public void displayOverallWinner(String winnerName) {
+    public void displayOverallWinner(PlayerInfo[] playerData, String username) {
         SwingUtilities.invokeLater(() -> {
-            JOptionPane.showMessageDialog(gui, "Overall winner: " + winnerName + " has won the game!", "Overall Winner", JOptionPane.INFORMATION_MESSAGE);
-            gui.getTimerLabel().setText("Timer: 0");
+            gui.getLayeredPane().removeAll();
+            gui.getLayeredPane().add(gui.getRankingPanel());
+
+            Map<Integer, String> defaultNames = new HashMap<>();
+            Map<Integer, Long> defaultRoundsWon = new HashMap<>();
+
+            defaultNames.put(1, "Empty");
+            defaultNames.put(2, "Empty");
+            defaultNames.put(3, "Empty");
+            defaultNames.put(4, "Empty");
+
+            defaultRoundsWon.put(1, 0L);
+            defaultRoundsWon.put(2, 0L);
+            defaultRoundsWon.put(3, 0L);
+            defaultRoundsWon.put(4, 0L);
+
+            // Populate the maps with data from PlayerInfo
+            for (PlayerInfo info : playerData) {
+                int position = (int) info.position; // Assumes positions are 1-based and directly map to GUI elements
+                defaultNames.put(position, info.username);
+                defaultRoundsWon.put(position, (long) info.roundsWon); // This needs to be updated in the PlayerInfo struct
+            }
+
+            // Set player names and rounds won in the labels
+            gui.getPlayer1usernameRanking().setText(defaultNames.get(1));
+            gui.getPlayer2usernameRanking().setText(defaultNames.get(2));
+            gui.getPlayer3usernameRanking().setText(defaultNames.get(3));
+            gui.getPlayer4usernameRanking().setText(defaultNames.get(4));
+
+            gui.getPlayer1roundsWon().setText(String.valueOf(defaultRoundsWon.get(1)));
+            gui.getPlayer2roundsWon().setText(String.valueOf(defaultRoundsWon.get(2)));
+            gui.getPlayer3roundsWon().setText(String.valueOf(defaultRoundsWon.get(3)));
+            gui.getPlayer4roundsWon().setText(String.valueOf(defaultRoundsWon.get(4)));
+
+            gui.getLayeredPane().repaint();
+            gui.getLayeredPane().revalidate();
+
+            JOptionPane.showMessageDialog(gui, "Player " + username + " has won the game", "Game Winner", JOptionPane.INFORMATION_MESSAGE);
         });
     }
 
