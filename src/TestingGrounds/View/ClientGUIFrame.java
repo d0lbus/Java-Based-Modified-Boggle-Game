@@ -973,12 +973,12 @@ public class ClientGUIFrame extends JFrame {
 
         gamePanel.add(smallFallingLettersPanelGame);
 
-        rankingPanel= new JPanel();
+        rankingPanel = new JPanel();
         rankingPanel.setBackground(new Color(255, 204, 213));
         rankingPanel.setLayout(null);
         rankingPanel.setBounds(0, 0, 1280, 720);
 
-        FallingLettersPanel fallingLettersPanelRanking= new FallingLettersPanel();
+        FallingLettersPanel fallingLettersPanelRanking = new FallingLettersPanel();
         fallingLettersPanelRanking.setOpaque(false);
         fallingLettersPanelRanking.setBounds(0, 0, 1280, 720);
 
@@ -989,7 +989,7 @@ public class ClientGUIFrame extends JFrame {
 
         JLabel titleLabel = new JLabel("RANKING", SwingConstants.CENTER);
         try {
-            rankingFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/TestingGrounds.View/Design/Fonts/Wedges.ttf")).deriveFont(Font.BOLD, 50);
+            rankingFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/View/Design/Fonts/Wedges.ttf")).deriveFont(Font.BOLD, 50);
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
             ge.registerFont(rankingFont);
         } catch (IOException | FontFormatException e) {
@@ -1004,7 +1004,7 @@ public class ClientGUIFrame extends JFrame {
         roundsWonLabel = new JLabel("ROUNDS WON", SwingConstants.CENTER);
         roundsWonLabel.setFont(new Font("Arial", Font.PLAIN, 20));
         roundsWonLabel.setForeground(Color.BLACK);
-        roundsWonLabel.setBounds(882, 50 + 68 + 10, 200, 30);
+        roundsWonLabel.setBounds(782, 50 + 68 + 10, 200, 30);
         rankingPanel.add(roundsWonLabel);
 
         usernameLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -1014,7 +1014,7 @@ public class ClientGUIFrame extends JFrame {
 
         player1picRanking = new JLabel(catIcon);
         player1picRanking.setBackground(Color.GRAY);
-        player1picRanking.setBounds(centerX - 190, startY, 70, 70);
+        player1picRanking.setBounds(centerX - 300, startY, 70, 70);
         rankingPanel.add(player1picRanking);
         player1picRanking.setLayout(null);
         player1picRanking.add(createBadgeLabel(40, 0, "src/Icons/1s-5th/1.gif"));
@@ -1022,18 +1022,18 @@ public class ClientGUIFrame extends JFrame {
         player1usernameRanking = new JLabel("JLabel");
         player1usernameRanking.setHorizontalAlignment(SwingConstants.CENTER);
         player1usernameRanking.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
-        player1usernameRanking.setBounds(centerX - 110, startY, 300, 70);
+        player1usernameRanking.setBounds(centerX - 220, startY, 300, 70);
         rankingPanel.add(player1usernameRanking);
 
         player1roundsWon = new JLabel("p1 rounds", SwingConstants.CENTER);
         player1roundsWon.setFont(new Font("Arial", Font.PLAIN, 15));
         player1roundsWon.setForeground(Color.BLACK);
-        player1roundsWon.setBounds(832, startY, 300, 70);
+        player1roundsWon.setBounds(732, startY, 300, 70);
         rankingPanel.add(player1roundsWon);
 
         player2picRanking = new JLabel(frogIcon);
         player2picRanking.setBackground(Color.GRAY);
-        player2picRanking.setBounds(centerX - 190, startY + 85, 70, 70);
+        player2picRanking.setBounds(centerX - 300, startY + 85, 70, 70);
         rankingPanel.add(player2picRanking);
         player2picRanking.setLayout(null);
         player2picRanking.add(createBadgeLabel(40, 0, "src/Icons/1s-5th/2.gif"));
@@ -1041,19 +1041,18 @@ public class ClientGUIFrame extends JFrame {
         player2usernameRanking = new JLabel("JLabel1");
         player2usernameRanking.setHorizontalAlignment(SwingConstants.CENTER);
         player2usernameRanking.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
-        player2usernameRanking.setBounds(centerX - 110, startY + 85, 300, 70);
+        player2usernameRanking.setBounds(centerX - 220, startY + 85, 300, 70);
         rankingPanel.add(player2usernameRanking);
 
         player2roundsWon = new JLabel("p2 rounds", SwingConstants.CENTER);
         player2roundsWon.setFont(new Font("Arial", Font.PLAIN, 15));
         player2roundsWon.setForeground(Color.BLACK);
-        player2roundsWon.setBounds(832, startY + 85, 300, 70);
+        player2roundsWon.setBounds(732, startY + 85, 300, 70);
         rankingPanel.add(player2roundsWon);
 
-        ImageIcon chicIcon = new ImageIcon("src/Icons/CHIC.gif");
         player3picRanking = new JLabel(chicIcon);
         player3picRanking.setBackground(Color.GRAY);
-        player3picRanking.setBounds(centerX - 190, startY + 170, 70, 70);
+        player3picRanking.setBounds(centerX - 300, startY + 170, 70, 70);
         rankingPanel.add(player3picRanking);
         player3picRanking.setLayout(null);
         player3picRanking.add(createBadgeLabel(40, 0, "src/Icons/1s-5th/3.gif"));
@@ -1061,19 +1060,18 @@ public class ClientGUIFrame extends JFrame {
         player3usernameRanking = new JLabel("JLabel2");
         player3usernameRanking.setHorizontalAlignment(SwingConstants.CENTER);
         player3usernameRanking.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
-        player3usernameRanking.setBounds(centerX - 110, startY + 170, 300, 70);
+        player3usernameRanking.setBounds(centerX - 220, startY + 170, 300, 70);
         rankingPanel.add(player3usernameRanking);
 
         player3roundsWon = new JLabel("p3 rounds", SwingConstants.CENTER);
         player3roundsWon.setFont(new Font("Arial", Font.PLAIN, 15));
         player3roundsWon.setForeground(Color.BLACK);
-        player3roundsWon.setBounds(832, startY + 170, 300, 70);
+        player3roundsWon.setBounds(732, startY + 170, 300, 70);
         rankingPanel.add(player3roundsWon);
 
-        ImageIcon owlIcon = new ImageIcon("src/Icons/OWL.gif");
         player4picRanking = new JLabel(owlIcon);
         player4picRanking.setBackground(Color.GRAY);
-        player4picRanking.setBounds(centerX - 190, startY + 255, 70, 70);
+        player4picRanking.setBounds(centerX - 300, startY + 255, 70, 70);
         rankingPanel.add(player4picRanking);
         player4picRanking.setLayout(null);
         player4picRanking.add(createBadgeLabel(40, 0, "src/Icons/1s-5th/4.gif"));
@@ -1081,20 +1079,20 @@ public class ClientGUIFrame extends JFrame {
         player4usernameRanking = new JLabel("JLabel3");
         player4usernameRanking.setHorizontalAlignment(SwingConstants.CENTER);
         player4usernameRanking.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
-        player4usernameRanking.setBounds(centerX - 110, startY + 255, 300, 70);
+        player4usernameRanking.setBounds(centerX - 220, startY + 255, 300, 70);
         rankingPanel.add(player4usernameRanking);
 
         player4roundsWon = new JLabel("p4 rounds", SwingConstants.CENTER);
         player4roundsWon.setFont(new Font("Arial", Font.PLAIN, 15));
         player4roundsWon.setForeground(Color.BLACK);
-        player4roundsWon.setBounds(832, startY + 255, 300, 70);
+        player4roundsWon.setBounds(732, startY + 255, 300, 70);
         rankingPanel.add(player4roundsWon);
 
         int buttonsY = Math.max(player4usernameRanking.getY() + player4usernameRanking.getHeight(), player4picRanking.getY() + player4picRanking.getHeight()) + 50;
 
         JButton backToLobbyButton = new JButton("Back to Lobby");
         backToLobbyButton.setFont(new Font("Arial", Font.PLAIN, 15));
-        backToLobbyButton.setBounds(centerX - 75, buttonsY, 150, 30);
+        backToLobbyButton.setBounds(centerX - 105, buttonsY, 150, 30);
         backToLobbyButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 layeredPane.removeAll();
@@ -1107,7 +1105,7 @@ public class ClientGUIFrame extends JFrame {
 
         JButton backToHomeButton = new JButton("Back to Home");
         backToHomeButton.setFont(new Font("Arial", Font.PLAIN, 15));
-        backToHomeButton.setBounds(centerX - 75, buttonsY + 40, 150, 30);
+        backToHomeButton.setBounds(centerX - 105, buttonsY + 40, 150, 30);
         backToHomeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 layeredPane.removeAll();
