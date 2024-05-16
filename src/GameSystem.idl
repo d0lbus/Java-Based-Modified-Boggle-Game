@@ -64,8 +64,9 @@ module TestingGrounds {
             void startRoundDelayTimer(in long delaySeconds);
             void updateWaitingTimeLabel(in long newSeconds);
             void updateGameSessions(in GameSessionList sessions);
+            void updateAccountsList(in TopFiveUsers playerData);
             void showHomeScreen();
-             void broadcastDisconnection(in string username);
+            void broadcastDisconnection(in string username);
         };
 
         interface GameServer {

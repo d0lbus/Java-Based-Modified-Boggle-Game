@@ -179,6 +179,7 @@ public class GameServerImpl extends GameServerPOA implements Object {
         } catch (SQLException E){
             System.err.println(E);
         }
+
         return newGameSession.getSessionId();
     }
     @Override
@@ -564,8 +565,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
         });
     }
 
-
-
     public void startTimerForGui(GameSession session, int seconds){
         List<PlayerInfo> playerData = collectPlayerData(session);
         session.getPlayers().forEach((token, position) -> {
@@ -767,21 +766,9 @@ public class GameServerImpl extends GameServerPOA implements Object {
     }
     private void updateLeaderboards() {
         List<User> topPlayers = userDAO.getTopPlayersByRoundsWon();
-        System.out.println("Top Players List:");
-        for (User user : topPlayers) {
-            System.out.println("PlayerId: " + user.getPlayerId() + ", Username: " + user.getUsername() +
-                    ", SessionToken: " + user.getSessionToken() + ", InGame: " + user.isInGame() +
-                    ", Score: " + user.getScore() + ", CurrentGameToken: " + user.getCurrentGameToken());
-        }
 
         Users[] topPlayersArray = convertListToUsersArray(topPlayers);
 
-        System.out.println("Top Players Array:");
-        for (Users user : topPlayersArray) {
-            System.out.println("PlayerId: " + user.playerId + ", Username: " + user.username +
-                    ", SessionToken: " + user.sessionToken + ", InGame: " + user.inGame +
-                    ", Score: " + user.roundsWon + ", CurrentGameToken: " + user.currentGameToken);
-        }
         for (Map.Entry<String, CallbackInterface> entry : sessionCallbacks.entrySet()) {
             CallbackInterface callback = entry.getValue();
             if (callback != null) {
@@ -789,6 +776,8 @@ public class GameServerImpl extends GameServerPOA implements Object {
             }
         }
     }
+
+
     private TestingGrounds.GameSystem.Users[] convertListToUsersArray(List<TestingGrounds.ReferenceClasses.User> topPlayers) {
         TestingGrounds.GameSystem.Users[] usersArray = new TestingGrounds.GameSystem.Users[topPlayers.size()];
         for (int i = 0; i < topPlayers.size(); i++) {
@@ -804,7 +793,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
         }
         return usersArray;
     }
-
     private void startNextRound(GameSession session) throws SQLException {
         char[] charArrayList = generateRandomCharArray();
         session.setRandomLetters(charArrayList);
@@ -935,7 +923,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
             durationPerRound  = 10;
         }
     }
-
     @Override
     public void editRoundTime(int newSeconds) {
         try {
@@ -959,7 +946,6 @@ public class GameServerImpl extends GameServerPOA implements Object {
             durationPerRound  = 60;
         }
     }
-
     @Override
     public void editNumRounds(int newSeconds) {
         try {
@@ -984,6 +970,17 @@ public class GameServerImpl extends GameServerPOA implements Object {
         }
     }
 
+    private void updateAccountsList(){
+        List<User> players = userDAO.getTopPlayersByRoundsWon();
+        Users[] playersArray = convertListToUsersArray(players);
+
+        for (Map.Entry<String, CallbackInterface> entry : adminSessionCallbacks.entrySet()) {
+            CallbackInterface callback = entry.getValue();
+            if (callback != null) {
+                callback.updateAccountsList(playersArray);
+            }
+        }
+    }
 
     private void updateLobbiesList() {
         try{

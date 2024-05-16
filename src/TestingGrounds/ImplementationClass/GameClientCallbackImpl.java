@@ -478,6 +478,23 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
     }
 
     @Override
+    public void updateAccountsList(Users[] playerData) {
+        SwingUtilities.invokeLater(() -> {
+            DefaultTableModel model = (DefaultTableModel) guiAdmin.getTable1().getModel();
+            model.setRowCount(0); // Clear existing data
+
+            for (TestingGrounds.GameSystem.Users user : playerData) {
+                Object[] row = new Object[4];
+                row[0] = user.playerId;
+                row[1] = user.username;
+                row[2] = user.currentGameToken;
+                row[3] = user.roundsWon;
+                model.addRow(row);
+            }
+        });
+    }
+
+    @Override
     public void updateGameSessions(TestingGrounds.GameSystem.Lobbies[] lobbiesArray) {
         SwingUtilities.invokeLater(() -> {
             DefaultTableModel model = (DefaultTableModel) guiAdmin.getTable().getModel();
@@ -495,6 +512,8 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
             }
         });
     }
+
+
 
     @Override
     public void showHomeScreen(){
