@@ -309,10 +309,10 @@ public class ClientGUIFrame extends JFrame {
         });
         startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //layeredPane.removeAll();
-                //layeredPane.add(gamePanel);
-                //layeredPane.repaint();
-                //layeredPane.revalidate();
+                layeredPane.removeAll();
+                layeredPane.add(gamePanel);
+                layeredPane.repaint();
+                layeredPane.revalidate();
             }
         });
         startButton.setBounds(556, 550, 105, 38);
@@ -561,7 +561,7 @@ public class ClientGUIFrame extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 layeredPane.removeAll();
-                layeredPane.add(settingsPanel);
+                layeredPane.add(settingsPanelGame);
                 layeredPane.repaint();
                 layeredPane.revalidate();
             }
@@ -1513,6 +1513,142 @@ public class ClientGUIFrame extends JFrame {
         settingsPanelLobby.add(saveButton1);
 
         settingsPanelLobby.add(fallingLettersPanelSettings1);
+
+
+
+
+
+
+
+        settingsPanelGame = new JPanel();
+        settingsPanelGame.setBackground(new Color(255, 204, 213));
+        settingsPanelGame.setLayout(null);
+        settingsPanelGame.setBounds(0, 0, 1280, 720);
+
+        JLabel musicLabel2 = new JLabel("Music");
+        musicLabel2.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 25));
+        musicLabel2.setBounds(776, 143, 80, 38);
+        settingsPanelGame.add(musicLabel2);
+
+        FallingLettersPanel fallingLettersPanelSettings2 = new FallingLettersPanel();
+        fallingLettersPanelSettings2.setOpaque(false);
+        fallingLettersPanelSettings2.setBounds(0, 0, 1280, 720);
+
+        JLabel settingsLabel2 = new JLabel("Settings");
+        settingsLabel2.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 40));
+        settingsLabel2.setBounds(921, 40, 190, 53);
+        settingsPanelLobby.add(settingsLabel2);
+
+        JButton backButtonSettingsGame = new JButton("Back");
+        backButtonSettingsGame.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+        });
+        backButtonSettingsGame.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                layeredPane.removeAll();
+                layeredPane.add(gamePanel);
+                layeredPane.repaint();
+                layeredPane.revalidate();
+            }
+        });
+        backButtonSettingsGame.setBounds(25, 626, 89, 30);
+        settingsPanelGame.add(backButtonSettingsGame);
+
+        JSlider volumeSlider2 = new JSlider(0, 100);
+        volumeSlider2.setValue(50);
+        volumeSlider2.setUI(new GradientSliderUI(volumeSlider2));
+        volumeSlider2.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                float volume = volumeSlider2.getValue() / 100f;
+                setVolume(volume);
+            }
+        });
+        volumeSlider2.setBounds(877, 143, 318, 38);
+        settingsPanelGame.add(volumeSlider2);
+        startTimer(timerLabel);
+
+        RoundedPanel htpPanel2 = new RoundedPanel(30);
+        htpPanel2.setBackground(new Color(202,233,255));
+        htpPanel2.setBounds(60, 40, 614, 562);
+        settingsPanelGame.add(htpPanel2);
+        htpPanel2.setLayout(null);
+
+        JLabel bogLabel2 = new JLabel("BOGGLED");
+        bogLabel2.setFont(new Font("Tahoma", Font.PLAIN, 35));
+        bogLabel2.setBounds(216, 22, 176, 37);
+        htpPanel2.add(bogLabel2);
+
+        JTextArea howtoplayTextArea2 = new JTextArea();
+        howtoplayTextArea2.setBackground(new Color(202,233,255));
+        howtoplayTextArea2.setEditable(false);
+        howtoplayTextArea2.setFont(new Font("Arial", Font.PLAIN, 16));
+        howtoplayTextArea2.setText("1. Begin by starting a game. If another player joins within 10s, the game starts.\r\n\r\n2. Once the game starts, you'll receive 20 random letters\r\n\r\n3. Use the given letters to create words.\r\n    NOTE: Each word must have atleast four letters\r\n\r\n4. Submit as many words as you can before the timer expires\r\n\r\n5. The player with the highest score wins\r\n     NOTE: If there's a tie, no winner is declared");
+        howtoplayTextArea2.setBounds(10, 271, 594, 215);
+        htpPanel2.add(howtoplayTextArea2);
+
+        JTextArea bogTextArea2 = new JTextArea();
+        bogTextArea2.setBackground(new Color(202,233,255));
+        bogTextArea2.setEditable(false);
+        bogTextArea2.setText("\"Boggled\" is a word-forming game where players compete to create unique words \r\nfrom a set of random letters provided by the server. The goal is to accumulate \r\nthe highest score by forming valid words within the given time limit.");
+        bogTextArea2.setFont(new Font("Arial", Font.PLAIN, 16));
+        bogTextArea2.setBounds(10, 76, 594, 84);
+        htpPanel2.add(bogTextArea2);
+
+        JLabel lblHowToPlay2 = new JLabel("HOW TO PLAY");
+        lblHowToPlay2.setFont(new Font("Tahoma", Font.PLAIN, 35));
+        lblHowToPlay2.setBounds(196, 212, 248, 37);
+        htpPanel2.add(lblHowToPlay2);
+
+        JLabel changeUsernameLabel2 = new JLabel("Change Username");
+        changeUsernameLabel2.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 24));
+        changeUsernameLabel2.setBounds(776, 211, 234, 38);
+        settingsPanelGame.add(changeUsernameLabel2);
+
+        cUsernameTextfield2 = new JTextField();
+        cUsernameTextfield2.setBounds(776, 260, 419, 30);
+        settingsPanelGame.add(cUsernameTextfield2);
+        cUsernameTextfield2.setColumns(10);
+
+        JLabel lblChangePassword2 = new JLabel("Change Password");
+        lblChangePassword2.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 24));
+        lblChangePassword2.setBounds(776, 317, 234, 38);
+        settingsPanelGame.add(lblChangePassword2);
+
+        pwField2 = new JPasswordField();
+        pwField2.setBounds(776, 366, 419, 30);
+        settingsPanelGame.add(pwField2);
+
+        JLabel lblConfirmPassword2 = new JLabel("Confirm Password");
+        lblConfirmPassword2.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 24));
+        lblConfirmPassword2.setBounds(776, 429, 234, 38);
+        settingsPanelGame.add(lblConfirmPassword2);
+
+        confirmpwField2 = new JPasswordField();
+        confirmpwField2.setBounds(776, 478, 419, 30);
+        settingsPanelGame.add(confirmpwField2);
+
+        JButton saveButton2 = new JButton("Save");
+        saveButton2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
+        saveButton2.setBounds(959, 545, 89, 30);
+        settingsPanelGame.add(saveButton2);
+
+        settingsPanelGame.add(fallingLettersPanelSettings2);
+
+
+
+
+
+
+
 
 
 
