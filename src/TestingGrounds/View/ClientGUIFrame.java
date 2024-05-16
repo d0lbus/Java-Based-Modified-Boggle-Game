@@ -244,7 +244,7 @@ public class ClientGUIFrame extends JFrame {
                 layeredPane.revalidate();
             }
         });
-        settingsIcon.setIcon(new ImageIcon("src/Icons/Settings.png"));
+        settingsIcon.setIcon(new ImageIcon(""));
         settingsIcon.setBounds(1217, 623, 37, 38);
         homePanel.add(settingsIcon);
 
@@ -377,7 +377,7 @@ public class ClientGUIFrame extends JFrame {
                 layeredPane.revalidate();
             }
         });
-        settingsIcon1.setIcon(new ImageIcon("src/Icons/Settings.png"));
+        settingsIcon1.setIcon(new ImageIcon(""));
         settingsIcon1.setBounds(1217, 623, 37, 38);
         lobbyPanel.add(settingsIcon1);
 
@@ -565,7 +565,7 @@ public class ClientGUIFrame extends JFrame {
                 layeredPane.revalidate();
             }
         });
-        settingsIcon2.setIcon(new ImageIcon("src/Icons/Settings.png"));
+        settingsIcon2.setIcon(new ImageIcon(""));
         settingsIcon2.setBounds(1217, 623, 37, 38);
         gamePanel.add(settingsIcon2);
 
