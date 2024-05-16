@@ -37,7 +37,7 @@ CREATE TABLE `admins` (
 
 LOCK TABLES `admins` WRITE;
 /*!40000 ALTER TABLE `admins` DISABLE KEYS */;
-INSERT INTO `admins` VALUES (1,'admin','admin123','7da8d7dd-1175-4112-b937-1949f59fe758');
+INSERT INTO `admins` VALUES (1,'admin','admin123',NULL);
 /*!40000 ALTER TABLE `admins` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -113,6 +113,8 @@ CREATE TABLE `users` (
   `inGame` tinyint(1) DEFAULT NULL,
   `overall_rounds_won` int DEFAULT NULL,
   `currentGameToken` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lastName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `firstName` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`playerId`),
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
