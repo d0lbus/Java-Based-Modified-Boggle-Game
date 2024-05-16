@@ -589,7 +589,7 @@ public class ClientGUIFrame extends JFrame {
                 layeredPane.revalidate();
             }
         });
-        leaveButton.setBounds(1062, 626, 100, 30);
+        leaveButton.setBounds(1042, 626, 118, 30);
         gamePanel.add(leaveButton);
 
         RoundedPanel aPanel = new RoundedPanel(30);
