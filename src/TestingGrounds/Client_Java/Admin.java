@@ -93,9 +93,9 @@ public class Admin {
                         JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 
                 if (option == JOptionPane.OK_OPTION) {
-                    int newSecondsPerRound = (int) timerSpinner.getValue();
+                    int newSecondsWaiting = (int) timerSpinner.getValue();
                     try {
-                        gameServerImp.updateSecondsPerWaiting(newSecondsPerRound);
+                        gameServerImp.updateSecondsPerWaiting(newSecondsWaiting);
                         JOptionPane.showMessageDialog(adminGUIFrame, "Timer duration updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                     } catch (Exception ex) {
                         System.err.println("Error updating timer duration: " + ex.getMessage());
@@ -105,5 +105,8 @@ public class Admin {
                 }
             }
         });
+
+
+
     }
 }
