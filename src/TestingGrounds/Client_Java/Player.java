@@ -3,10 +3,12 @@ package TestingGrounds.Client_Java;
 import TestingGrounds.GameSystem.*;
 import TestingGrounds.ImplementationClass.GameClientCallbackImpl;
 import TestingGrounds.GameSystem.lossConnection;
+import TestingGrounds.ReferenceClasses.GameSession;
 import TestingGrounds.ReferenceClasses.User;
 import TestingGrounds.Utilities.DataAccessObjects.UserDAO;
 import View.ClientGUIFrame;
 import View.EnterCodeFrame;
+import View.RandomGameFrame;
 import View.Registration;
 import org.omg.CORBA.ORB;
 import org.omg.CORBA.StringHolder;
@@ -27,6 +29,7 @@ public class Player {
     private static String password = "";
     private static String gameToken = "";
     private static org.omg.CORBA.StringHolder sessionToken = new StringHolder();
+    static GameSession gameSession;
     static GameServer gameServerImp;
     static GameClientCallbackImpl cbi;
     static CallbackInterface callbackRef;
@@ -302,6 +305,44 @@ public class Player {
             }
         });
 
+        clientGUIFrame.getLeaveButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    gameServerImp.leaveGame(sessionToken.value,gameToken);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+
+                if (gameToken != null) {
+                    clientGUIFrame.getLayeredPane().removeAll();
+                    clientGUIFrame.getLayeredPane().add(clientGUIFrame.getHomePanel());
+                    clientGUIFrame.getLayeredPane().repaint();
+                    clientGUIFrame.getLayeredPane().revalidate();
+                    clientGUIFrame.getHomePanel().setVisible(true);
+                }
+
+            }
+        });
+
+        clientGUIFrame.getexitLobbyButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    gameServerImp.leaveLobby(sessionToken.value,gameToken);
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+                if (gameToken != null) {
+                    clientGUIFrame.getLayeredPane().removeAll();
+                    clientGUIFrame.getLayeredPane().add(clientGUIFrame.getHomePanel());
+                    clientGUIFrame.getLayeredPane().repaint();
+                    clientGUIFrame.getLayeredPane().revalidate();
+                    clientGUIFrame.getHomePanel().setVisible(true);
+                }
+            }
+        });
+
         clientGUIFrame.getQuitButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -332,6 +373,8 @@ public class Player {
                 }
             }
         });
+
+
     }
 
 

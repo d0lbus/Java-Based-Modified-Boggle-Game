@@ -62,6 +62,8 @@ module TestingGrounds {
             string joinGame(in string sessionToken, in string gameId) raises (InvalidGameCode,GameAlreadyActive);
             boolean startGame(in string sessionToken, in string gameId) raises (LobbyTimeExpired) ;
             void submitWord(in string sessionToken, in string gameId, in string word) raises (InvalidWord);
+            void leaveGame(in string sessionToken, in string gameId);
+            void leaveLobby(in string sessionToken, in string gameId);
             string getLetters(in string sessionToken, in string gameId);
             void updateSecondsPerWaiting(in long newSeconds);
             boolean ping();

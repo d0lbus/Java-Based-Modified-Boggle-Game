@@ -332,6 +332,88 @@ public class GameServerImpl extends GameServerPOA implements Object {
         gameSessionDAO.saveGameSession(session);
     }
 
+    @Override
+    public void leaveGame(String sessionToken, String gameId) throws SQLException {
+        // Check if the session token is valid
+        if (!validateSessionToken(sessionToken)) {
+            System.out.println("Invalid session token");
+            return;
+        }
+
+        // Retrieve the game session using the provided game ID
+        GameSession gameSession = activeGameLobbies.get(gameId);
+
+        // Check if the game session exists
+        if (gameSession == null) {
+            System.out.println("Invalid game session ID");
+            return;
+        }
+
+        // Check if the player is in the game session
+        if (!gameSession.getPlayers().containsKey(sessionToken)) {
+            System.out.println("Player is not in the game session");
+            return;
+        }
+
+        // If the player leaving is the host and there are no more players, cancel the game session
+        if (gameSession.isHost(sessionToken) && gameSession.getPlayers().isEmpty()) {
+            cancelGameSession(gameId);
+        }
+
+        // Remove the player from the game session
+        gameSession.removePlayer(sessionToken);
+        System.out.println("Player left the game session");
+
+        // Notify other players about the changes in the game session
+        notifyPlayersAboutChanges(gameSession);
+
+
+    }
+
+    @Override
+    public void leaveLobby(String sessionToken, String gameId) throws SQLException {
+        // Retrieve the game session using the provided game ID
+        GameSession gameSession = activeGameLobbies.get(gameId);
+
+        // Check if the game session exists
+        if (gameSession == null) {
+            System.out.println("Invalid game session ID");
+            return;
+        }
+
+        // Remove the player from the game session
+        gameSession.removePlayer(sessionToken);
+        System.out.println("Player left the game session");
+
+        if (gameSession.isHost(sessionToken) && gameSession.getPlayers().isEmpty()) {
+            cancelGameSession(gameId);
+        }
+
+        // Notify the players about the changes in the lobby
+        gameSessionDAO.saveGameSession(gameSession);
+        notifyPlayersAboutChanges(gameSession);
+
+    }
+
+    private void cancelGameSession(String gameId) throws SQLException {
+        // Retrieve the game session using the provided game ID
+        GameSession gameSession = activeGameLobbies.get(gameId);
+
+        // Check if the game session exists
+        if (gameSession == null) {
+            System.out.println("Invalid game session ID");
+            return;
+        }
+
+        gameSession.setStatus(GameSession.GameStatus.CANCELLED);
+
+        // Remove the game session from the active game lobbies map
+        activeGameLobbies.remove(gameId);
+
+        gameSessionDAO.saveGameSession(gameSession);
+        notifyPlayersAboutChanges(gameSession);
+    }
+
     /**
      *
      * HELPER METHODS FOR GAME SETUP

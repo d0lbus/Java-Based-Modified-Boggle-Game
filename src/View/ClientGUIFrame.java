@@ -28,7 +28,7 @@ public class ClientGUIFrame extends JFrame {
     private JLabel player1pic, player2pic, player3pic, player4pic, player1Ready, player2Ready, player3Ready, player4Ready, player1picRanking, player2picRanking, player3picRanking, player4picRanking, waitingTimeLabel, usernameLabel;
     private JLabel player1username, player2username, player3username, player4username, player1usernameRanking, roundsWonLabel, player1roundsWon, player2roundsWon, player3roundsWon, player4roundsWon,
             player2usernameRanking, player3usernameRanking, player4usernameRanking, inputJLabel;
-    private JButton randomButton, quitButton, leaveButton, createLobbyButton, joinButton, startButton;
+    private JButton randomButton, quitButton, leaveButton, createLobbyButton, joinButton, startButton, exitLobbyButton;
     private JButton button1, button2, button3, button4, button5, button6, button7, button8, button9, button10,
             button11, button12, button13, button14, button15, button16, button17, button18, button19, button20;
     private JLabel player1gamePoints, player2gamePoints, player3gamePoints, player4gamePoints;
@@ -318,7 +318,7 @@ public class ClientGUIFrame extends JFrame {
         startButton.setBounds(556, 550, 105, 38);
         lobbyPanel.add(startButton);
 
-        JButton exitLobbyButton = new JButton("Exit Lobby");
+        exitLobbyButton = new JButton("Exit Lobby");
         exitLobbyButton.setBackground(new Color(206,212,218));
         exitLobbyButton.addMouseListener(new MouseAdapter() {
             @Override
@@ -1877,6 +1877,11 @@ public class ClientGUIFrame extends JFrame {
     public JLabel getWaitingTimeLabel() {
         return waitingTimeLabel;
     }
+
+    public JButton getLeaveButton() {
+        return leaveButton;
+    }
+    public JButton getexitLobbyButton(){return exitLobbyButton;}
 
     public JButton getButton17() {
         return button17;
