@@ -1,3 +1,6 @@
+CREATE DATABASE  IF NOT EXISTS `boggled` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `boggled`;
+
 -- MySQL dump 10.13  Distrib 8.3.0, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: boggled
@@ -32,7 +35,7 @@ CREATE TABLE `game_sessions` (
   `status` varchar(50) DEFAULT NULL,
   `player_count` int DEFAULT NULL,
   PRIMARY KEY (`game_token`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -80,15 +83,15 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
-  `playerId` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `username` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `sessionToken` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `playerId` varchar(36) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `sessionToken` varchar(36) DEFAULT NULL,
   `inGame` tinyint(1) DEFAULT NULL,
   `score` int DEFAULT NULL,
-  `currentGameToken` varchar(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `lastName` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `firstName` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `currentGameToken` varchar(36) DEFAULT NULL,
+  `lastName` varchar(50) DEFAULT NULL,
+  `firstName` varchar(50) DEFAULT NULL,
 
   PRIMARY KEY (`playerId`),
   UNIQUE KEY `username` (`username`)
