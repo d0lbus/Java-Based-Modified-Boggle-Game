@@ -14,9 +14,9 @@ public class AdminGUIFrame extends JFrame {
     private JPanel contentPane, homePanel, editPanel, hPanel, ePanel, accountPanel, aPanel;
     private JTable table;
     private JTextField textField;
-    private JButton editTimerButton, deleteTimerButton, viewTimerButton, viewPlayersButton, editPlayersButton, editRoundsButton;
+    private JButton editTimerButton, deleteTimerButton, viewTimerButton, viewPlayersButton, editPlayersButton, editRoundsButton, editNumOfRoundsButton;
 
-    private JButton viewUserButton, banUserButton, unbanUserButton;
+    private JButton viewUserButton, banUserButton;
 
     public static void main(String[] args) {
         try {
@@ -172,20 +172,24 @@ public class AdminGUIFrame extends JFrame {
         buttonWrapperPanel.setBackground(Color.WHITE);
         ePanel.add(buttonWrapperPanel, BorderLayout.NORTH);
 
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JPanel buttonPanel = new JPanel(new GridLayout(1, 4, 10, 0));
         buttonPanel.setBackground(Color.WHITE);
         buttonWrapperPanel.add(buttonPanel, BorderLayout.CENTER);
 
-        editTimerButton = new JButton("Edit Timer");
-        editTimerButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        editTimerButton = new JButton("Edit Waiting Time");
+        editTimerButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
         buttonPanel.add(editTimerButton);
 
-        editRoundsButton = new JButton("Edit Rounds");
-        editRoundsButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        editRoundsButton = new JButton("Edit Round Time");
+        editRoundsButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
         buttonPanel.add(editRoundsButton);
 
+        editNumOfRoundsButton = new JButton("Edit No. of Rounds");
+        editNumOfRoundsButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
+        buttonPanel.add(editNumOfRoundsButton);
+
         viewPlayersButton = new JButton("View Players");
-        viewPlayersButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
+        viewPlayersButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
         buttonPanel.add(viewPlayersButton);
 
         JPanel tablePanel = new JPanel(new BorderLayout());
@@ -350,5 +354,21 @@ public class AdminGUIFrame extends JFrame {
 
     public void setTable(JTable table) {
         this.table = table;
+    }
+
+     public JButton getEditNumOfRoundsButton() {
+        return getEditNumOfRoundsButton();
+    }
+
+    public JButton getNumOfRoundsButton() {
+        return getNumOfRoundsButton();
+    }
+
+    public JButton getNumOfPlayersButton() {
+        return getNumOfPlayersButton();
+    }
+
+    public JButton getNumOfUsersButton() {
+        return getNumOfUsersButton();
     }
 }
