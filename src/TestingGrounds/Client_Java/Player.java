@@ -62,13 +62,6 @@ public class Player {
                     System.out.println("Server has terminated. Exiting...");
                     JOptionPane.showMessageDialog(null, "No Server Connection. Exiting...", "Connection Lost", JOptionPane.WARNING_MESSAGE,
                             null);
-
-//                    boolean logoutSuccessful = gameServerImp.logout(sessionToken.value);
-//                    if (logoutSuccessful) {
-//                        System.out.println("Logout for " + username + " is successful.");
-//                    } else {
-//                        System.out.println("Logout for " + username + " failed");
-//                    }
                     orb.shutdown(false); // Shutdown ORB without waiting for pending requests
 
                     // Clean up GUI resources before exiting

@@ -3,10 +3,14 @@ package TestingGrounds.Server_Java;
 import TestingGrounds.GameSystem.GameServer;
 import TestingGrounds.GameSystem.GameServerHelper;
 import TestingGrounds.ImplementationClass.GameServerImpl;
+import TestingGrounds.Utilities.DataAccessObjects.UserDAO;
 import org.omg.CosNaming.*;
 import org.omg.CORBA.*;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.POAHelper;
+
+
+import java.sql.SQLException;
 
 public class Server {
     public static void main(String args[]) {
@@ -31,6 +35,20 @@ public class Server {
             ncRef.rebind(path, href);
 
             System.out.println("GameServer ready and waiting ...");
+
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                try {
+                    // Perform cleanup operations before exiting
+                    UserDAO.clearSessionTokens();
+                    System.out.println("Session Token Deleted");
+                } catch (SQLException e) {
+                    // Handle any exceptions that occur during cleanup
+                    System.err.println("Error clearing session tokens: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            }));
+
+            // Run the ORB event loop
             orb.run();
         } catch (Exception e) {
             System.err.println("ERROR: " + e);

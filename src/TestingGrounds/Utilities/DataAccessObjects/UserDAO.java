@@ -179,4 +179,15 @@ public class UserDAO {
         return topPlayers;
     }
 
+    public static void clearSessionTokens() throws SQLException {
+        String sql = "UPDATE users SET sessionToken = NULL";
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            int rowsUpdated = pstmt.executeUpdate();
+            System.out.println("Cleared session tokens for " + rowsUpdated + " users.");
+        } catch (SQLException e) {
+            System.err.println("Failed to clear session tokens: " + e.getMessage());
+            throw e;
+        }
+    }
 }
