@@ -1012,8 +1012,33 @@ public class GameServerImpl extends GameServerPOA implements Object {
 
 
     @Override
-    public void viewPlayers(String name) {
+    public String[] viewPlayers(String name) {
+// Retrieve the GameSession associated with the provided name
+        GameSession gameSession = activeGameLobbies.get(name);
 
+        // Check if the GameSession exists
+        if (gameSession != null) {
+            // Retrieve the players map from the GameSession
+            Map<String, Integer> players = gameSession.getPlayers();
+
+            // Create a list to hold the player names
+            List<String> playerNamesList = new ArrayList<>();
+
+            // Map session tokens to usernames and add to playerNamesList
+            for (String sessionToken : players.keySet()) {
+                String username = sessionTokens.get(sessionToken);
+                if (username != null) {
+                    playerNamesList.add(username);
+                }
+            }
+
+            // Convert the list to an array and return
+            return playerNamesList.toArray(new String[0]);
+        } else {
+            // Handle the case where the GameSession does not exist
+            System.out.println("No active game lobby found with the name: " + name);
+            return new String[0]; // Return an empty array if no game session is found
+        }
     }
 
 

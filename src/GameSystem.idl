@@ -38,7 +38,7 @@ module TestingGrounds {
                     long playerCount;
                 };
 
-
+        typedef sequence<string> PlayerNameList;
         typedef sequence<PlayerInfo> PlayerInfoList;
         typedef sequence<char> CharList;
         typedef sequence<boolean> ReadyStatusList;
@@ -84,7 +84,7 @@ module TestingGrounds {
             void updateSecondsPerWaiting(in long newSeconds);
             void editRoundTime(in long newSeconds);
             void editNumRounds(in long newSeconds);
-            void viewPlayers(in string name);
+            PlayerNameList viewPlayers(in string name);
             boolean ping();
             boolean isServerConnected() raises (lossConnection);
         };

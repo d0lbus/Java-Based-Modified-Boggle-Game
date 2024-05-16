@@ -156,7 +156,44 @@ public class Admin {
             }
         });
 
+        adminGUIFrame.getViewPlayersButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JTable playerTable = adminGUIFrame.getTable();
+                // Get the selected row index
+                int selectedRowIndex = playerTable.getSelectedRow();
 
+                // Check if a row is actually selected
+                if (selectedRowIndex != -1) {
+                    // Get the value from the first column of the selected row
+                    String firstColumnValue = playerTable.getValueAt(selectedRowIndex, 0).toString();
+
+                    String selectedGameID = firstColumnValue;
+
+                    // For demonstration purposes, you can print the value or use it as needed
+                    System.out.println("Selected game ID: " + selectedGameID);
+
+                    try {
+                        // Get the player names from the server
+                        String[] playerNames = gameServerImp.viewPlayers(selectedGameID);
+
+                        // Display the player names in a JOptionPane
+                        if (playerNames.length > 0) {
+                            String message = "Players in game " + selectedGameID + ":\n" + String.join("\n", playerNames);
+                            JOptionPane.showMessageDialog(adminGUIFrame, message, "Players", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(adminGUIFrame, "No players found for the selected game.", "No Players", JOptionPane.INFORMATION_MESSAGE);
+                        }
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(adminGUIFrame, "Error retrieving players: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                        ex.printStackTrace();
+                    }
+                } else {
+                    // Optionally, show a message if no row is selected
+                    JOptionPane.showMessageDialog(adminGUIFrame, "Please select a row first.", "No Selection", JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
 
     }
 }
