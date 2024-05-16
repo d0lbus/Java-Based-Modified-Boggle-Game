@@ -196,7 +196,7 @@ public class AdminGUIFrame extends JFrame {
         tablePanel.setBackground(Color.WHITE);
         tablePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        String[] columnNames = {"Lobby No.", "No. of Players", "Timer", "Rounds"};
+        String[] columnNames = {"Lobby No.", "No. of Players", "Timer", "Rounds", "Status"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
         table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);
