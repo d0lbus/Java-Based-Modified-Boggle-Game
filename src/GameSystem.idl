@@ -81,6 +81,9 @@ module TestingGrounds {
             void leaveLobby(in string sessionToken, in string gameId);
             string getLetters(in string sessionToken, in string gameId);
             void updateSecondsPerWaiting(in long newSeconds);
+            void editRoundTime(in long newSeconds);
+            void editNumRounds(in long newSeconds);
+            void viewPlayers(in string name);
             boolean ping();
             boolean isServerConnected() raises (lossConnection);
         };
