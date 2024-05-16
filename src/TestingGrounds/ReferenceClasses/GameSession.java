@@ -125,6 +125,21 @@ public class GameSession {
         }
     }
 
+    public void cancelGameSession(String gameToken) {
+
+        // Set the status of the game session to CANCELLED
+        this.status = GameStatus.CANCELLED;
+
+        // Remove all players from the session
+        this.players.clear();
+        this.playerScores.clear();
+        this.playerRoundsWon.clear();
+        this.readyPlayers.clear();
+        this.currentPlayerCount = 0;
+
+        System.out.println("Game session canceled: " + this.gameToken);
+    }
+
     private void startGame() {
         status = GameStatus.ACTIVE;
     }
