@@ -383,7 +383,7 @@ public class ClientGUIFrame extends JFrame {
         lobbyPanel.add(settingsIcon1);
 
         player1username = new JLabel("JLabel");
-        player1username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 15));
+        player1username.setFont(new Font("Franklin Gothic Demi", Font.PLAIN, 20));
         player1username.setHorizontalAlignment(SwingConstants.CENTER);
         player1username.setBounds(81, 407, 240, 32);
         lobbyPanel.add(player1username);
@@ -1718,6 +1718,9 @@ public class ClientGUIFrame extends JFrame {
             AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicFile);
             clip = AudioSystem.getClip();
             clip.open(audioInput);
+
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+
             clip.start();
         } catch (Exception ex) {
             ex.printStackTrace();
