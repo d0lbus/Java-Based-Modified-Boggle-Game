@@ -62,40 +62,10 @@ public class AdminGUIFrame extends JFrame {
         menuPanel.setBounds(0, 0, 234, 730);
         contentPane.add(menuPanel);
         menuPanel.setLayout(null);
-
-        homePanel = new JPanel();
-        homePanel.setBackground(new Color(206, 212, 218));
-        homePanel.setBounds(0, 0, 234, 47);
-        menuPanel.add(homePanel);
-        homePanel.setLayout(null);
-
-        JLabel homeLabel = new JLabel("Home");
-        homeLabel.setBounds(10, 0, 224, 47);
-        homePanel.add(homeLabel);
-        homeLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                layeredPane.removeAll();
-                layeredPane.add(hPanel);
-                layeredPane.repaint();
-                layeredPane.revalidate();
-            }
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                homePanel.setBackground(new Color(233, 236, 239));
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-                homePanel.setBackground(new Color(206, 212, 218));
-            }
-        });
-        homeLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        homeLabel.setFont(new Font("Tahoma", Font.BOLD, 19));
-        homeLabel.setIcon(new ImageIcon("src/Icons/Home.png"));
-
+        
         editPanel = new JPanel();
         editPanel.setBackground(new Color(206, 212, 218));
-        editPanel.setBounds(0, 92, 234, 47);
+        editPanel.setBounds(0, 0, 234, 47);;
         menuPanel.add(editPanel);
         editPanel.setLayout(null);
 
@@ -126,105 +96,7 @@ public class AdminGUIFrame extends JFrame {
         ePanel = new JPanel();
         ePanel.setBackground(new Color(255, 255, 255));
         layeredPane.add(ePanel);
-
-        accountPanel = new JPanel();
-        accountPanel.setBackground(new Color(206, 212, 218));
-        accountPanel.setBounds(0, 45, 234, 47);
-        menuPanel.add(accountPanel);
-        accountPanel.setLayout(null);
-
-        JLabel accountLabel = new JLabel("Accounts");
-        accountLabel.setBounds(10, 0, 224, 47);
-        accountPanel.add(accountLabel);
-        accountLabel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                layeredPane.removeAll();
-                layeredPane.add(aPanel);
-                layeredPane.repaint();
-                layeredPane.revalidate();
-            }
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                accountPanel.setBackground(new Color(233, 236, 239));
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-                accountPanel.setBackground(new Color(206, 212, 218));
-            }
-        });
-        accountLabel.setIcon(new ImageIcon("src/Icons/Contacts.png"));
-        accountLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        accountLabel.setFont(new Font("Tahoma", Font.BOLD, 19));
-
-        hPanel = new JPanel();
-        hPanel.setBackground(Color.WHITE);
-        layeredPane.add(hPanel);
-        hPanel.setLayout(null);
-
-        lobbiesPanel = new JPanel();
-        lobbiesPanel.setBounds(39, 67, 673, 167);
-        hPanel.add(lobbiesPanel);
-        lobbiesPanel.setLayout(null);
-
-        JLabel lIcon = new JLabel("");
-        lIcon.setIcon(new ImageIcon("src/Icons/Game Controller.png"));
-        lIcon.setBounds(10, 38, 96, 75);
-        lobbiesPanel.add(lIcon);
-
-        JLabel lcreatedLabel = new JLabel("Lobbies Created");
-        lcreatedLabel.setFont(new Font("Tahoma", Font.PLAIN, 25));
-        lcreatedLabel.setBounds(116, 50, 235, 63);
-        lobbiesPanel.add(lcreatedLabel);
-
-        lobbiesResult = new JLabel("");
-        lobbiesResult.setHorizontalAlignment(SwingConstants.CENTER);
-        lobbiesResult.setFont(new Font("Tahoma", Font.PLAIN, 50));
-        lobbiesResult.setBounds(531, 41, 117, 89);
-        lobbiesPanel.add(lobbiesResult);
-
-        JPanel rplayersPanel = new JPanel();
-        rplayersPanel.setBounds(39, 286, 673, 167);
-        hPanel.add(rplayersPanel);
-        rplayersPanel.setLayout(null);
-
-        JLabel rpIcon = new JLabel("");
-        rpIcon.setIcon(new ImageIcon("src/Icons/MySpace.png"));
-        rpIcon.setBounds(0, 43, 108, 83);
-        rplayersPanel.add(rpIcon);
-
-        JLabel rpLabel = new JLabel("Registered Players");
-        rpLabel.setFont(new Font("Tahoma", Font.PLAIN, 25));
-        rpLabel.setBounds(118, 57, 256, 62);
-        rplayersPanel.add(rpLabel);
-
-        rplayersResult = new JLabel("");
-        rplayersResult.setHorizontalAlignment(SwingConstants.CENTER);
-        rplayersResult.setFont(new Font("Tahoma", Font.PLAIN, 50));
-        rplayersResult.setBounds(529, 37, 117, 89);
-        rplayersPanel.add(rplayersResult);
-
-        JPanel rwonPanel = new JPanel();
-        rwonPanel.setBounds(39, 507, 673, 167);
-        hPanel.add(rwonPanel);
-        rwonPanel.setLayout(null);
-
-        JLabel checkIcon = new JLabel();
-        checkIcon.setIcon(new ImageIcon("src/Icons/Done.png"));
-        checkIcon.setBounds(0, 33, 117, 89);
-        rwonPanel.add(checkIcon);
-
-        JLabel lblRoundsWon = new JLabel("Rounds Won");
-        lblRoundsWon.setFont(new Font("Tahoma", Font.PLAIN, 25));
-        lblRoundsWon.setBounds(127, 50, 256, 62);
-        rwonPanel.add(lblRoundsWon);
-
-        rwonResults = new JLabel("");
-        rwonResults.setHorizontalAlignment(SwingConstants.CENTER);
-        rwonResults.setFont(new Font("Tahoma", Font.PLAIN, 50));
-        rwonResults.setBounds(520, 33, 117, 89);
-        rwonPanel.add(rwonResults);
-
+        
         ePanel = new JPanel();
         ePanel.setBackground(Color.WHITE);
         ePanel.setLayout(new BorderLayout());
@@ -266,77 +138,6 @@ public class AdminGUIFrame extends JFrame {
         tablePanel.add(scrollPane, BorderLayout.CENTER);
 
         ePanel.add(tablePanel, BorderLayout.CENTER);
-
-        aPanel = new JPanel();
-        aPanel.setBackground(Color.WHITE);
-        aPanel.setLayout(new BorderLayout());
-        layeredPane.add(aPanel);
-
-        JPanel topPanel = new JPanel();
-        topPanel.setBackground(Color.WHITE);
-        topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
-        aPanel.add(topPanel, BorderLayout.NORTH);
-
-        JPanel topButtonPanel = new JPanel();
-        topButtonPanel.setBackground(Color.WHITE);
-        topButtonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 20));
-        topPanel.add(topButtonPanel);
-
-        viewUserButton = new JButton("TestingGrounds.View User");
-        viewUserButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        topButtonPanel.add(viewUserButton);
-
-        banUserButton = new JButton("Ban User");
-        banUserButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        topButtonPanel.add(banUserButton);
-
-        unbanUserButton = new JButton("Unban User");
-        unbanUserButton.setFont(new Font("Tahoma", Font.PLAIN, 18));
-        topButtonPanel.add(unbanUserButton);
-
-        JPanel searchPanel = new JPanel();
-        searchPanel.setBackground(Color.WHITE);
-        searchPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
-        topPanel.add(searchPanel);
-
-        JLabel lblNewLabel = new JLabel("Search User");
-        lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 13));
-        searchPanel.add(lblNewLabel);
-
-        textField = new JTextField();
-        searchPanel.add(textField);
-        textField.setColumns(10);
-
-        table1 = new JTable();
-        table1.setSelectionBackground(new Color(104, 215, 211));
-        table1.setBackground(new Color(240, 240, 240));
-        table1.setBorder(null);
-        table1.setModel(new DefaultTableModel(
-                new Object[][] {
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                        {null, null, null, null, null, null, null},
-                },
-                new String[] {
-                        "Player ID", "Username", "Password", "Session Token", "In Game", "Overall Rounds Won", "Current Game Token"
-                }
-
-        ));
-        JScrollPane accountScrollPane = new JScrollPane(table1);
-        aPanel.add(accountScrollPane, BorderLayout.CENTER);
-
     }
 
     public JButton getEditTimerButton() {
