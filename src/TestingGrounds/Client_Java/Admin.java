@@ -14,6 +14,8 @@ import org.omg.PortableServer.POAHelper;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Admin {
     private static String username = "";
@@ -58,10 +60,12 @@ public class Admin {
                 boolean loginSuccessful = false;
                 try {
                     loginSuccessful = gameServerImp.adminLogin(username, password, sessionToken, callbackRef);
-                } catch (InvalidCredentials ex) {
-                    throw new RuntimeException(ex);
                 } catch (AlreadyLoggedIn ex) {
-                    throw new RuntimeException(ex);
+                    System.err.println("User is already logged in: " + ex.getMessage());
+                    JOptionPane.showMessageDialog(registration, "User is already logged in! Try Another Account. " , "Login Error", JOptionPane.ERROR_MESSAGE);
+                } catch (InvalidCredentials ex) {
+                    System.err.println("Invalid credentials: " + ex.getMessage());
+                    JOptionPane.showMessageDialog(registration, "Invalid credentials! Please Try Again. " , "Login Error", JOptionPane.ERROR_MESSAGE);
                 }
                 if (loginSuccessful) {
                     System.out.println("Login for " + username + " is successful. Session token: " + sessionToken.value);
@@ -156,6 +160,20 @@ public class Admin {
             }
         });
 
+        adminGUIFrame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                // Call the logout method from GameServerImpl
+                boolean logoutSuccessful = false;
+                logoutSuccessful = gameServerImp.adminLogout(sessionToken.value);
+                if (logoutSuccessful) {
+                    System.out.println("Logout for " + username + " is successful.");
+                    System.exit(0); // Exit the application after successful logout
+                } else {
+                    System.out.println("Logout for " + username + " failed");
+                }
+            }
+        });
 
 
     }
