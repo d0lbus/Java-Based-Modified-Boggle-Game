@@ -187,7 +187,7 @@ public class AdminGUIFrame extends JFrame {
         editNumOfRoundsButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
         buttonPanel.add(editNumOfRoundsButton);
 
-        viewPlayersButton = new JButton("TestingGrounds.View Players");
+        viewPlayersButton = new JButton("View Players");
         viewPlayersButton.setFont(new Font("Tahoma", Font.PLAIN, 12));
         buttonPanel.add(viewPlayersButton);
 
@@ -195,7 +195,7 @@ public class AdminGUIFrame extends JFrame {
         tablePanel.setBackground(Color.WHITE);
         tablePanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        String[] columnNames = {"Lobby No.", "No. of Players", "Timer", "Rounds", "Status"};
+        String[] columnNames = {"Lobby No.", "No. of Players", "WAITING TIME", "Timer", "Rounds", "Status"};
         DefaultTableModel model = new DefaultTableModel(columnNames, 0);
         table = new JTable(model);
         JScrollPane scrollPane = new JScrollPane(table);

@@ -443,12 +443,13 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
             model.setRowCount(0); // Clear existing data
 
             for (TestingGrounds.GameSystem.Lobbies lobby : lobbiesArray) {
-                Object[] row = new Object[5];
+                Object[] row = new Object[6];
                 row[0] = lobby.gameToken;
                 row[1] = lobby.playerCount;
-                row[2] = lobby.durationPerRound;
-                row[3] = lobby.winningRounds;
-                row[4] = lobby.status;
+                row[2] = lobby.lobbyWaitingTime;
+                row[3] = lobby.durationPerRound;
+                row[4] = lobby.winningRounds;
+                row[5] = lobby.status;
                 model.addRow(row);
             }
         });

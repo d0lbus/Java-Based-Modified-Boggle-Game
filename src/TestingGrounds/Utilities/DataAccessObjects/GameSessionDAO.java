@@ -94,5 +94,30 @@ public class GameSessionDAO {
         }
         return sessions;
     }
+
+    public int updateWinningRoundsForWaitingLobbies(int winningRounds) throws SQLException {
+        return updateAllWaitingGameSessions("winning_rounds", winningRounds);
+    }
+
+    public int updateLobbyWaitingTimeForWaitingLobbies(int lobbyWaitingTime) throws SQLException {
+        return updateAllWaitingGameSessions("lobby_waiting_time", lobbyWaitingTime);
+    }
+
+    public int updateDurationPerRoundForWaitingLobbies(int durationPerRound) throws SQLException {
+        return updateAllWaitingGameSessions("duration_per_round", durationPerRound);
+    }
+
+    public int updateDelayPerRoundForWaitingLobbies(int delayPerRound) throws SQLException {
+        return updateAllWaitingGameSessions("delay_per_round", delayPerRound);
+    }
+
+    private int updateAllWaitingGameSessions(String settingName, int settingValue) throws SQLException {
+        String sql = "UPDATE game_sessions SET " + settingName + " = ? WHERE status = 'WAITING'";
+        Connection connection = DBConnection.getConnection();
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, settingValue);
+            return statement.executeUpdate();
+        }
+    }
 }
 

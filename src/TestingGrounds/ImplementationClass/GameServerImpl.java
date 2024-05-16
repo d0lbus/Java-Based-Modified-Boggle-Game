@@ -875,9 +875,8 @@ public class GameServerImpl extends GameServerPOA implements Object {
 
     @Override
     public void updateSecondsPerWaiting(int newSeconds) {
-        GameSettingsDAO settingsDAO = new GameSettingsDAO();
         try {
-            settingsDAO.updateSecondsPerWaiting(newSeconds);
+            gameSessionDAO.updateLobbyWaitingTimeForWaitingLobbies(newSeconds);
             sessionCallbacks.forEach((token, callback) -> {
                 if (callback != null) {
                     try {
@@ -890,6 +889,8 @@ public class GameServerImpl extends GameServerPOA implements Object {
                     System.err.println("No callback registered for token: " + token);
                 }
             });
+
+            updateLobbiesList();
         } catch (SQLException e) {
             System.err.println("Error fetching seconds per round: " + e.getMessage());
             durationPerRound  = 10;

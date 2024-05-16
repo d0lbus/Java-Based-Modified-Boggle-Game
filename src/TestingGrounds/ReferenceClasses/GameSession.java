@@ -2,8 +2,6 @@ package TestingGrounds.ReferenceClasses;
 
 import TestingGrounds.Utilities.DataAccessObjects.DBConnection;
 import TestingGrounds.Utilities.DataAccessObjects.GameSessionDAO;
-import TestingGrounds.Utilities.DataAccessObjects.GameSettingsDAO;
-import TestingGrounds.Utilities.DataAccessObjects.UserDAO;
 
 import java.sql.SQLException;
 import java.util.*;
