@@ -20,6 +20,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+/**
+ * The GameServerImpl class implements the server-side logic for the game using the CORBA framework.
+ */
+
 public class GameServerImpl extends GameServerPOA implements Object {
     private Map<String, String> sessionTokens = new ConcurrentHashMap<>();
     private Map<String, GameSession> activeGameLobbies = new ConcurrentHashMap<>();
@@ -41,6 +45,17 @@ public class GameServerImpl extends GameServerPOA implements Object {
     public GameServerImpl() throws SQLException {
     }
 
+    /**
+     * Authenticates a user and establishes a session. Uses a database to check the accounts.
+     * Generates a session token and stores it in the database. Callback to enable server-to-client communication.
+     * @param username
+     * @param password
+     * @param sessionToken
+     * @param cbi
+     * @return
+     * @throws InvalidCredentials
+     * @throws AlreadyLoggedIn
+     */
 
     @Override
     public boolean login(String username, String password, org.omg.CORBA.StringHolder sessionToken, CallbackInterface cbi)throws InvalidCredentials, AlreadyLoggedIn {
@@ -78,6 +93,13 @@ public class GameServerImpl extends GameServerPOA implements Object {
             return false;
         }
     }
+
+    /**
+     * Ends a user's session
+     * Also removes the session token in the database
+     * @param sessionToken
+     * @return
+     */
     @Override
     public boolean logout(String sessionToken) {
         try {
@@ -95,6 +117,17 @@ public class GameServerImpl extends GameServerPOA implements Object {
         }
     }
 
+    /**
+     * Authenticates an admin user and establishes a session for the admin.
+     * Similar structure to login method
+     * @param username
+     * @param password
+     * @param sessionToken
+     * @param cbi
+     * @return
+     * @throws InvalidCredentials
+     * @throws AlreadyLoggedIn
+     */
     @Override
     public boolean adminLogin(String username, String password, org.omg.CORBA.StringHolder sessionToken, CallbackInterface cbi)throws InvalidCredentials, AlreadyLoggedIn {
         try {
@@ -131,6 +164,12 @@ public class GameServerImpl extends GameServerPOA implements Object {
             return false;
         }
     }
+
+    /**
+     * Ends the admin's user session
+     * @param sessionToken
+     * @return
+     */
     @Override
     public boolean adminLogout(String sessionToken) {
         try {
@@ -154,6 +193,17 @@ public class GameServerImpl extends GameServerPOA implements Object {
      *
      * */
 
+
+    /**
+     * The hostGame method allows a user to host a new game session.
+     * It validates a session token and generates a new game session with an ID
+     * Registers the session in the active game lobbies in the server
+     * Also adds the new game session in the database.
+     * Also adds the host to the game session. It then notifies all players GUIs and updates it.
+     * @param sessionToken
+     * @param cbi
+     * @return
+     */
     @Override
     public String hostGame(String sessionToken, CallbackInterface cbi) {
         GameSession newGameSession = new GameSession();
@@ -181,6 +231,17 @@ public class GameServerImpl extends GameServerPOA implements Object {
 
         return newGameSession.getSessionId();
     }
+
+    /**
+     * The joinRandomGame method allows a user to join a random available game session.
+     * Validates the session token of a user. It then retrieves the list of available game sessions
+     * and then randomly selects one to add the user into. It will update in the database. Updates all
+     * players GUI on the updated game session. Throw NoWaitingGames exception if no joinable sessions are available.
+     * @param sessionToken
+     * @param gci
+     * @return
+     * @throws NoWaitingGames
+     */
     @Override
     public String joinRandomGame(String sessionToken, CallbackInterface gci) throws NoWaitingGames {
         if (!validateSessionToken(sessionToken)) {
@@ -209,6 +270,16 @@ public class GameServerImpl extends GameServerPOA implements Object {
         notifyPlayersAboutChanges(selectedSession);
         return selectedSession.getSessionId();
     }
+
+    /**
+     * The joinGame method allows a user to join a game using its unique game ID.
+     * Adds the player to the available game session after game ID has been read and confirmed.
+     * Throw InvalidGameCode exception if the session is not found or cannot be joined.
+     * @param sessionToken
+     * @param gameId
+     * @return
+     * @throws InvalidGameCode
+     */
     @Override
     public String joinGame(String sessionToken, String gameId) throws InvalidGameCode {
         if (!validateSessionToken(sessionToken)) {
@@ -237,6 +308,19 @@ public class GameServerImpl extends GameServerPOA implements Object {
         return selectedSession.getSessionId();
     }
 
+    /**
+     * Stats a game session.
+     * Retrieves the game session using the game token and then validates the session and if the
+     * user is the host.
+     * Validates if enough players.
+     * Mark players as ready and starts a countdown.
+     * Starts the game session if all players are 'ready'
+     * Throw LobbyTimeExpired exception if the lobby time expires and not all players are ready.
+     * @param sessionToken
+     * @param gameToken
+     * @return
+     * @throws LobbyTimeExpired
+     */
     @Override
     public boolean startGame(String sessionToken, String gameToken) throws LobbyTimeExpired{
         GameSession session = activeGameLobbies.get(gameToken);
@@ -314,6 +398,18 @@ public class GameServerImpl extends GameServerPOA implements Object {
         notifyPlayersAboutChanges(session);
         return true;
     }
+
+    /**
+     * The submitWord method handles the word submission by a player
+     * Validates the words using a word validator.
+     * Checks if word is available from the random string of letters.
+     * Updates game session if a player managed to guess a word.
+     * Throw InvalidWord exception if the word is not valid.
+     * @param sessionToken
+     * @param gameToken
+     * @param word
+     * @throws InvalidWord
+     */
     @Override
     public void submitWord(String sessionToken, String gameToken, String word) throws InvalidWord {
         GameSession session = activeGameLobbies.get(gameToken);
@@ -409,6 +505,15 @@ public class GameServerImpl extends GameServerPOA implements Object {
         };
     }
 
+    /**
+     * The leaveGame method allows a user the leave a game session
+     * It validates the user's session token first
+     * and then removes the player from the game session.
+     * Game session cancels if no players are left.
+     * @param sessionToken
+     * @param gameId
+     */
+
     @Override
     public void leaveGame(String sessionToken, String gameId) {
         // Check if the session token is valid
@@ -467,6 +572,14 @@ public class GameServerImpl extends GameServerPOA implements Object {
         notifyPlayersAboutChanges(gameSession);
         backToHomeScreen(sessionToken);
     }
+
+    /**
+     * Allows a player to leave a game lobby.
+     * Removes the player from the game session, and
+     * handles the lobby if no more players left.
+     * @param sessionToken
+     * @param gameId
+     */
     @Override
     public void leaveLobby(String sessionToken, String gameId) {
         GameSession gameSession = activeGameLobbies.get(gameId);
@@ -504,6 +617,11 @@ public class GameServerImpl extends GameServerPOA implements Object {
         }
     }
 
+    /**
+     * Sends the player back to the home screen.
+     * @param sessionToken
+     */
+
     @Override
     public void backToHomeScreen(String sessionToken) {
         CallbackInterface callback = sessionCallbacks.get(sessionToken);
@@ -514,6 +632,12 @@ public class GameServerImpl extends GameServerPOA implements Object {
             System.err.println("No callback found for session token: " + sessionToken);
         }
     }
+
+    /**
+     * Cancels a game sesion and updates the status in the database
+     * @param gameId
+     * @throws SQLException
+     */
 
     private void cancelGameSession(String gameId) throws SQLException {
         // Retrieve the game session using the provided game ID
@@ -540,6 +664,10 @@ public class GameServerImpl extends GameServerPOA implements Object {
      *
      * */
 
+    /**
+     * Notifies players in the game session about any changes.
+     * @param session
+     */
     public void notifyPlayersAboutChanges(GameSession session) {
         List<PlayerInfo> playerData = collectPlayerData(session);
 
@@ -564,6 +692,11 @@ public class GameServerImpl extends GameServerPOA implements Object {
         });
     }
 
+    /**
+     * Starts a timer for the GUI to notify players.
+     * @param session
+     * @param seconds
+     */
     public void startTimerForGui(GameSession session, int seconds){
         List<PlayerInfo> playerData = collectPlayerData(session);
         session.getPlayers().forEach((token, position) -> {
@@ -580,6 +713,13 @@ public class GameServerImpl extends GameServerPOA implements Object {
             }
         });
     }
+
+    /**
+     * Collects player data for a game session.
+     *
+     * @param session
+     * @return
+     */
     private List<PlayerInfo> collectPlayerData(GameSession session) {
         List<PlayerInfo> playerData = new ArrayList<>();
         session.getPlayers().forEach((token, position) -> {
@@ -591,6 +731,11 @@ public class GameServerImpl extends GameServerPOA implements Object {
         return playerData;
     }
 
+    /**
+     * Updates the ready status for players in the game session.
+     *
+     * @param session
+     */
     private void updateReadyStatusForPlayers(GameSession session) {
         List<PlayerInfo> playerData = collectPlayerData(session);
         boolean[] readyStatus = new boolean[playerData.size()];
@@ -614,6 +759,13 @@ public class GameServerImpl extends GameServerPOA implements Object {
             }
         });
     }
+
+    /**
+     * Starts a game session and notifies players.
+     *
+     * @param session
+     * @throws SQLException
+     */
     private void startGameSession(GameSession session) throws SQLException {
         List<PlayerInfo> playerData = collectPlayerData(session);
         char[] charArrayList = generateRandomCharArray();
@@ -639,6 +791,12 @@ public class GameServerImpl extends GameServerPOA implements Object {
         gameSessionDAO.saveGameSession(session);
         startRoundTimer(session);
     }
+
+    /**
+     * Starts the round timer for a game session.
+     *
+     * @param session
+     */
     private void startRoundTimer(GameSession session) {
         notifyRoundTimerToPlayers(session, session.getDURATION_PER_ROUNDS());
         scheduler.schedule(() -> {
@@ -650,6 +808,15 @@ public class GameServerImpl extends GameServerPOA implements Object {
         }, session.getDURATION_PER_ROUNDS(), TimeUnit.SECONDS);
 
     }
+
+    /**
+     * Notifies players about the round timer.
+     * Uses the callback class to update each player's GUIs
+     *
+     *
+     * @param session
+     * @param durationSeconds
+     */
     private void notifyRoundTimerToPlayers(GameSession session, int durationSeconds) {
         session.getPlayers().forEach((token, position) -> {
             CallbackInterface callback = sessionCallbacks.get(token);
@@ -665,6 +832,14 @@ public class GameServerImpl extends GameServerPOA implements Object {
             }
         });
     }
+
+    /**
+     * Notifies players about the winner of the round.
+     * Uses the callback class to update each player's GUIs
+     *
+     * @param session
+     * @param winnerToken
+     */
     private void notifyRoundWinnerToPlayers(GameSession session, String winnerToken) {
         String winnerName = retrievePlayerFromSessionToken(winnerToken);
         List<PlayerInfo> playerData = collectPlayerData(session);
@@ -682,6 +857,13 @@ public class GameServerImpl extends GameServerPOA implements Object {
             }
         });
     }
+
+    /**
+     * Notifies players about the overall game winner.
+     *
+     * @param session
+     * @param winnerToken
+     */
     private void notifyGameWinner(GameSession session, String winnerToken) {
         String winnerName = retrievePlayerFromSessionToken(winnerToken);
         List<PlayerInfo> playerData = collectPlayerData(session);
@@ -699,6 +881,11 @@ public class GameServerImpl extends GameServerPOA implements Object {
             }
         });
     }
+
+    /**
+     * Notifies players about a tie in the game round. Uses the callback to notify players.
+     * @param session
+     */
     private void notifyTieToPlayers(GameSession session) {
         session.getPlayers().forEach((token, position) -> {
             CallbackInterface callback = sessionCallbacks.get(token);
@@ -714,6 +901,13 @@ public class GameServerImpl extends GameServerPOA implements Object {
             }
         });
     }
+
+    /**
+     * Completes the current round and determines the winner, if any.
+     *
+     * @param session
+     * @throws SQLException
+     */
     private void completeRound(GameSession session) throws SQLException {
         String roundWinner = session.determineRoundWinner();
         if (roundWinner != null) {
@@ -763,6 +957,10 @@ public class GameServerImpl extends GameServerPOA implements Object {
             }, session.getDELAY_PER_ROUNDS(), TimeUnit.SECONDS);
         }
     }
+
+    /**
+     * Updates the leaderboards and notifies all players. Uses the callback to notify and update
+     */
     private void updateLeaderboards() {
         List<User> topPlayers = userDAO.getTopPlayersByRoundsWon();
 
@@ -777,6 +975,12 @@ public class GameServerImpl extends GameServerPOA implements Object {
     }
 
 
+    /**
+     * Converts a list of User objects to an array of Users objects.
+     *
+     * @param topPlayers
+     * @return
+     */
     private Java.GameSystem.Users[] convertListToUsersArray(List<Java.ReferenceClasses.User> topPlayers) {
         Java.GameSystem.Users[] usersArray = new Java.GameSystem.Users[topPlayers.size()];
         for (int i = 0; i < topPlayers.size(); i++) {
@@ -792,6 +996,13 @@ public class GameServerImpl extends GameServerPOA implements Object {
         }
         return usersArray;
     }
+
+    /**
+     * tarts the next round in the game session.
+     *
+     * @param session
+     * @throws SQLException
+     */
     private void startNextRound(GameSession session) throws SQLException {
         char[] charArrayList = generateRandomCharArray();
         session.setRandomLetters(charArrayList);
@@ -818,6 +1029,12 @@ public class GameServerImpl extends GameServerPOA implements Object {
         gameSessionDAO.saveGameSession(session);
         startRoundTimer(session);
     }
+
+    /**
+     *  Sends a timeout exception message to the host if the game fails to start due to lack of players ready in time.
+     * @param sessionToken
+     * @param session
+     */
     private void sendTimeoutExceptionToHost(String sessionToken, GameSession session) {
         CallbackInterface callback = sessionCallbacks.get(sessionToken);
         if (callback != null) {
@@ -829,6 +1046,12 @@ public class GameServerImpl extends GameServerPOA implements Object {
             }
         }
     }
+
+    /**
+     * Generates a random array of characters, consisting of a mix of consonants and vowels.
+     *
+     * @return
+     */
     private char[] generateRandomCharArray() {
         List<Character> consonantsList = new ArrayList<>();
         List<Character> vowelsList = new ArrayList<>();
@@ -852,9 +1075,21 @@ public class GameServerImpl extends GameServerPOA implements Object {
 
         return charArray;
     }
+
+    /**
+     * Generates a secure token using UUID.
+     * @return
+     */
     private String generateSecureToken() {
         return UUID.randomUUID().toString();
     }
+
+    /**
+     * Generates a unique game token.
+     *
+     * @return
+     * @throws SQLException
+     */
     private String generateGameToken() throws SQLException {
         String token;
         do {
@@ -862,12 +1097,32 @@ public class GameServerImpl extends GameServerPOA implements Object {
         } while (!gameSessionDAO.isTokenUnique(token));
         return token;
     }
+
+    /**
+     * Validates a session token.
+     *
+     * @param sessionToken
+     * @return
+     */
     private boolean validateSessionToken(String sessionToken) {
         return sessionTokens.containsKey(sessionToken);
     }
+
+    /**
+     * Retrieves the username associated with a session token.
+     * @param sessionToken
+     * @return
+     */
     public String retrievePlayerFromSessionToken(String sessionToken) {
         return sessionTokens.get(sessionToken);
     }
+
+    /**
+     * Adds rounds won to the user's database record.
+     *
+     * @param sessionToken
+     * @throws SQLException
+     */
     public void addRoundsToUserDB(String sessionToken) throws SQLException{
         if (sessionToken != null) {
             userDAO.updateOverallRoundsWon(sessionToken, 1);
@@ -877,19 +1132,27 @@ public class GameServerImpl extends GameServerPOA implements Object {
     }
 
 
+    /**
+     * Pings the server to check its connectivity.
+     * @return
+     */
     @Override
     public boolean ping() {
         return true;
     }
 
+    /**
+     * Checks if the server is connected by performing a dummy operation.
+     *
+     * @return
+     * @throws lossConnection
+     */
     public boolean isServerConnected() throws lossConnection {
         try {
             // Perform a dummy operation to check server connectivity
-            ping(); // Assuming a ping method exists on the server
-            return true; // Server is reachable
+            ping();
+            return true;
         } catch (Exception e) {
-            // Catch any exception that might occur during the connectivity check
-            // Then, throw the lossConnection exception with appropriate context
             throw new lossConnection();
         }
     }
@@ -899,6 +1162,11 @@ public class GameServerImpl extends GameServerPOA implements Object {
      *
      * */
 
+    /**
+     * Updates the waiting time for all waiting lobbies.
+     * Uses the callback functionality to update
+     * @param newSeconds
+     */
     @Override
     public void updateSecondsPerWaiting(int newSeconds) {
         try {
@@ -922,6 +1190,12 @@ public class GameServerImpl extends GameServerPOA implements Object {
             durationPerRound  = 10;
         }
     }
+
+    /**
+     * Updates the duration per round for all waiting lobbies.
+     *
+     * @param newSeconds
+     */
     @Override
     public void editRoundTime(int newSeconds) {
         try {
@@ -945,6 +1219,11 @@ public class GameServerImpl extends GameServerPOA implements Object {
             durationPerRound  = 60;
         }
     }
+
+    /**
+     * Updates the number of rounds required to win for all waiting lobbies.
+     * @param newSeconds
+     */
     @Override
     public void editNumRounds(int newSeconds) {
         try {
@@ -969,6 +1248,9 @@ public class GameServerImpl extends GameServerPOA implements Object {
         }
     }
 
+    /**
+     * Updates the list of accounts.
+     */
     private void updateAccountsList(){
         List<User> players = userDAO.getTopPlayersByRoundsWon();
         Users[] playersArray = convertListToUsersArray(players);
@@ -981,6 +1263,9 @@ public class GameServerImpl extends GameServerPOA implements Object {
         }
     }
 
+    /**
+     * Updates the list of game lobbies.
+     */
     private void updateLobbiesList() {
         try{
             List<GameSession> lobbies = gameSessionDAO.getAllGameSessions();
@@ -996,6 +1281,12 @@ public class GameServerImpl extends GameServerPOA implements Object {
         }
     }
 
+
+    /**
+     * Converts a list of GameSession objects to an array of Lobbies objects.
+     * @param sessions
+     * @return
+     */
     private Java.GameSystem.Lobbies[] convertListToArray(List<Java.ReferenceClasses.GameSession> sessions) {
         // Create an array of Lobbies to hold the converted GameSession data
         Java.GameSystem.Lobbies[] lobbiesArray = new Java.GameSystem.Lobbies[sessions.size()];
@@ -1023,7 +1314,11 @@ public class GameServerImpl extends GameServerPOA implements Object {
     }
 
 
-
+    /**
+     * Retrieves the players in a specific game session.
+     * @param name
+     * @return
+     */
     @Override
     public String[] viewPlayers(String name) {
 // Retrieve the GameSession associated with the provided name

@@ -9,6 +9,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The GameSessionDAO class provides methods for interacting with the game sessions stored in the database.
+ * It includes methods for saving, loading, and updating game sessions, as well as checking token uniqueness and retrieving all game sessions.
+ */
 public class GameSessionDAO {
 
     public GameSessionDAO(){
@@ -19,6 +23,11 @@ public class GameSessionDAO {
     public GameSessionDAO(Connection connection) {
     }
 
+    /**
+     * Saves a game session to the database or updates it if the session already exists.
+     * @param session
+     * @throws SQLException
+     */
     public void saveGameSession(GameSession session) throws SQLException {
         String sql = "INSERT INTO game_sessions (game_token, winning_rounds, lobby_waiting_time, duration_per_round, delay_per_round, status, player_count) VALUES (?, ?, ?, ?, ?, ?, ?)"+
                 "ON DUPLICATE KEY UPDATE " +
@@ -41,6 +50,12 @@ public class GameSessionDAO {
         }
     }
 
+    /**
+     * Loads a game session from the database based on the provided game token.
+     * @param gameToken
+     * @return
+     * @throws SQLException
+     */
     public GameSession loadGameSession(String gameToken) throws SQLException {
         String sql = "SELECT * FROM game_sessions WHERE game_token = ?";
         Connection connection = DBConnection.getConnection();
@@ -61,6 +76,12 @@ public class GameSessionDAO {
         return null;
     }
 
+    /**
+     * Checks if a given game token is unique in the database.
+     * @param token
+     * @return
+     * @throws SQLException
+     */
     public boolean isTokenUnique(String token) throws SQLException {
         String sql = "SELECT COUNT(*) FROM game_sessions WHERE game_token = ?";
         Connection connection = DBConnection.getConnection();
@@ -74,6 +95,12 @@ public class GameSessionDAO {
         return false;
     }
 
+    /**
+     * Retrieves a list of all game sessions stored in the database.
+     *
+     * @return
+     * @throws SQLException
+     */
     public List<GameSession> getAllGameSessions() throws SQLException {
         List<GameSession> sessions = new ArrayList<>();
         Connection connection = DBConnection.getConnection();
@@ -95,22 +122,55 @@ public class GameSessionDAO {
         return sessions;
     }
 
+    /**
+     * Updates the winning rounds setting for all waiting lobbies in the database.
+     * @param winningRounds
+     * @return
+     * @throws SQLException
+     */
     public int updateWinningRoundsForWaitingLobbies(int winningRounds) throws SQLException {
         return updateAllWaitingGameSessions("winning_rounds", winningRounds);
     }
 
+    /**
+     * Updates the lobby waiting time setting for all waiting lobbies in the database.
+     *
+     * @param lobbyWaitingTime
+     * @return
+     * @throws SQLException
+     */
     public int updateLobbyWaitingTimeForWaitingLobbies(int lobbyWaitingTime) throws SQLException {
         return updateAllWaitingGameSessions("lobby_waiting_time", lobbyWaitingTime);
     }
 
+    /**
+     * Updates the duration per round setting for all waiting lobbies in the database.
+     * @param durationPerRound
+     * @return
+     * @throws SQLException
+     */
     public int updateDurationPerRoundForWaitingLobbies(int durationPerRound) throws SQLException {
         return updateAllWaitingGameSessions("duration_per_round", durationPerRound);
     }
 
+    /**
+     * Updates the delay per round setting for all waiting lobbies in the database.
+     * @param delayPerRound
+     * @return
+     * @throws SQLException
+     */
     public int updateDelayPerRoundForWaitingLobbies(int delayPerRound) throws SQLException {
         return updateAllWaitingGameSessions("delay_per_round", delayPerRound);
     }
 
+    /**
+     * Updates a specific setting for all waiting lobbies in the database.
+     *
+     * @param settingName
+     * @param settingValue
+     * @return
+     * @throws SQLException
+     */
     private int updateAllWaitingGameSessions(String settingName, int settingValue) throws SQLException {
         String sql = "UPDATE game_sessions SET " + settingName + " = ? WHERE status = 'WAITING'";
         Connection connection = DBConnection.getConnection();

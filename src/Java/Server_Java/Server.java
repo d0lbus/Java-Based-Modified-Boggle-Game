@@ -12,7 +12,20 @@ import org.omg.PortableServer.POAHelper;
 
 import java.sql.SQLException;
 
+/**
+ * The Server class represents the main server application for the game system.
+ * It initializes the CORBA infrastructure, creates and binds the game server implementation,
+ * and handles cleanup operations on shutdown.
+ */
 public class Server {
+
+    /**
+     * The main method initializes the server application, starts the CORBA infrastructure,
+     * and binds the game server implementation to the Naming Service.
+     * It also registers a shutdown hook to perform cleanup operations.
+     *
+     * @param args
+     */
     public static void main(String args[]) {
         try {
             Runtime.getRuntime().exec("cmd /c start orbd -ORBInitialPort 900 -ORBInitialHost 192.168.1.108");

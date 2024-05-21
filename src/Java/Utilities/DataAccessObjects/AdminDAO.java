@@ -7,7 +7,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * The AdminDAO class is a Data Access Object (DAO) responsible for handling database operations related to the Admin in the application
+ */
 public class AdminDAO {
+
+    /**
+     * Retrieves a user from the database based on the provided username.
+     * @param username
+     * @return
+     * @throws SQLException
+     */
     public Admin getUserByUsername(String username) throws SQLException {
         String sql = "SELECT * FROM admins WHERE username = ?";
         System.out.println("Executing query with username: " + username); // Debugging log
@@ -34,7 +44,13 @@ public class AdminDAO {
         return null; // Return null if no matching user is found
     }
 
-
+    /**
+     * Validates the password for the given user.
+     * @param admin
+     * @param password
+     * @return
+     * @throws SQLException
+     */
     public boolean validatePassword(Admin admin, String password) throws SQLException {
         String sql = "SELECT password FROM admins WHERE username = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -49,6 +65,12 @@ public class AdminDAO {
         return false;
     }
 
+    /**
+     * Updates the session token for the given user.
+     * @param admin
+     * @param sessionToken
+     * @throws SQLException
+     */
     public void updateSessionToken(Admin admin, String sessionToken) throws SQLException {
         String sql = "UPDATE admins SET sessionToken = ? WHERE username = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -59,6 +81,11 @@ public class AdminDAO {
         }
     }
 
+    /**
+     * Clears the session token for the specified user.
+     * @param sessionToken
+     * @throws SQLException
+     */
     public static void clearSessionToken(String sessionToken) throws SQLException {
         String sql = "UPDATE admins SET sessionToken = NULL WHERE sessionToken = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -68,6 +95,13 @@ public class AdminDAO {
         }
     }
 
+    /**
+     * Retrieves the session token associated with the given username.
+     *
+     * @param username
+     * @return
+     * @throws SQLException
+     */
     public static String getSessionTokenByUsername(String username) throws SQLException {
         String sql = "SELECT sessionToken FROM admins WHERE username = ?";
         try (Connection conn = DBConnection.getConnection();

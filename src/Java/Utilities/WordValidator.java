@@ -6,6 +6,10 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The WordValidator class is responsible for validating words against a set of valid words loaded from a file.
+ * It ensures that only valid words are accepted by the system.
+ */
 public class WordValidator {
     private Set<String> validWords;
 

@@ -23,6 +23,12 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+
+/**
+ * This class implements the callback interface for the game client.
+ * It provides methods to update the graphical user interface (GUI) of the client
+ * in response to various events during the gameplay.
+ */
 public class GameClientCallbackImpl extends CallbackInterfacePOA {
     private ClientGUIFrame gui;
     private AdminGUIFrame guiAdmin;
@@ -39,15 +45,29 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
     public GameClientCallbackImpl(){
 
     }
+
+    /**
+     * Constructs a new GameClientCallbackImpl instance
+     * @param gui
+     */
     public GameClientCallbackImpl(ClientGUIFrame gui) {
         this.gui = gui;
         loadAvailableIcons();
     }
 
+    /**
+     * Constructs a new GameClientCallbackImpl instance for the admin GUI.
+     * @param guiAdmin
+     */
     public GameClientCallbackImpl(AdminGUIFrame guiAdmin){
         this.guiAdmin = guiAdmin;
     }
 
+    /**
+     * Updates the GUI to display the lobby information when a lobby is created.
+     * @param username
+     * @param gameId
+     */
     @Override
     public void CreateLobGUI(String username, String gameId) {
         SwingUtilities.invokeLater(() -> {
@@ -55,6 +75,11 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         });
     }
 
+    /**
+     * Updates the GUI to reflect changes in the lobby information.
+     * @param playerData
+     * @param gameToken
+     */
     @Override
     public void UpdateLobGUI(PlayerInfo[] playerData, String gameToken) {
         SwingUtilities.invokeLater(() -> {
@@ -91,6 +116,11 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         });
     }
 
+    /**
+     * Starts the game and updates the GUI with game-related information.
+     * @param playerData
+     * @param charArrayList
+     */
     @Override
     public void startGameGUI(PlayerInfo[] playerData, char[] charArrayList) {
         SwingUtilities.invokeLater(() -> {
@@ -161,6 +191,11 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         });
     }
 
+    /**
+     * Updates the player's ready status in the GUI.
+     * @param playerData
+     * @param readyStatus
+     */
     @Override
     public void updatePlayerReadyStatus(PlayerInfo[] playerData, boolean[] readyStatus) {
         SwingUtilities.invokeLater(() -> {
@@ -192,6 +227,12 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         });
     }
 
+    /**
+     * updates the Ready Status Label
+     * @param label
+     * @param username
+     * @param isReady
+     */
     private void updateReadyStatusLabel(JLabel label, String username, boolean isReady) {
         if (username.equals("Empty")) {
             label.setText("Not Ready");
@@ -202,6 +243,9 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         }
     }
 
+    /**
+     * Displays a warning message when attempting to start the game with insufficient players.
+     */
     @Override
     public void ReadyStateException() {
         SwingUtilities.invokeLater(() -> {
@@ -209,6 +253,10 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         });
     }
 
+    /**
+     * Starts a timer for the lobby with the specified duration.
+     * @param durationSeconds
+     */
     @Override
     public void startLobbyTimer(int durationSeconds) {
         scheduler.scheduleAtFixedRate(new Runnable() {
@@ -228,6 +276,10 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         }, 0, 1, TimeUnit.SECONDS);
     }
 
+    /**
+     * Starts a timer for the round with the specified duration.
+     * @param durationSeconds
+     */
     @Override
     public void startRoundTimer(int durationSeconds) {
         roundScheduler.scheduleAtFixedRate(new Runnable() {
@@ -246,6 +298,10 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         }, 0, 1, TimeUnit.SECONDS);
     }
 
+    /**
+     * Starts a timer to display a delay before the next round begins.
+     * @param delaySeconds
+     */
     @Override
     public void startRoundDelayTimer(int delaySeconds) {
         SwingUtilities.invokeLater(() -> {
@@ -271,6 +327,12 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         delayTimer.start();
     }
 
+    /**
+     * Broadcasts the guessed word to all players and updates GUI accordingly.
+     * @param playerData
+     * @param word
+     * @param playerWhoGuessed
+     */
     @Override
     public void broadcastGuessedWord(PlayerInfo[] playerData, String word, String playerWhoGuessed) {
         Map<Integer, String> defaultPositions = new HashMap<>();
@@ -306,11 +368,20 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         appendToAnnouncement(gui.getAnnouncementTextpane(), playerWhoGuessed + " has guessed the word " + word + "\n");
     }
 
+    /**
+     * Broadcasts a disconnection message to all players.
+     * @param username
+     */
     @Override
     public void broadcastDisconnection(String username) {
         appendToAnnouncement(gui.getAnnouncementTextpane(), username + " has disconnected" + "\n");
     }
 
+    /**
+     * Displays the winner of the round in the GUI.
+     * @param playerData
+     * @param winnerName
+     */
     @Override
     public void displayRoundWinner(PlayerInfo[] playerData, String winnerName) {
         SwingUtilities.invokeLater(() -> {
@@ -360,6 +431,11 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         });
     }
 
+    /**
+     * Displays the overall winner of the game in the GUI.
+     * @param playerData
+     * @param username
+     */
     @Override
     public void displayOverallWinner(PlayerInfo[] playerData, String username) {
         SwingUtilities.invokeLater(() -> {
@@ -404,6 +480,14 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         });
     }
 
+
+    /**
+     * Notifies the user that the guessed word is valid.
+     * @param word
+     */
+
+
+
     @Override
     public void wordIsValid(String word) {
         SwingUtilities.invokeLater(() -> {
@@ -411,6 +495,10 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         });
     }
 
+    /**
+     * Notifies the user that the word has already been guessed.
+     * @param word
+     */
     @Override
     public void wordHasBeenGuessed(String word) {
         SwingUtilities.invokeLater(() -> {
@@ -418,6 +506,10 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         });
     }
 
+    /**
+     * Notifies the user that the guessed word is invalid.
+     * @param word
+     */
     @Override
     public void wordIsInvalid(String word) {
         SwingUtilities.invokeLater(() -> {
@@ -425,12 +517,19 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         });
     }
 
+    /**
+     * Updates the waiting time label in the GUI.
+     * @param newSeconds
+     */
     public void updateWaitingTimeLabel(int newSeconds){
         SwingUtilities.invokeLater(() -> {
             gui.getWaitingTimeLabel().setText("Waiting time for players to join a game: " + newSeconds);
         });
     }
 
+    /**
+     * Displays a message indicating a tie in the round.
+     */
     @Override
     public void displayTie() {
         SwingUtilities.invokeLater(() -> {
@@ -438,6 +537,10 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         });
     }
 
+    /**
+     * Updates the leaderboard GUI with user data.
+     * @param users
+     */
     @Override
     public void updateLeaderBoardGUI(Users[] users) {
         SwingUtilities.invokeLater(() -> {
@@ -476,6 +579,10 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         });
     }
 
+    /**
+     * Updates the accounts list in the admin GUI with player data.
+     * @param playerData
+     */
     @Override
     public void updateAccountsList(Users[] playerData) {
         SwingUtilities.invokeLater(() -> {
@@ -493,6 +600,10 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         });
     }
 
+    /**
+     * Updates the game sessions table in the admin GUI with lobby data.
+     * @param lobbiesArray
+     */
     @Override
     public void updateGameSessions(Java.GameSystem.Lobbies[] lobbiesArray) {
         SwingUtilities.invokeLater(() -> {
@@ -513,7 +624,9 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
     }
 
 
-
+    /**
+     *Shows the home screen GUI.
+     */
     @Override
     public void showHomeScreen(){
         SwingUtilities.invokeLater(() -> {
@@ -524,6 +637,9 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         });
     }
 
+    /**
+     * Loads available icons from the ICONS_PATH directory.
+     */
     private void loadAvailableIcons() {
         File iconDirectory = new File(ICONS_PATH);
         if (!iconDirectory.exists() || !iconDirectory.isDirectory()) {
@@ -543,6 +659,11 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         }
     }
 
+    /**
+     * Assigns an icon to a username if available.
+     * @param username
+     * @return
+     */
     private Icon assignIcon(String username) {
         if (usernameToIconMap.containsKey(username)) {
             return usernameToIconMap.get(username);
@@ -566,6 +687,11 @@ public class GameClientCallbackImpl extends CallbackInterfacePOA {
         return null;
     }
 
+    /**
+     *  Appends a message to the announcement text pane in the GUI.
+     * @param textPane
+     * @param message
+     */
     private void appendToAnnouncement(JTextPane textPane, String message) {
         StyledDocument doc = textPane.getStyledDocument();
         try {

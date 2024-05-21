@@ -23,6 +23,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
+/**
+ * The Player class represents the main entry point for the client-side Java application. It handles user
+ * authentication, game initialization, and interaction with the game server.
+ */
 public class Player {
     private static String username = "";
     private static String password = "";
@@ -35,6 +39,12 @@ public class Player {
     static ClientGUIFrame clientGUIFrame = new ClientGUIFrame();
     static EnterCodeFrame enterCodeFrame = new EnterCodeFrame();
     static Registration registration = new Registration();
+
+    /**
+     * The main method responsible for initializing the ORB, establishing connections with the
+     * game server, and managing user interactions.
+     * @param args
+     */
     public static void main(String[] args) {
         try {
             ORB orb = ORB.init(new String[]{"-ORBInitialPort", "900", "-ORBInitialHost", "localhost"}, null);
@@ -92,6 +102,9 @@ public class Player {
         }
     }
 
+    /**
+     * Starts the login process by displaying the registration frame and handling user authentication.
+     */
     public static void startLogin() {
         registration.setVisible(true);
         registration.getSignInButton().addActionListener(new ActionListener() {
@@ -189,6 +202,10 @@ public class Player {
     }
 
 
+    /**
+     * Starts the game by displaying the client GUI frame and handling game-related actions such as
+     * hosting, joining, and leaving games.
+     */
     public static void startGame() {
         clientGUIFrame.setVisible(true);
         clientGUIFrame.getCreateLobbyButton().addActionListener(new ActionListener() {
@@ -340,29 +357,11 @@ public class Player {
 
     }
 
-
-    public static void changeAccSettings(){
-        String newUsername = clientGUIFrame.getcUsernameTextfield().getText();
-        String newPassword = new String(clientGUIFrame.getPwField().getPassword());
-        String confirmPassword = new String(clientGUIFrame.getConfirmpwField().getPassword());
-
-        if (!newPassword.equals(confirmPassword)) {
-            System.out.println("Passwords do not match!");
-            return;
-        }
-
-        if (newUsername.isEmpty()){
-            System.out.println("Username is empty");
-            return;
-        }
-
-        // Update the database
-//        DatabaseManager dbManager = new DatabaseManager();
-//        dbManager.changeAccSettings(newUsername, newPassword);
-
-        System.out.println("Account settings updated successfully!");
-    }
-
+    /**
+     * Checks the status of the game server to ensure connectivity.
+     * @return
+     * @throws lossConnection
+     */
     private static boolean checkServerStatus() throws lossConnection {
         try {
             boolean serverConnected = gameServerImp.isServerConnected();

@@ -6,7 +6,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The UserDAO class is a Data Access Object (DAO) responsible for handling database operations related to users in the application
+ */
 public class UserDAO {
+
+    /**
+     * Retrieves a user from the database based on the provided username.
+     * @param username
+     * @return
+     * @throws SQLException
+     */
     public User getUserByUsername(String username) throws SQLException {
         String sql = "SELECT * FROM users WHERE username = ?";
         System.out.println("Executing query with username: " + username); // Debugging log
@@ -36,7 +46,13 @@ public class UserDAO {
         return null; // Return null if no matching user is found
     }
 
-
+    /**
+     * Validates the password for the given user.
+     * @param user
+     * @param password
+     * @return
+     * @throws SQLException
+     */
     public boolean validatePassword(User user, String password) throws SQLException {
         String sql = "SELECT password FROM users WHERE username = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -51,6 +67,12 @@ public class UserDAO {
         return false;
     }
 
+    /**
+     * Updates the session token for the given user.
+     * @param user
+     * @param sessionToken
+     * @throws SQLException
+     */
     public void updateSessionToken(User user, String sessionToken) throws SQLException {
         String sql = "UPDATE users SET sessionToken = ? WHERE username = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -61,6 +83,19 @@ public class UserDAO {
         }
     }
 
+    /**
+     * Creates a new user in the database.
+     * @param user
+     * @param firstName
+     * @param lastName
+     * @param password
+     * @param sessionToken
+     * @param inGame
+     * @param overall_rounds_won
+     * @param score
+     * @param currentGameToken
+     * @throws SQLException
+     */
     public static void createUser(User user, String firstName, String lastName, String password, String sessionToken, Boolean inGame, Integer overall_rounds_won, Integer score, String currentGameToken) throws SQLException {
         String sqlGetLastPlayerId = "SELECT playerId FROM users ORDER BY playerId DESC LIMIT 1";
         String sqlInsertUser = "INSERT INTO users (playerId, username, firstName, lastName, password, sessionToken,overall_rounds_won, inGame, score, currentGameToken) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -105,6 +140,13 @@ public class UserDAO {
             }
         }
     }
+
+    /**
+     * Checks if a username exists in the database.
+     * @param username
+     * @return
+     * @throws SQLException
+     */
     public static boolean doesUsernameExist(String username) throws SQLException {
         String sqlCheckUsername = "SELECT * FROM users WHERE username = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -116,6 +158,12 @@ public class UserDAO {
         }
     }
 
+    /**
+     * Retrieves the username associated with the given session token.
+     * @param sessionToken
+     * @return
+     * @throws SQLException
+     */
     public String getUserNameBySessionToken(String sessionToken) throws SQLException {
         Connection connection = DBConnection.getConnection();
         String sql = "SELECT username FROM users WHERE sessionToken = ?";
@@ -130,6 +178,11 @@ public class UserDAO {
         return null;  // Return null if the username is not found
     }
 
+    /**
+     * Clears the session token for the specified user.
+     * @param sessionToken
+     * @throws SQLException
+     */
     public static void clearSessionToken(String sessionToken) throws SQLException {
         String sql = "UPDATE users SET sessionToken = NULL WHERE sessionToken = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -139,6 +192,13 @@ public class UserDAO {
         }
     }
 
+    /**
+     * Retrieves the session token associated with the given username.
+     *
+     * @param username
+     * @return
+     * @throws SQLException
+     */
     public static String getSessionTokenByUsername(String username) throws SQLException {
         String sql = "SELECT sessionToken FROM users WHERE username = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -153,6 +213,11 @@ public class UserDAO {
         return null;
     }
 
+    /**
+     * Updates the overall rounds won for the user with the given session token.
+     * @param sessionToken
+     * @param roundsToAdd
+     */
     public void updateOverallRoundsWon(String sessionToken, int roundsToAdd) {
         String sql = "UPDATE users SET overall_rounds_won = COALESCE(overall_rounds_won, 0) + ? WHERE sessionToken = ?";
         try (Connection conn = DBConnection.getConnection();
@@ -170,6 +235,11 @@ public class UserDAO {
         }
     }
 
+    /**
+     * Retrieves the top players based on the number of rounds won.
+     *
+     * @return
+     */
     public List<User> getTopPlayersByRoundsWon() {
         List<User> topPlayers = new ArrayList<>();
         String sql = "SELECT username, overall_rounds_won FROM users ORDER BY overall_rounds_won DESC LIMIT 5";
@@ -192,6 +262,11 @@ public class UserDAO {
         return topPlayers;
     }
 
+    /**
+     * Clears session tokens for all users.
+     *
+     * @throws SQLException
+     */
     public static void clearSessionTokens() throws SQLException {
         String sql = "UPDATE users SET sessionToken = NULL";
         try (Connection conn = DBConnection.getConnection();

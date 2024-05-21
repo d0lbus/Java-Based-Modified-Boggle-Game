@@ -15,6 +15,10 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The Admin class represents the main entry point for the admin client-side Java application. It facilitates
+ * administrative tasks such as modifying game settings and viewing player information.
+ */
 public class Admin {
     private static String username = "";
     private static String password = "";
@@ -24,6 +28,12 @@ public class Admin {
     static CallbackInterface callbackRef;
     static AdminGUIFrame adminGUIFrame = new AdminGUIFrame();
     static AdminRegistration registration = new AdminRegistration();
+
+    /**
+     * The main method responsible for initializing the ORB, establishing connections with the game server,
+     * and managing admin interactions.
+     * @param args
+     */
     public static void main(String[] args) {
         try {
             cbi = new GameClientCallbackImpl(adminGUIFrame);
@@ -48,6 +58,10 @@ public class Admin {
         }
     }
 
+
+    /**
+     * Starts the admin login process by displaying the registration frame and handling admin authentication.
+     */
     public static void startLogin() {
         registration.setVisible(true);
         registration.getSignInButton().addActionListener(new ActionListener() {
@@ -74,6 +88,11 @@ public class Admin {
         });
 
     }
+
+    /**
+     * Starts the admin dashboard by displaying the admin GUI frame and handling admin-related actions
+     * such as editing timers, viewing players, etc.
+     */
     public static void startAdminDashboard() {
         if (gameServerImp == null) {
             System.err.println("GameServer implementation is not initialized.");

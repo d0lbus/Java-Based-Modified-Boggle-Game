@@ -2,6 +2,9 @@ package Java.Utilities;
 
 import java.security.SecureRandom;
 
+/**
+ * The TokenGenerator class generates secure random tokens consisting of alphanumeric characters.
+ */
 public class TokenGenerator {
     private static final String BASE36 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private static final SecureRandom random = new SecureRandom();
