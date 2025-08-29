@@ -15,12 +15,14 @@ It demonstrates distributed computing concepts, database integration, and GUI-ba
   - Configure waiting time and round duration.  
   - Access leaderboard showing top 5 scores.  
 - **Database Integration**: All game data stored in MySQL.  
-- **Word Validation**: Uses `words.txt` for dictionary checking.  
+- **Word Validation**: Uses `words.txt` for dictionary checking.   
 
-## How to Run
-1. Set up MySQL database and import required schema.  
-2. Compile and run the CORBA server in Java.  
-3. Connect client(s) using the provided GUI.  
-4. Use administrator functions for account and game management.  
-
+## Authors
+AQUINO, Jan Dolby
+ABITAN, Julianne Therese
+CAHANAP, Jerilyn Louise
+CHOY, Nikko Andrei
+ENCARNACION, Ma. Earl Freskkie
+GARCIA, Anton
+LICTAG, Bryane Harry
 ---
