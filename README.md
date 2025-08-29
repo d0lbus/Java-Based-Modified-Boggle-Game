@@ -18,11 +18,11 @@ It demonstrates distributed computing concepts, database integration, and GUI-ba
 - **Word Validation**: Uses `words.txt` for dictionary checking.   
 
 ## Authors
-AQUINO, Jan Dolby
-ABITAN, Julianne Therese
-CAHANAP, Jerilyn Louise
-CHOY, Nikko Andrei
-ENCARNACION, Ma. Earl Freskkie
-GARCIA, Anton
-LICTAG, Bryane Harry
+- AQUINO, Jan Dolby
+- ABITAN, Julianne Therese
+- CAHANAP, Jerilyn Louise
+- CHOY, Nikko Andrei
+- ENCARNACION, Ma. Earl Freskkie
+- GARCIA, Anton
+- LICTAG, Bryane Harry
 ---
