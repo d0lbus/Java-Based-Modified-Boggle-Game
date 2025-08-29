@@ -1,4 +1,4 @@
-# IT 222L Integrative Technologies – Final Project
+# IT 222L Integrative Technologies – Final Project (Boggled)
 
 ## Project Overview
 This project is a **multiplayer client-server word game (“Boggled”)** built using **CORBA in Java** with **MySQL integration**.  
@@ -17,7 +17,7 @@ It demonstrates distributed computing concepts, database integration, and GUI-ba
 - **Database Integration**: All game data stored in MySQL.  
 - **Word Validation**: Uses `words.txt` for dictionary checking.   
 
-## Authors
+## Team Quantum Tech
 - AQUINO, Jan Dolby
 - ABITAN, Julianne Therese
 - CAHANAP, Jerilyn Louise
